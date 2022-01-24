@@ -7,26 +7,52 @@ class SearchIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // The search area here
-        title: SizedBox(
-          width: double.infinity,
-          height: 40.0,
-          // decoration: BoxDecoration(
-          //     color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: Center(
-              child: Row(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IconButton(
-                icon: const Icon(Icons.search_sharp),
-                onPressed: () =>
-                    showSearch(context: context, delegate: CustomSearch()),
-                // Navigator.of(context).push(
-                //     MaterialPageRoute(builder: (_) => const SearchPage())),
+              Container(
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: TextButton(
+                  onPressed: () =>
+                      showSearch(context: context, delegate: CustomSearch()),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: const BorderSide(
+                          color: Colors.red,
+                          width: 3,
+                        ),
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(right: 9.5, top: 1.6),
+                        child: Icon(
+                          Icons.search_sharp,
+                          color: Colors.deepOrange,
+                          size: 30.0,
+                        ),
+                      ),
+                      Text(
+                        "འཚོལ།",
+                        style: Theme.of(context).textTheme.bodyText2?.merge(
+                              const TextStyle(
+                                  color: Colors.deepOrange, fontSize: 16.0),
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              const Text('Search'),
             ],
-          )),
+          ),
         ),
       ),
     );
