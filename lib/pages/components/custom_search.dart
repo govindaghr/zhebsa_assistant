@@ -15,7 +15,7 @@ class CustomSearch extends SearchDelegate {
   ];
 
   CustomSearch({
-    String hintText = "Song Search",
+    String hintText = "འཚོལ།",
   }) : super(
           searchFieldLabel: hintText,
           keyboardType: TextInputType.text,
