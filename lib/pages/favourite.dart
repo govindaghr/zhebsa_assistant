@@ -5,7 +5,7 @@ class FavouritePage extends StatelessWidget {
 
 //del later and replace with real data
   FavouritePage? get product => null;
-  Object? get name => null;
+  Object? get name => 'null';
   void selectItem(FavouritePage product) {
     print(product.name);
   }
@@ -24,12 +24,14 @@ class FavouritePage extends StatelessWidget {
               onTap: () => selectItem(product!),
               leading: Icon(Icons.list),
               trailing: Icon(Icons.more_vert),
-              title: Text('Two-line ListTile'),
-              subtitle: Text('Here is a second line'),
+              title: Text('འཆར་སྣང་། $index'),
+              subtitle: Text(
+                  'རྫོང་ཁ་འདི་འབྲུག་མི་ག་ར་གི་བརྡ་དོན་སྤྲོད་ལེན་གྱི་སྐད་ཡིག་གཙོ་ཅན་ཅིག་སྦེ་བཟོ་ནི།'),
+              // tileColor: Colors.deepOrangeAccent,
             ),
           );
         },
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(12),
       ),
     );
   }
