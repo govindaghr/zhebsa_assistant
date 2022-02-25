@@ -41,7 +41,7 @@ class SearchIcon extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "འཚོལ།",
+                        "འཚོལ།/Search",
                         style: Theme.of(context).textTheme.bodyText2?.merge(
                               const TextStyle(
                                   color: Colors.deepOrange, fontSize: 16.0),

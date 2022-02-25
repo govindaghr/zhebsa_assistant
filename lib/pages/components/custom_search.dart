@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 class CustomSearch extends SearchDelegate {
   final allData = [
-    'Berlin',
-    'Paris',
-    'Munich',
-    'Hamburg',
-    'London',
+    'ཀ་ར་གཏང་།',
+    'ཁ༌བཀོད།',
+    'བཀའ་སློབ།',
+    'ཁྲག',
+    'སྐུ་ཁྲག',
   ];
   final recentData = [
-    'Berlin',
-    'Munich',
-    'London',
+    'བཀའ་སློབ།',
+    'ཁྲག',
+    'སྐུ་ཁྲག',
   ];
 
   CustomSearch({
@@ -95,20 +95,22 @@ class CustomSearch extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.location_city, size: 120),
-          const SizedBox(height: 48),
-          Text(
-            query,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 64,
-              fontWeight: FontWeight.bold,
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.location_city, size: 120),
+            const SizedBox(height: 48),
+            Text(
+              query,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 64,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
