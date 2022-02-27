@@ -51,17 +51,20 @@ class SearchIcon extends StatelessWidget {
                   ),
                 ),
               ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+              ),
               Card(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    const ListTile(
-                      leading: Icon(Icons.album),
-                      title: Text('The Enchanted Nightingale'),
-                      subtitle:
-                          Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+                  children: const <Widget>[
+                    ListTile(
+                      // leading: Icon(Icons.album),
+                      title: Text('ཉིནམ་འདི་གི་ཞེ་ས།'),
+                      subtitle: Text('ཞེ་སའི་ཚིག'),
                     ),
-                    Row(
+
+                    /*  Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         TextButton(
@@ -75,7 +78,7 @@ class SearchIcon extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                       ],
-                    ),
+                    ), */
                   ],
                 ),
               ),
