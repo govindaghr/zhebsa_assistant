@@ -71,59 +71,7 @@ class _HomePageState extends State<HomePage>
             onPressed: share,
             icon: const Icon(Icons.share),
           ),
-          /* ToggleSwitch(
-            // minWidth: 90.0,
-            // cornerRadius: 20.0,
-            minHeight: 20,
-            activeBgColors: [
-              [Colors.green[800]!],
-              [Colors.red[800]!]
-            ],
-            // activeFgColor: Colors.white,
-            // inactiveBgColor: Colors.grey,
-            // inactiveFgColor: Colors.white,
-            initialLabelIndex: 1,
-            totalSwitches: 2,
-            labels: const ['True', 'False'],
-            // radiusStyle: true,
-            onToggle: (index) {
-              print('switched to: $index');
-            },
-          ), */
         ],
-        /* bottom: TabBar(
-          // indicatorColor: Color(0xfffffffe),
-          isScrollable: true,
-          labelStyle:
-              const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
-          controller: _tabController,
-          tabs: const <Widget>[
-            Tab(
-              icon: Icon(Icons.favorite),
-              text: 'ཞེ་ས་དགའ་ཤོས།',
-            ),
-            Tab(
-              icon: Icon(Icons.schedule),
-              text: 'འདས་པའི་འཚོལ།',
-            ),
-            Tab(
-              icon: Icon(Icons.search),
-              text: 'འཚོལ།',
-            ),
-            Tab(
-              icon: Icon(Icons.notifications),
-              // text: 'ཁྱབ་བསྒྲགས།',
-              text: 'About',
-            ),
-            // ElevatedButton(
-            //   onPressed: () => Navigator.of(context)
-            //       .push(MaterialPageRoute(builder: (_) => const SearchPage())),
-            //   child: Column(
-            //     children: const <Widget>[Icon(Icons.ac_unit), Text("Search")],
-            //   ),
-            // ),
-          ],
-        ), */
       ),
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
@@ -183,15 +131,6 @@ class _HomePageState extends State<HomePage>
             indicatorWeight: 3.0,
             labelColor: Colors.deepOrange,
             unselectedLabelColor: Colors.black54,
-            // isScrollable: true,
-            /* labelPadding: EdgeInsets.zero,
-            padding: const EdgeInsets.all(0.0),
-            indicator: BoxDecoration(
-              border: Border.all(width: 1),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(50),
-              color: Colors.grey[600],
-            ), */
 
             labelStyle: const TextStyle(
               fontSize: 14.0,
