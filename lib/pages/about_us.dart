@@ -12,52 +12,10 @@ class AboutUs extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const SizedBox(
+        children: const <Widget>[
+          SizedBox(
             height: 5,
           ),
-          AppBar(
-            title: const Text(
-              'རིམ་ལུགས་ཀྱི་སྐོར།',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-              ),
-            ),
-            backgroundColor: Colors.orange[800],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          AppBar(
-            title: const Text(
-              'མི་མང་གི་དོན་ལུ་རིམ་ལུགས་བཟོ་མི།',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-              ),
-            ),
-            backgroundColor: Colors.orange[800],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          AppBar(
-            title: const Text(
-              'རིམ་ལུགས་ཀྱི་ནང་དོན་བཟོ་མི།',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-              ),
-            ),
-            backgroundColor: Colors.orange[800],
-          ),
-          const SizedBox(
-            height: 5,
-          )
         ],
       ),
     );
