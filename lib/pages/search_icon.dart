@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zhebsa_assistant/pages/components/custom_search.dart';
 
 class SearchIcon extends StatelessWidget {
@@ -57,11 +58,11 @@ class SearchIcon extends StatelessWidget {
               Card(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: const <Widget>[
+                  children: <Widget>[
                     ListTile(
                       // leading: Icon(Icons.album),
-                      title: Text('ཉིནམ་འདི་གི་ཞེ་ས།'),
-                      subtitle: Text('ཞེ་སའི་ཚིག'),
+                      title: Text('wordOfTheDay'.tr),
+                      subtitle: const Text('ཞེ་སའི་ཚིག'),
                     ),
 
                     /*  Row(

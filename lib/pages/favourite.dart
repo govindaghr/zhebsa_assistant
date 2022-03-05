@@ -22,7 +22,10 @@ class FavouritePage extends StatelessWidget {
             child: ListTile(
               // leading: FlutterLogo(size: 56.0),
               onTap: () => selectItem(product!),
-              leading: const Icon(Icons.list),
+              leading: const Icon(
+                Icons.favorite,
+                color: Colors.redAccent,
+              ),
               // trailing: const Icon(Icons.more_vert),
               title: Text('འཆར་སྣང་། $index'),
               subtitle: const Text(

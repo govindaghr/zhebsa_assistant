@@ -8,12 +8,14 @@ class LocaleString extends Translations {
           'favourite': 'Favourite',
           'search': 'Search',
           'about': 'About',
+          'wordOfTheDay': 'Word of the Day',
         },
         'dz_BT': {
           'title': 'ཞེ་སའི་ཚིག་མཛོད།',
           'favourite': 'ཞེ་ས་དགའ་ཤོས།',
           'search': 'འཚོལ།',
           'about': 'སྐོར་ལས།',
+          'wordOfTheDay': 'ཉིནམ་འདི་གི་ཞེ་ས།',
         },
       };
 }
