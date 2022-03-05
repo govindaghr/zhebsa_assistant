@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'widgets/about_ddc.dart';
 
 class AboutUs extends StatelessWidget {
   const AboutUs({Key? key}) : super(key: key);
@@ -6,16 +7,13 @@ class AboutUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final TextStyle textStyle = Theme.of(context).textTheme.headline4;
-    return Card(
-      color: Colors.white,
-      shadowColor: Colors.amber[500],
+    return SingleChildScrollView(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: const <Widget>[
-          SizedBox(
-            height: 5,
-          ),
+          AboutDDC(),
+          AboutDDC(),
+          AboutDDC(),
+          AboutDDC(),
         ],
       ),
     );
