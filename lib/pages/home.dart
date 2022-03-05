@@ -3,8 +3,10 @@ import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
 import 'favourite.dart';
 import 'search_icon.dart';
-import 'notification.dart';
+import 'about_us.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+
+import 'drawer/drawer_header.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -81,27 +83,40 @@ class _HomePageState extends State<HomePage>
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.deepOrange,
-              ),
-              child: Text('Drawer Header'),
+            const MyHeaderDrawer(),
+            const SizedBox(
+              height: 20.0,
             ),
             ListTile(
-              title: const Text('Item 1'),
+              title: Text('favourite'.tr),
+              leading: Icon(
+                Icons.favorite_border,
+                color: Colors.red[500],
+              ),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
+                _tabController.index = 0;
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              title: const Text('Item 2'),
+              title: Text('search'.tr),
+              leading: Icon(
+                Icons.search_rounded,
+                color: Colors.red[500],
+              ),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
+                _tabController.index = 1;
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('about'.tr),
+              leading: Icon(
+                Icons.info_outline,
+                color: Colors.red[500],
+              ),
+              onTap: () {
+                _tabController.index = 2;
                 Navigator.pop(context);
               },
             ),
@@ -142,17 +157,12 @@ class _HomePageState extends State<HomePage>
                 icon: const Icon(Icons.favorite_outline),
                 text: 'favourite'.tr,
               ),
-              /* Tab(
-              icon: Icon(Icons.schedule),
-              text: 'འདས་པའི་འཚོལ།',
-            ), */
               Tab(
                 icon: const Icon(Icons.search_outlined),
                 text: 'search'.tr,
               ),
               Tab(
                 icon: const Icon(Icons.info_outline),
-                // text: 'ཁྱབ་བསྒྲགས།',
                 text: 'about'.tr,
               ),
             ],
@@ -161,10 +171,8 @@ class _HomePageState extends State<HomePage>
       ),
       body: TabBarView(controller: _tabController, children: const <Widget>[
         FavouritePage(),
-        // Icon(Icons.directions_transit),
         SearchIcon(),
-        // Icon(Icons.person),
-        Tab3Card(),
+        AboutUs(),
       ]),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Tab3Card extends StatelessWidget {
-  const Tab3Card({Key? key}) : super(key: key);
+class AboutUs extends StatelessWidget {
+  const AboutUs({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
