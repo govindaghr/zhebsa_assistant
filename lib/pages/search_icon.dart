@@ -60,6 +60,7 @@ class SearchIcon extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     ListTile(
+                      onTap: null,
                       // leading: Icon(Icons.album),
                       title: Text('wordOfTheDay'.tr),
                       subtitle: const Text('ཞེ་སའི་ཚིག'),
