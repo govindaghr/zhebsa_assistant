@@ -94,19 +94,90 @@ class CustomSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Center(
+    return SingleChildScrollView(
       child: Card(
+        elevation: 10,
+        color: Colors.white70,
+        shadowColor: Colors.amber[500],
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Icon(Icons.location_city, size: 120),
-            const SizedBox(height: 48),
-            Text(
-              query,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 64,
-                fontWeight: FontWeight.bold,
+            Container(
+              padding: const EdgeInsets.all(5.0),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.orange[400],
+                border: Border.all(
+                  color: Colors.amber.shade100,
+                  width: 2,
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  query,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+            Row(
+              children: const <Widget>[
+                Center(
+                  child: IconButton(
+                    onPressed: null,
+                    icon: Icon(
+                      Icons.favorite_border,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text('ཞེ་ས།'),
+                    subtitle: Text('ཞེ་སའི་ཚིག'),
+                  ),
+                ),
+                Center(
+                  child: IconButton(
+                    onPressed: null,
+                    icon: Icon(
+                      Icons.play_circle,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            /* Container(
+              padding: const EdgeInsets.only(left: 30.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const <Widget>[
+                  Text(
+                    'དཔེར་བརྗོད།',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    'རྫོང་ཁ་གོང་འཕེལ་ལྷན་ཚོགས་ཀྱི་རྫོང་ཁའི་ཚིག་མཛོད།',
+                    textScaleFactor: 1.0,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ), */
+            Container(
+              padding: const EdgeInsets.only(left: 30.0),
+              child: const ListTile(
+                title: Text('དཔེར་བརྗོད།'),
+                subtitle:
+                    Text('རྫོང་ཁ་གོང་འཕེལ་ལྷན་ཚོགས་ཀྱི་རྫོང་ཁའི་ཚིག་མཛོད།'),
               ),
             ),
           ],
