@@ -1,4 +1,10 @@
+// import 'dart:io';
+import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../controllers/audio_icon_controller.dart';
+import 'package:zhebsa_assistant/pages/controllers/audio_icon_controller.dart';
 
 class CustomSearch extends SearchDelegate {
   final allData = [
@@ -21,6 +27,53 @@ class CustomSearch extends SearchDelegate {
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.search,
         );
+
+  //adding getx controller
+  IconController controller = Get.put(IconController());
+
+  // add it to your class as a static member
+  // static AudioCache player = AudioCache();
+  // or as a local variable
+  // final player = AudioCache();
+  bool isPlayingPronunciation = false;
+  static AudioPlayer audioPlayer = AudioPlayer();
+  final audioCache =
+      AudioCache(prefix: 'assets/audio/', fixedPlayer: audioPlayer);
+
+  // AudioPlayerState audioPlayerState = AudioPlayerState.PAUSED;
+
+  _playPronunciation(fineName) async {
+    // audioCache.play(fineName, mode: PlayerMode.LOW_LATENCY);
+    await audioCache.fixedPlayer!.stop();
+    final file = await audioCache.loadAsFile(fineName);
+    final bytes = await file.readAsBytes();
+    await audioCache.playBytes(bytes);
+    isPlayingPronunciation = true;
+    audioPlayer.state = PlayerState.PLAYING;
+    controller.isPlaying.value = true;
+    controller.update();
+  }
+
+  _pausePronunciation() async {
+    await audioPlayer.pause();
+  }
+
+  _stopPronunciation() async {
+    await audioPlayer.stop();
+    // audioCache.clearAll();
+    isPlayingPronunciation = false;
+    audioPlayer.state = PlayerState.STOPPED;
+    controller.isPlaying.value = false;
+    controller.update();
+  }
+
+  /*  @override
+  void dispose() {
+    audioPlayer.release();
+    audioPlayer.dispose();
+    audioCache.clearCache();
+    super.dispose();
+  } */
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -101,7 +154,7 @@ class CustomSearch extends SearchDelegate {
         shadowColor: Colors.amber[500],
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               padding: const EdgeInsets.all(5.0),
@@ -124,28 +177,41 @@ class CustomSearch extends SearchDelegate {
               ),
             ),
             Row(
-              children: const <Widget>[
-                Center(
+              children: <Widget>[
+                const Center(
                   child: IconButton(
                     onPressed: null,
                     icon: Icon(
                       Icons.favorite_border,
+                      size: 30.0,
                       color: Colors.redAccent,
                     ),
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: ListTile(
                     title: Text('ཞེ་ས།'),
                     subtitle: Text('ཞེ་སའི་ཚིག'),
                   ),
                 ),
-                Center(
+                Container(
+                  padding: const EdgeInsets.only(right: 20),
                   child: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.play_circle,
-                      color: Colors.blue,
+                    onPressed: () {
+                      if (isPlayingPronunciation) {
+                        _stopPronunciation();
+                      } else {
+                        _playPronunciation('teenage_dream.amr');
+                      }
+                    },
+                    icon: Obx(
+                      () => Icon(
+                        controller.isPlaying.value
+                            ? Icons.stop_circle_outlined
+                            : Icons.volume_up,
+                        size: 50.0,
+                        color: Colors.blue,
+                      ),
                     ),
                   ),
                 ),
@@ -154,7 +220,6 @@ class CustomSearch extends SearchDelegate {
             /* Container(
               padding: const EdgeInsets.only(left: 30.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: const <Widget>[
                   Text(
                     'དཔེར་བརྗོད།',
