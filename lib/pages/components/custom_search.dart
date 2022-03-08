@@ -67,6 +67,14 @@ class CustomSearch extends SearchDelegate {
     controller.update();
   }
 
+  // bool isFavourite = false;
+  _setFaviurite() {
+    controller.isFavourite.isTrue
+        ? controller.isFavourite.value = false
+        : controller.isFavourite.value = true;
+    controller.update();
+  }
+
   /*  @override
   void dispose() {
     audioPlayer.release();
@@ -178,13 +186,17 @@ class CustomSearch extends SearchDelegate {
             ),
             Row(
               children: <Widget>[
-                const Center(
+                Center(
                   child: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.favorite_border,
-                      size: 30.0,
-                      color: Colors.redAccent,
+                    onPressed: () => _setFaviurite(),
+                    icon: Obx(
+                      () => Icon(
+                        controller.isFavourite.isTrue
+                            ? Icons.favorite_sharp
+                            : Icons.favorite_border_sharp,
+                        size: 30.0,
+                        color: Colors.redAccent,
+                      ),
                     ),
                   ),
                 ),
