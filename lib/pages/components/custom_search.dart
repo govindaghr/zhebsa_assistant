@@ -133,6 +133,7 @@ class CustomSearch extends SearchDelegate {
             query = '';
             showSuggestions(context);
           }
+          _stopPronunciation();
         },
         icon: const Icon(Icons.clear),
       )
@@ -144,6 +145,7 @@ class CustomSearch extends SearchDelegate {
     return IconButton(
       onPressed: () {
         close(context, null);
+        _stopPronunciation();
       },
       // icon: const Icon(Icons.arrow_back),
       icon: AnimatedIcon(
