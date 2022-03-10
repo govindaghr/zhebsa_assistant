@@ -25,11 +25,11 @@ class SearchResults extends StatelessWidget {
   // AudioPlayerState audioPlayerState = AudioPlayerState.PAUSED;
 
   _playPronunciation(fineName) async {
-    // audioCache.play(fineName, mode: PlayerMode.LOW_LATENCY);
-    await audioCache.fixedPlayer!.stop();
-    final file = await audioCache.loadAsFile(fineName);
-    final bytes = await file.readAsBytes();
-    await audioCache.playBytes(bytes);
+    await audioCache.play(fineName, mode: PlayerMode.LOW_LATENCY);
+    // await audioCache.fixedPlayer!.stop();
+    // final file = await audioCache.loadAsFile(fineName);
+    // final bytes = await file.readAsBytes();
+    // await audioCache.playBytes(bytes, mode: PlayerMode.LOW_LATENCY);
     isPlayingPronunciation = true;
     audioPlayer.state = PlayerState.PLAYING;
     controller.isPlaying.value = true;
@@ -125,7 +125,7 @@ class SearchResults extends StatelessWidget {
                       if (isPlayingPronunciation) {
                         stopPronunciation();
                       } else {
-                        _playPronunciation('teenage_dream.mp3');
+                        _playPronunciation('teenage_dream.aac');
                       }
                     },
                     icon: Obx(
