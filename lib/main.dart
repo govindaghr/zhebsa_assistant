@@ -12,6 +12,15 @@ class ZhebsaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      /*Media Queary scale factor to maintain same size across different media */
+      builder: (context, child) {
+        return MediaQuery(
+          child: Container(
+            child: child,
+          ),
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+        );
+      },
       title: 'Zhebsa Assistant',
       debugShowCheckedModeBanner: false,
       translations: LocaleString(),
