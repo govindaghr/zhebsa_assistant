@@ -1,7 +1,6 @@
-// import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
-// import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
+import 'search_result.dart';
 import 'package:get/get.dart';
 import '../controllers/audio_icon_controller.dart';
 import 'package:zhebsa_assistant/pages/controllers/audio_icon_controller.dart';
@@ -28,7 +27,7 @@ class CustomSearch extends SearchDelegate {
           textInputAction: TextInputAction.search,
         );
 
-  //adding getx controller
+  /* //adding getx controller
   IconController controller = Get.put(IconController());
 
   // add it to your class as a static member
@@ -81,7 +80,7 @@ class CustomSearch extends SearchDelegate {
     audioPlayer.dispose();
     audioCache.clearCache();
     super.dispose();
-  } */
+  } */ */
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -133,7 +132,8 @@ class CustomSearch extends SearchDelegate {
             query = '';
             showSuggestions(context);
           }
-          _stopPronunciation();
+          // stopPronunciation();
+          SearchResults(searchQuery: "").stopPronunciation();
         },
         icon: const Icon(Icons.clear),
       )
@@ -145,7 +145,8 @@ class CustomSearch extends SearchDelegate {
     return IconButton(
       onPressed: () {
         close(context, null);
-        _stopPronunciation();
+        // stopPronunciation();
+        SearchResults(searchQuery: "").stopPronunciation();
       },
       // icon: const Icon(Icons.arrow_back),
       icon: AnimatedIcon(
@@ -157,112 +158,7 @@ class CustomSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return SingleChildScrollView(
-      child: Card(
-        elevation: 10,
-        color: Colors.white70,
-        shadowColor: Colors.amber[500],
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(5.0),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.orange[400],
-                border: Border.all(
-                  color: Colors.amber.shade100,
-                  width: 2,
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  query,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                Center(
-                  child: IconButton(
-                    onPressed: () => _setFaviurite(),
-                    icon: Obx(
-                      () => Icon(
-                        controller.isFavourite.isTrue
-                            ? Icons.favorite_sharp
-                            : Icons.favorite_border_sharp,
-                        size: 30.0,
-                        color: Colors.redAccent,
-                      ),
-                    ),
-                  ),
-                ),
-                const Expanded(
-                  child: ListTile(
-                    title: Text('ཞེ་ས།'),
-                    subtitle: Text('ཞེ་སའི་ཚིག'),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: IconButton(
-                    onPressed: () {
-                      if (isPlayingPronunciation) {
-                        _stopPronunciation();
-                      } else {
-                        _playPronunciation('teenage_dream.amr');
-                      }
-                    },
-                    icon: Obx(
-                      () => Icon(
-                        controller.isPlaying.value
-                            ? Icons.stop_circle_outlined
-                            : Icons.volume_up,
-                        size: 50.0,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            /* Container(
-              padding: const EdgeInsets.only(left: 30.0),
-              child: Column(
-                children: const <Widget>[
-                  Text(
-                    'དཔེར་བརྗོད།',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Text(
-                    'རྫོང་ཁ་གོང་འཕེལ་ལྷན་ཚོགས་ཀྱི་རྫོང་ཁའི་ཚིག་མཛོད།',
-                    textScaleFactor: 1.0,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ), */
-            Container(
-              padding: const EdgeInsets.only(left: 30.0),
-              child: const ListTile(
-                title: Text('དཔེར་བརྗོད།'),
-                subtitle:
-                    Text('རྫོང་ཁ་གོང་འཕེལ་ལྷན་ཚོགས་ཀྱི་རྫོང་ཁའི་ཚིག་མཛོད།'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return SearchResults(searchQuery: query);
   }
 
   @override
