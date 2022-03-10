@@ -4,14 +4,23 @@ import 'package:get/get.dart';
 
 import '../controllers/audio_icon_controller.dart';
 
-class SearchResults extends StatelessWidget {
+class SearchResult extends StatefulWidget {
   final String searchQuery;
-  SearchResults({Key? key, required this.searchQuery}) : super(key: key);
+  const SearchResult({Key? key, required this.searchQuery}) : super(key: key);
 
-//adding getx controller
+  @override
+  State<SearchResult> createState() =>
+      _SearchResultState(searchQuery: searchQuery);
+}
+
+class _SearchResultState extends State<SearchResult> {
+  String searchQuery;
+
+  _SearchResultState({required this.searchQuery});
+
+  //adding getx controller
   final IconController controller = Get.put(IconController());
 
-//Audio Player
   static bool isPlayingPronunciation = false;
   static AudioPlayer audioPlayer = AudioPlayer();
   final audioCache =
@@ -19,18 +28,13 @@ class SearchResults extends StatelessWidget {
 
   _playPronunciation(fineName) async {
     await audioCache.play(fineName, mode: PlayerMode.LOW_LATENCY);
-
     audioPlayer.state = PlayerState.PLAYING;
-    isPlayingPronunciation = true;
     controller.isPlaying.value = true;
-
-    audioPlayer.onPlayerStateChanged.listen((p0) {
-      if (p0 == PlayerState.COMPLETED) {
-        isPlayingPronunciation = false;
-        controller.isPlaying.value = false;
-      }
-    });
-
+    isPlayingPronunciation = true;
+    /* 
+      Check the functionality to update button back to stop 
+      once the playing PlayerState.COMPLETED is completed
+       */
     controller.update();
   }
 
@@ -50,6 +54,31 @@ class SearchResults extends StatelessWidget {
         : controller.isFavourite.value = true;
     controller.update();
   }
+
+  /* AudioPlayer audioPlayer = AudioPlayer();
+  AudioPlayerState audioPlayerState = AudioPlayerState.PAUSED;
+  AudioCache audioCache;
+  String filePath = 'music.mp3'; 
+
+   AudioPlayer audioPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
+   playLocal() async {
+    int result = await audioPlayer.play('localPath', isLocal: true);
+  }
+  
+  player.onPlayerCompletion.listen((event) {
+    onComplete();
+    setState(() {
+      position = duration;
+    });
+  });
+*/
+  /* @override
+  void dispose() {
+    audioPlayer.release();
+    audioPlayer.dispose();
+    // audioCache.clearAll();
+    super.dispose();
+  } */
 
   @override
   Widget build(BuildContext context) {
