@@ -1,9 +1,5 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'search_result.dart';
-import 'package:get/get.dart';
-import '../controllers/audio_icon_controller.dart';
-import 'package:zhebsa_assistant/pages/controllers/audio_icon_controller.dart';
 
 class CustomSearch extends SearchDelegate {
   final allData = [
@@ -26,61 +22,6 @@ class CustomSearch extends SearchDelegate {
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.search,
         );
-
-  /* //adding getx controller
-  IconController controller = Get.put(IconController());
-
-  // add it to your class as a static member
-  // static AudioCache player = AudioCache();
-  // or as a local variable
-  // final player = AudioCache();
-  bool isPlayingPronunciation = false;
-  static AudioPlayer audioPlayer = AudioPlayer();
-  final audioCache =
-      AudioCache(prefix: 'assets/audio/', fixedPlayer: audioPlayer);
-
-  // AudioPlayerState audioPlayerState = AudioPlayerState.PAUSED;
-
-  _playPronunciation(fineName) async {
-    // audioCache.play(fineName, mode: PlayerMode.LOW_LATENCY);
-    await audioCache.fixedPlayer!.stop();
-    final file = await audioCache.loadAsFile(fineName);
-    final bytes = await file.readAsBytes();
-    await audioCache.playBytes(bytes);
-    isPlayingPronunciation = true;
-    audioPlayer.state = PlayerState.PLAYING;
-    controller.isPlaying.value = true;
-    controller.update();
-  }
-
-  _pausePronunciation() async {
-    await audioPlayer.pause();
-  }
-
-  _stopPronunciation() async {
-    await audioPlayer.stop();
-    // audioCache.clearAll();
-    isPlayingPronunciation = false;
-    audioPlayer.state = PlayerState.STOPPED;
-    controller.isPlaying.value = false;
-    controller.update();
-  }
-
-  // bool isFavourite = false;
-  _setFaviurite() {
-    controller.isFavourite.isTrue
-        ? controller.isFavourite.value = false
-        : controller.isFavourite.value = true;
-    controller.update();
-  }
-
-  /*  @override
-  void dispose() {
-    audioPlayer.release();
-    audioPlayer.dispose();
-    audioCache.clearCache();
-    super.dispose();
-  } */ */
 
   @override
   ThemeData appBarTheme(BuildContext context) {
