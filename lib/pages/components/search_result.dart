@@ -125,7 +125,7 @@ class SearchResults extends StatelessWidget {
                       if (isPlayingPronunciation) {
                         stopPronunciation();
                       } else {
-                        _playPronunciation('teenage_dream.amr');
+                        _playPronunciation('teenage_dream.mp3');
                       }
                     },
                     icon: Obx(
