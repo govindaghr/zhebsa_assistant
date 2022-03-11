@@ -3,7 +3,7 @@ import 'pages/home.dart';
 import 'locale/locale_string.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
+// import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() => runApp(const ZhebsaApp());
 
