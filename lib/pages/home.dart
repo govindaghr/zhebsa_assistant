@@ -120,7 +120,8 @@ class _HomePageState extends State<HomePage>
         ),
       ),
       bottomNavigationBar: Container(
-        height: 80,
+        margin: EdgeInsets.zero,
+        height: 61,
         decoration: BoxDecoration(
           // color: Theme.of(context).cardColor,
           color: Colors.amber.shade50,
@@ -150,14 +151,17 @@ class _HomePageState extends State<HomePage>
             controller: _tabController,
             tabs: <Widget>[
               Tab(
+                iconMargin: EdgeInsets.zero,
                 icon: const Icon(Icons.favorite_outline),
                 text: 'favourite'.tr,
               ),
               Tab(
+                iconMargin: EdgeInsets.zero,
                 icon: const Icon(Icons.search_outlined),
                 text: 'search'.tr,
               ),
               Tab(
+                iconMargin: EdgeInsets.zero,
                 icon: const Icon(Icons.info_outline),
                 text: 'about'.tr,
               ),
