@@ -17,19 +17,7 @@ class ZhebsaApp extends StatelessWidget {
       /*Media Queary scale factor to maintain same size across different media */
       builder: (context, widget) => ResponsiveWrapper.builder(
         BouncingScrollWrapper.builder(context, widget!),
-        maxWidth: 1200,
-        minWidth: 450,
-        defaultScale: true,
-        breakpoints: [
-          const ResponsiveBreakpoint.resize(450, name: MOBILE),
-          const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-          const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
-          const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
-          const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
-        ],
-        background: Container(
-          color: const Color(0xFFF5F5F5),
-        ),
+        defaultScaleFactor: MediaQuery.of(context).size.width * 0.002,
       ),
       title: 'Zhebsa Assistant',
       debugShowCheckedModeBanner: false,

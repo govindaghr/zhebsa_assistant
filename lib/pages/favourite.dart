@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class FavouritePage extends StatelessWidget {
   const FavouritePage({Key? key}) : super(key: key);
@@ -12,29 +13,41 @@ class FavouritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     // setPageTitle('Favourite Page', context);
     return Scaffold(
       body: ListView.builder(
         itemCount: 15,
+        padding: const EdgeInsets.all(12),
         itemBuilder: (BuildContext context, int index) {
           return Card(
             elevation: 2,
-            child: ListTile(
-              // leading: FlutterLogo(size: 56.0),
-              onTap: () => selectItem(product!),
-              leading: const Icon(
-                Icons.favorite,
-                color: Colors.redAccent,
+            child: Container(
+              width: double.infinity,
+              child: ListTile(
+                // leading: FlutterLogo(size: 56.0),
+                onTap: () => selectItem(product!),
+                leading: const Icon(
+                  Icons.favorite,
+                  color: Colors.redAccent,
+                ),
+                // trailing: const Icon(Icons.more_vert),
+                title: Text(
+                  'འཆར་སྣང་། $index',
+                  /* textScaleFactor: screenWidth * 0.002, */
+                ),
+                subtitle: Text(
+                  'རྫོང་ཁ་འདི་འབྲུག་མི་ག་ར་གི་བརྡ་དོན་སྤྲོད་ལེན་གྱི་སྐད་ཡིག་གཙོ་ཅན་ཅིག་སྦེ་བཟོ་ནི།',
+                  /* textScaleFactor: screenWidth * 0.002, */
+                  style: const TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+                // tileColor: Colors.deepOrangeAccent,
               ),
-              // trailing: const Icon(Icons.more_vert),
-              title: Text('འཆར་སྣང་། $index'),
-              subtitle: const Text(
-                  'རྫོང་ཁ་འདི་འབྲུག་མི་ག་ར་གི་བརྡ་དོན་སྤྲོད་ལེན་གྱི་སྐད་ཡིག་གཙོ་ཅན་ཅིག་སྦེ་བཟོ་ནི།'),
-              // tileColor: Colors.deepOrangeAccent,
             ),
           );
         },
-        padding: const EdgeInsets.all(12),
       ),
     );
   }
