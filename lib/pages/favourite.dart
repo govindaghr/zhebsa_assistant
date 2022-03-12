@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 
 class FavouritePage extends StatelessWidget {
   const FavouritePage({Key? key}) : super(key: key);
@@ -7,13 +6,12 @@ class FavouritePage extends StatelessWidget {
 //del later and replace with real data
   FavouritePage? get product => null;
   Object? get name => 'null';
-  void selectItem(FavouritePage product) {
+  selectItem(FavouritePage product) {
     print(product.name);
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     // setPageTitle('Favourite Page', context);
     return Scaffold(
       body: ListView.builder(
@@ -22,7 +20,7 @@ class FavouritePage extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return Card(
             elevation: 2,
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               child: ListTile(
                 // leading: FlutterLogo(size: 56.0),
@@ -36,10 +34,10 @@ class FavouritePage extends StatelessWidget {
                   'འཆར་སྣང་། $index',
                   /* textScaleFactor: screenWidth * 0.002, */
                 ),
-                subtitle: Text(
+                subtitle: const Text(
                   'རྫོང་ཁ་འདི་འབྲུག་མི་ག་ར་གི་བརྡ་དོན་སྤྲོད་ལེན་གྱི་སྐད་ཡིག་གཙོ་ཅན་ཅིག་སྦེ་བཟོ་ནི།',
                   /* textScaleFactor: screenWidth * 0.002, */
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                   ),
                 ),
