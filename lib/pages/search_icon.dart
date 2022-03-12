@@ -7,8 +7,8 @@ class SearchIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return SingleChildScrollView(
+      child: Center(
         child: Padding(
           padding: const EdgeInsets.all(30.0),
           child: Column(
@@ -65,22 +65,6 @@ class SearchIcon extends StatelessWidget {
                       title: Text('wordOfTheDay'.tr),
                       subtitle: const Text('ཞེ་སའི་ཚིག'),
                     ),
-
-                    /*  Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        TextButton(
-                          child: const Text('BUY TICKETS'),
-                          onPressed: () {/* ... */},
-                        ),
-                        const SizedBox(width: 15),
-                        TextButton(
-                          child: const Text('LISTEN'),
-                          onPressed: () {/* ... */},
-                        ),
-                        const SizedBox(width: 8),
-                      ],
-                    ), */
                   ],
                 ),
               ),

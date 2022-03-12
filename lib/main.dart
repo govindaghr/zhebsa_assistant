@@ -18,7 +18,7 @@ class ZhebsaApp extends StatelessWidget {
       builder: (context, widget) => ResponsiveWrapper.builder(
         BouncingScrollWrapper.builder(context, widget!),
         defaultScaleFactor: MediaQuery.of(context).size.shortestSide > 600
-            ? MediaQuery.of(context).size.width * 0.002
+            ? MediaQuery.of(context).size.shortestSide * 0.002
             : 1,
       ),
       title: 'Zhebsa Assistant',
