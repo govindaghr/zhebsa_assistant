@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zhebsa_assistant/pages/components/custom_search.dart';
+import 'package:zhebsa_assistant/pages/components/view_zhebsa_of_day.dart';
 
 class SearchIcon extends StatelessWidget {
   const SearchIcon({Key? key}) : super(key: key);
@@ -58,12 +59,31 @@ class SearchIcon extends StatelessWidget {
               Card(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        'wordOfTheDay'.tr,
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ),
                     ListTile(
-                      onTap: null,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const ZhebsaOfDayDetail(searchQuery: 'བཀའ་སློབ།'),
+                        ),
+                      ),
                       // leading: Icon(Icons.album),
-                      title: Text('wordOfTheDay'.tr),
-                      subtitle: const Text('ཞེ་སའི་ཚིག'),
+                      title: const Text('བཀའ་སློབ།'),
+                      subtitle: const Text(
+                        'བླམ་གི་བཀའ་སློབ་གནངམ་ཨིན།',
+                      ),
                     ),
                   ],
                 ),

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'components/view_zhebsa_of_day.dart';
+
 class FavouritePage extends StatelessWidget {
   const FavouritePage({Key? key}) : super(key: key);
 
-//del later and replace with real data
+/* //del later and replace with real data
   FavouritePage? get product => null;
   Object? get name => 'null';
   selectItem(FavouritePage product) {
     print(product.name);
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +26,24 @@ class FavouritePage extends StatelessWidget {
               width: double.infinity,
               child: ListTile(
                 // leading: FlutterLogo(size: 56.0),
-                onTap: () => selectItem(product!),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const ZhebsaOfDayDetail(searchQuery: 'བཀབ་ནེ།'),
+                  ),
+                ),
                 leading: const Icon(
                   Icons.favorite,
                   color: Colors.redAccent,
                 ),
                 // trailing: const Icon(Icons.more_vert),
                 title: const Text(
-                  'འཆར་སྣང་། ', //$index
+                  'བཀབ་ནེ། ', //$index
                   /* textScaleFactor: screenWidth * 0.002, */
                 ),
                 subtitle: const Text(
-                  'རྫོང་ཁ་འདི་འབྲུག་མི་ག་ར་གི་བརྡ་དོན་སྤྲོད་ལེན་གྱི་སྐད་ཡིག་གཙོ་ཅན་ཅིག་སྦེ་བཟོ་ནི།',
+                  'ང་གི་བཀབ་ནེ།',
                   /* textScaleFactor: screenWidth * 0.002, */
                   style: TextStyle(
                     fontSize: 12,

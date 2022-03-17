@@ -101,7 +101,7 @@ class SearchResults extends StatelessWidget {
                 const Expanded(
                   child: ListTile(
                     title: Text('ཞེ་ས།'),
-                    subtitle: Text('ཞེ་སའི་ཚིག'),
+                    subtitle: Text('ཐུགས་འགན།'), //ཞེ་སའི་ཚིག
                   ),
                 ),
                 Container(
@@ -131,8 +131,7 @@ class SearchResults extends StatelessWidget {
               padding: const EdgeInsets.only(left: 30.0),
               child: const ListTile(
                 title: Text('དཔེར་བརྗོད།'),
-                subtitle:
-                    Text('རྫོང་ཁ་གོང་འཕེལ་ལྷན་ཚོགས་ཀྱི་རྫོང་ཁའི་ཚིག་མཛོད།'),
+                subtitle: Text('བླམ་གི་ཐུགས་འགན་ཨིན་མས།'),
               ),
             ),
           ],

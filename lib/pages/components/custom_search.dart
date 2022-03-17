@@ -8,8 +8,10 @@ class CustomSearch extends SearchDelegate {
     'བཀའ་སློབ།',
     'ཁྲག',
     'སྐུ་ཁྲག',
+    'བཀབ་ནེ།',
   ];
   final recentData = [
+    'བཀབ་ནེ།',
     'བཀའ་སློབ།',
     'ཁྲག',
     'སྐུ་ཁྲག',
