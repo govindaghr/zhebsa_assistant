@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:zhebsa_assistant/pages/components/search_result.dart';
 
 class ZhebsaOfDayDetail extends StatelessWidget {
