@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zhebsa_assistant/pages/widgets/about_cst.dart';
+import 'package:zhebsa_assistant/pages/widgets/about_developer.dart';
 import 'widgets/about_ddc.dart';
 
 class AboutUs extends StatelessWidget {
@@ -11,9 +13,8 @@ class AboutUs extends StatelessWidget {
       child: Column(
         children: const <Widget>[
           AboutDDC(),
-          AboutDDC(),
-          AboutDDC(),
-          AboutDDC(),
+          AboutCST(),
+          AboutDeveloper(),
         ],
       ),
     );

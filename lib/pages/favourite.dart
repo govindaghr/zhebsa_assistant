@@ -30,8 +30,8 @@ class FavouritePage extends StatelessWidget {
                   color: Colors.redAccent,
                 ),
                 // trailing: const Icon(Icons.more_vert),
-                title: Text(
-                  'འཆར་སྣང་། $index',
+                title: const Text(
+                  'འཆར་སྣང་། ', //$index
                   /* textScaleFactor: screenWidth * 0.002, */
                 ),
                 subtitle: const Text(
