@@ -131,7 +131,7 @@ class SearchResults extends StatelessWidget {
               padding: const EdgeInsets.only(left: 30.0),
               child: const ListTile(
                 title: Text('དཔེར་བརྗོད།'),
-                subtitle: Text('བླམ་གི་ཐུགས་འགན་ཨིན་མས།'),
+                subtitle: SelectableText('བླམ་གི་ཐུགས་འགན་ཨིན་མས།'),
               ),
             ),
           ],

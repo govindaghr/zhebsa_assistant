@@ -81,7 +81,7 @@ class SearchIcon extends StatelessWidget {
                       ),
                       // leading: Icon(Icons.album),
                       title: const Text('བཀའ་སློབ།'),
-                      subtitle: const Text(
+                      subtitle: const SelectableText(
                         'བླམ་གི་བཀའ་སློབ་གནངམ་ཨིན།',
                       ),
                     ),
