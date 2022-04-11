@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import '../model/dzongkha.dart';
 import '../model/zhebsa.dart';
 import '../model/dzongkha_zhebsa.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+//DatabaseHelper
 class DatabaseService {
   // Singleton pattern
   static final DatabaseService _databaseService = DatabaseService._internal();
@@ -24,7 +27,7 @@ class DatabaseService {
     // Set the path to the database. Note: Using the `join` function from the
     // `path` package is best practice to ensure the path is correctly
     // constructed for each platform.
-    final path = join(databasePath, 'zhebsa_assistant.db');
+    final path = join(databasePath, 'zhebsa_assistant0.db');
 
     // Set the version. This executes the onCreate function and provides a
     // path to perform database upgrades and downgrades.
@@ -43,28 +46,43 @@ class DatabaseService {
     await db.execute(
       '''CREATE TABLE Dzongkha(
         dId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
-        dWord varchar(100) NOT NULL UNIQUE, 
-        dPhrase varchar(255), 
-        dHistory timestamp, 
-        dFavourite timestamp, 
-        dUpdate_time timestamp)''',
+        dWord TEXT NOT NULL UNIQUE, 
+        dPhrase TEXT, 
+        dHistory TEXT, 
+        dFavourite TEXT, 
+        dUpdateTime TEXT)''',
     );
     // Run the CREATE {zhebsa} TABLE statement on the database.
     await db.execute(
       '''CREATE TABLE Zhebsa(
         zId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
-        zWord varchar(100) NOT NULL UNIQUE, 
-        zPhrase varchar(255), 
-        zPronunciation varchar(255), 
-        zHistory timestamp, 
-        zFavourite timestamp, 
-        zUpdateTime timestamp)''',
+        zWord TEXT NOT NULL UNIQUE, 
+        zPhrase TEXT, 
+        zPronunciation TEXT, 
+        zHistory TEXT, 
+        zFavourite TEXT, 
+        zUpdateTime TEXT)''',
     );
 
     // Run the CREATE {dzongkha_zhebsa} TABLE statement on the database.
     await db.execute(
-      'CREATE TABLE DzongkhaZhebsa(DzongkhadId integer(10) NOT NULL, ZhebsazId   integer(10) NOT NULL, updateTime  timestamp, PRIMARY KEY (DzongkhadId, ZhebsazId), FOREIGN KEY(DzongkhadId) REFERENCES Dzongkha(dId) ON DELETE SET NULL, FOREIGN KEY(ZhebsazId) REFERENCES Zhebsa(zId) ON DELETE SET NULL)',
+      'CREATE TABLE DzongkhaZhebsa(DzongkhadId INTEGER NOT NULL, ZhebsazId INTEGER NOT NULL, updateTime  TEXT, PRIMARY KEY (DzongkhadId, ZhebsazId), FOREIGN KEY(DzongkhadId) REFERENCES Dzongkha(dId) ON DELETE SET NULL, FOREIGN KEY(ZhebsazId) REFERENCES Zhebsa(zId) ON DELETE SET NULL)',
     );
+
+    //Insert raw data to database
+    var dt = DateTime.now();
+    var dtStr = dt.toIso8601String();
+    // dt = DateTime.tryParse(dtStr)!;//DATE_TIME
+
+    /* var dtInt = dt.millisecondsSinceEpoch;////CURRENT_TIMESTAMP
+    dt = DateTime.fromMillisecondsSinceEpoch(dtInt);
+ */
+    await db.rawInsert(
+        'INSERT INTO Dzongkha(dId, dWord, dPhrase, dUpdateTime) VALUES(1, "བཀབ་ནེ།", "བཀབ་ནེ་བཀབ་གོ།", "$dtStr"),(2, "ཁ།", "ཁ། inn", "$dtStr"), (3, "བརྩེ་བ།", "བརྩེ་བ། kindness", "$dtStr")');
+    await db.rawInsert(
+        'INSERT INTO Zhebsa(zId, zWord, zPhrase, zPronunciation, zUpdateTime) VALUES(1, "སྐུ་གཟན།", "སྐུ་གཟན yes", "2.mp3", "$dtStr"), (2, "ན༌བཟའ།", "ན༌བཟའ་ཨིན།", "2.mp3", "$dtStr"), (3, "ཞལ།", "ཞལ། is correct", "3.mp3", "$dtStr"), (4, "བརྩེ་བ།", "བརྩེ་བ། honoriffic", "4.mp3", "$dtStr")');
+    await db.rawInsert(
+        'INSERT INTO DzongkhaZhebsa (DzongkhadId, ZhebsazId, updateTime) VALUES(1, 1, "$dtStr"), (1, 2, "$dtStr"), (2, 3, "$dtStr"), (3, 4, "$dtStr")');
   }
 
   // Define a function that inserts Dzongkha into the database
@@ -81,6 +99,13 @@ class DatabaseService {
       dzongkha.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  Future<Dzongkha> populateSearch(int searchText) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps =
+        await db.query('Dzongkha', where: 'dId = ?', whereArgs: [searchText]);
+    return Dzongkha.fromMap(maps[0]);
   }
 
   // A method that retrieves all the words from the dzongkha table.
@@ -142,6 +167,12 @@ class DatabaseService {
     );
   }
 
+  /*  Future<List<Zhebsa>> showAllZhebsa() async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query('Zhebsa',
+        columns: ['zID', 'zWord', 'zPhrase', 'zPronunciation']);
+    return List.generate(maps.length, (index) => Zhebsa.fromMap(maps[index]));
+  } */
   Future<List<Zhebsa>> showAllZhebsa() async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query('Zhebsa');
@@ -153,6 +184,22 @@ class DatabaseService {
     await db.update('Zhebsa', zhebsa.toMap(),
         where: 'zId = ?', whereArgs: [zhebsa.zId]);
   }
+
+  /* Future<void> insertZhebsa(Zhebsa zhebsa) async {
+    final db = await _databaseService.database;
+    await db.insert(
+      'Zhebsa',
+      zhebsa.toJson(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  } */
+
+  /*  Future<List<Zhebsa>> showAllZhebsa() async {
+    final db = await _databaseService.database;
+    final result = await db.query('Zhebsa',
+        columns: ['zID', 'zWord', 'zPhrase', 'zPronunciation']);
+    return result.map((json) => Zhebsa.fromJson(json)).toList();
+  } */
 
   Future<void> deletezhebsa(int id) async {
     final db = await _databaseService.database;

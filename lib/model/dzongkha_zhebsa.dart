@@ -18,7 +18,7 @@ class DzongkhaZhebsa {
     return {
       'dzongkhadId': dzongkhadId,
       'zhebsazId': zhebsazId,
-      'updateTime': updateTime,
+      'updateTime': updateTime?.toIso8601String(),
     };
   }
 

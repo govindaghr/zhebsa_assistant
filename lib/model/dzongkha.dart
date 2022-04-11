@@ -6,7 +6,7 @@ class Dzongkha {
   final String? dPhrase;
   final String? dHistory;
   final String? dFavourite; //timestamp,
-  final DateTime? dUpdateTime;
+  final DateTime dUpdateTime;
 
   Dzongkha({
     required this.dId,
@@ -14,7 +14,7 @@ class Dzongkha {
     this.dPhrase,
     this.dHistory,
     this.dFavourite,
-    this.dUpdateTime,
+    required this.dUpdateTime,
   });
 
   // Convert a Breed into a Map. The keys must correspond to the names of the
@@ -26,7 +26,7 @@ class Dzongkha {
       'dPhrase': dPhrase,
       'dHistory': dHistory,
       'dFavourite': dFavourite,
-      'dUpdateTime': dUpdateTime,
+      'dUpdateTime': dUpdateTime.toIso8601String(),
     };
   }
 
@@ -37,7 +37,7 @@ class Dzongkha {
       dPhrase: map['dPhrase'] ?? '',
       dHistory: map['dHistory'] ?? '',
       dFavourite: map['dFavourite'] ?? '',
-      dUpdateTime: map['dUpdateTime'] ?? '',
+      dUpdateTime: DateTime.parse(map['dUpdateTime'] as String),
     );
   }
 
