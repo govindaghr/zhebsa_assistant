@@ -104,7 +104,7 @@ class CustomSearch extends SearchDelegate {
             showSuggestions(context);
           }
           // stopPronunciation();
-          SearchResults(searchQuery: "").stopPronunciation();
+          // SearchResults(searchQuery: "").stopPronunciation();
         },
         icon: const Icon(Icons.clear),
       )
@@ -117,7 +117,7 @@ class CustomSearch extends SearchDelegate {
       onPressed: () {
         close(context, null);
         // stopPronunciation();
-        SearchResults(searchQuery: "").stopPronunciation();
+        // SearchResults(searchQuery: "").stopPronunciation();
       },
       // icon: const Icon(Icons.arrow_back),
       icon: AnimatedIcon(

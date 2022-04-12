@@ -4,16 +4,21 @@ import 'package:get/get.dart';
 
 import '../controllers/audio_icon_controller.dart';
 
-class SearchResults extends StatelessWidget {
+class SearchResults extends StatefulWidget {
   final String searchQuery;
-  SearchResults({Key? key, required this.searchQuery}) : super(key: key);
+  const SearchResults({Key? key, required this.searchQuery}) : super(key: key);
 
+  @override
+  State<SearchResults> createState() => _SearchResultsState();
+}
+
+class _SearchResultsState extends State<SearchResults> {
+  static bool isPlayingPronunciation = false;
+  static AudioPlayer audioPlayer = AudioPlayer();
+  // late String searchQuery;
 //adding getx controller
   final IconController controller = Get.put(IconController());
 
-//Audio Player
-  static bool isPlayingPronunciation = false;
-  static AudioPlayer audioPlayer = AudioPlayer();
   final audioCache =
       AudioCache(prefix: 'assets/audio/', fixedPlayer: audioPlayer);
 
@@ -21,17 +26,17 @@ class SearchResults extends StatelessWidget {
     await audioCache.play(fineName, mode: PlayerMode.LOW_LATENCY);
 
     audioPlayer.state = PlayerState.PLAYING;
-    isPlayingPronunciation = true;
-    controller.isPlaying.value = true;
+    // isPlayingPronunciation = true;
+    /*  controller.isPlaying.value = true;
 
     audioPlayer.onPlayerStateChanged.listen((p0) {
       if (p0 == PlayerState.COMPLETED) {
-        isPlayingPronunciation = false;
+        // isPlayingPronunciation = false;
         controller.isPlaying.value = false;
       }
     });
 
-    controller.update();
+    controller.update(); */
   }
 
   stopPronunciation() async {
@@ -39,16 +44,27 @@ class SearchResults extends StatelessWidget {
     // audioCache.clearAll();
     isPlayingPronunciation = false;
     audioPlayer.state = PlayerState.STOPPED;
-    controller.isPlaying.value = false;
-    controller.update();
+    // controller.isPlaying.value = false;
+    // controller.update();
   }
 
-  // bool isFavourite = false;
+  bool isFavourite = false;
+
   _setFaviurite() {
-    controller.isFavourite.isTrue
+    setState(() {
+      isFavourite = !isFavourite;
+    });
+
+    /*  controller.isFavourite.isTrue
         ? controller.isFavourite.value = false
         : controller.isFavourite.value = true;
-    controller.update();
+    controller.update(); */
+  }
+
+  @override
+  void dispose() {
+    stopPronunciation();
+    super.dispose();
   }
 
   @override
@@ -74,7 +90,7 @@ class SearchResults extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  searchQuery,
+                  widget.searchQuery,
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -87,14 +103,12 @@ class SearchResults extends StatelessWidget {
                 Center(
                   child: IconButton(
                     onPressed: () => _setFaviurite(),
-                    icon: Obx(
-                      () => Icon(
-                        controller.isFavourite.isTrue
-                            ? Icons.favorite_sharp
-                            : Icons.favorite_border_sharp,
-                        size: 30.0,
-                        color: Colors.redAccent,
-                      ),
+                    icon: Icon(
+                      isFavourite
+                          ? Icons.favorite_sharp
+                          : Icons.favorite_border_sharp,
+                      size: 30.0,
+                      color: Colors.redAccent,
                     ),
                   ),
                 ),
@@ -107,14 +121,23 @@ class SearchResults extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(right: 20),
                   child: IconButton(
-                    onPressed: () {
-                      if (isPlayingPronunciation) {
-                        stopPronunciation();
-                      } else {
-                        _playPronunciation('aac_teenage_dream.mp3');
-                      }
-                    },
-                    icon: Obx(
+                      onPressed: () {
+                        isPlayingPronunciation
+                            ? stopPronunciation()
+                            : _playPronunciation('aac_teenage_dream.mp3');
+                        setState(() {
+                          isPlayingPronunciation = !isPlayingPronunciation;
+                        });
+                      },
+                      icon: Icon(
+                        isPlayingPronunciation
+                            ? Icons.stop_circle_outlined
+                            : Icons.volume_up,
+                        size: 50.0,
+                        color: Colors.blue,
+                      )
+
+                      /*  Obx(
                       () => Icon(
                         controller.isPlaying.isTrue
                             ? Icons.stop_circle_outlined
@@ -122,8 +145,8 @@ class SearchResults extends StatelessWidget {
                         size: 50.0,
                         color: Colors.blue,
                       ),
-                    ),
-                  ),
+                    ), */
+                      ),
                 ),
               ],
             ),
