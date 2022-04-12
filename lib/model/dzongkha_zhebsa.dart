@@ -41,3 +41,37 @@ class DzongkhaZhebsa {
   String toString() =>
       'DzongkhaZhebsa(dzongkhadId: $dzongkhadId, zhebsazId: $zhebsazId, updateTime: $updateTime)';
 }
+
+//SearchList Model
+class SearchDataModel {
+  final String sWord;
+  SearchDataModel({required this.sWord});
+  Map<String, dynamic> toMap() {
+    return {
+      'sWord': sWord,
+    };
+  }
+
+  factory SearchDataModel.fromMap(Map<String, dynamic> map) {
+    return SearchDataModel(
+      sWord: map['sWord'],
+    );
+  }
+
+  /* String toJson() => json.encode(toMap());
+
+  factory SearchDataModel.fromJson(String source) =>
+      SearchDataModel.fromMap(json.decode(source)); */
+}
+
+/* class SearchDataModel {
+  String sWord;
+  SearchDataModel({required this.sWord});
+
+  Map<String, dynamic> toJson() => {'sWord': sWord};
+
+  factory SearchDataModel.fromMap(Map<String, dynamic> json) =>
+      SearchDataModel(sWord: json['sWord']);
+
+} */
+

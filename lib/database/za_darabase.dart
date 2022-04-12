@@ -101,11 +101,26 @@ class DatabaseService {
     );
   }
 
-  Future<Dzongkha> populateSearch(int searchText) async {
+  /* Future<List<SearchDataModel>> populateSearch() async {
     final db = await _databaseService.database;
-    final List<Map<String, dynamic>> maps =
-        await db.query('Dzongkha', where: 'dId = ?', whereArgs: [searchText]);
-    return Dzongkha.fromMap(maps[0]);
+    final searchData = await db.rawQuery(
+        '(SELECT dWord FROM Dzongkha) UNION (SELECT zWord FROM Zhebsa)');
+    // return searchData.map((e) => SearchDataModel.fromMap(e)).toList();
+    return List.generate(searchData.length,
+        (index) => SearchDataModel.fromMap(searchData[index]));
+  } */
+
+  /*  Future<List<SearchDataModel>> populateSearch() async {
+    final db = await _databaseService.database;
+    final searchData = await db.rawQuery(
+        '(SELECT dWord FROM Dzongkha) UNION (SELECT zWord FROM Zhebsa)');
+    return searchData.map(SearchDataModel.fromJson).toList();
+  } */
+
+  Future<List> populateSearch() async {
+    final db = await _databaseService.database;
+    return await db.rawQuery(
+        'SELECT dWord AS sWord FROM Dzongkha UNION SELECT zWord FROM Zhebsa');
   }
 
   // A method that retrieves all the words from the dzongkha table.

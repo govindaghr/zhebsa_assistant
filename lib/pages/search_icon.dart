@@ -1,10 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zhebsa_assistant/database/za_darabase.dart';
 import 'package:zhebsa_assistant/pages/components/custom_search.dart';
+import 'package:zhebsa_assistant/pages/components/search_text.dart';
 import 'package:zhebsa_assistant/pages/components/view_zhebsa_of_day.dart';
 
-class SearchIcon extends StatelessWidget {
+class SearchIcon extends StatefulWidget {
   const SearchIcon({Key? key}) : super(key: key);
+
+  @override
+  State<SearchIcon> createState() => _SearchIconState();
+}
+
+class _SearchIconState extends State<SearchIcon> {
+  final DatabaseService _databaseService = DatabaseService();
+
+  var allData = [];
+  var searchHistory = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _databaseService.populateSearch().then((data) {
+      setState(() {
+        allData = data;
+        searchHistory = allData;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +43,15 @@ class SearchIcon extends StatelessWidget {
                 alignment: Alignment.center,
                 child: TextButton(
                   onPressed: () =>
-                      showSearch(context: context, delegate: CustomSearch()),
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const SearchText(),
+                      //   ),
+                      // ),
+                      showSearch(
+                          context: context,
+                          delegate: CustomSearch(allData, searchHistory)),
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(

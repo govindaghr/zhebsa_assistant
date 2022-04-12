@@ -1,29 +1,57 @@
 import 'package:flutter/material.dart';
+import '../../model/dzongkha_zhebsa.dart';
 import 'search_result.dart';
 
 class CustomSearch extends SearchDelegate {
-  final allData = [
-    'ཀ་ར་གཏང་།',
-    'ཁ༌བཀོད།',
-    'བཀའ་སློབ།',
-    'ཁྲག',
-    'སྐུ་ཁྲག',
-    'བཀབ་ནེ།',
-  ];
-  final recentData = [
-    'བཀབ་ནེ།',
-    'བཀའ་སློབ།',
-    'ཁྲག',
-    'སྐུ་ཁྲག',
-  ];
-
-  CustomSearch({
+  List allData;
+  List recentData;
+  CustomSearch(
+    this.allData,
+    this.recentData, {
     String hintText = "འཚོལ།/Search",
   }) : super(
           searchFieldLabel: hintText,
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.search,
         );
+
+  // final DatabaseService _databaseService = DatabaseService();
+  // SearchController searchController = Get.put(SearchController());
+
+  /* Future<List> filterSeach(String query) async {
+    var dummySearchList = allData;
+    if (query.isNotEmpty) {
+      var dummyListData = [];
+      for (var recentData in dummySearchList) {
+        var txtData = SearchDataModel.fromMap(recentData);
+        if (txtData.sWord.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(recentData);
+        }
+      }
+      recentData = [];
+      recentData.addAll(dummyListData);
+      return recentData;
+    } else {
+      recentData = [];
+      recentData = allData;
+      return recentData;
+    }
+  } */
+
+  /* List allData = [
+    'ཀ་ར་གཏང་།',
+    'ཁ༌བཀོད།',
+    'བཀའ་སློབ།',
+    'ཁྲག',
+    'སྐུ་ཁྲག',
+    'བཀབ་ནེ།',
+  ]; */
+  /*  List recentData = [
+    'བཀབ་ནེ།',
+    'བཀའ་སློབ།',
+    'ཁྲག',
+    'སྐུ་ཁྲག',
+  ]; */
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -106,27 +134,36 @@ class CustomSearch extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestionList = query.isEmpty
-        ? recentData
-        : allData.where((p) {
-            final dataLower = p.toLowerCase();
-            final queryLower = query.toLowerCase();
-            return dataLower.startsWith(queryLower);
-          }).toList();
-    return buildSuggestionsSuccess(suggestionList);
+    var dummySearchList = allData;
+    if (query.isNotEmpty) {
+      var dummyListData = [];
+      for (var recentData in dummySearchList) {
+        var txtData = SearchDataModel.fromMap(recentData);
+        if (txtData.sWord.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(recentData);
+        }
+      }
+      recentData = [];
+      recentData.addAll(dummyListData);
+    } else {
+      recentData = [];
+      recentData = allData;
+    }
+    return buildSuggestionsSuccess(recentData);
   }
 
-  Widget buildSuggestionsSuccess(List<String> suggestionList) =>
-      ListView.builder(
+  Widget buildSuggestionsSuccess(suggestionList) => ListView.builder(
         itemCount: suggestionList.length,
         itemBuilder: (context, index) {
-          final suggestion = suggestionList[index];
-          final queryText = suggestion.substring(0, query.length);
-          final remainingText = suggestion.substring(query.length);
+          SearchDataModel txtData =
+              SearchDataModel.fromMap(suggestionList[index]);
+          // final String suggestion = txtData as String;
+          // final queryText = suggestion.substring(0, query.length);
+          // final remainingText = suggestion.substring(query.length);
 
           return ListTile(
             onTap: () {
-              query = suggestion;
+              query = txtData.sWord;
               showResults(context);
             },
             leading: const Icon(
@@ -134,17 +171,18 @@ class CustomSearch extends SearchDelegate {
             ),
             title: RichText(
               text: TextSpan(
-                  text: queryText,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                text: txtData.sWord,
+                style: const TextStyle(
+                  color: Colors.black,
+                  // fontWeight: FontWeight.bold,
+                ),
+                /* children: [
+                  TextSpan(
+                    text: remainingText,
+                    style: const TextStyle(color: Colors.black45),
                   ),
-                  children: [
-                    TextSpan(
-                      text: remainingText,
-                      style: const TextStyle(color: Colors.black45),
-                    ),
-                  ]),
+                ], */
+              ),
             ),
             // title: Text(suggestionList[index]),
           );

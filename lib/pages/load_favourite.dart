@@ -34,7 +34,7 @@ class _FavouriteState extends State<Favourite> {
             child: CircularProgressIndicator(),
           );
         }
-        snapshot.hasError ? print(snapshot.error) : print('object');
+        // snapshot.hasError ? print(snapshot.error) : print('object');
         if (snapshot.hasData) {
           return ListView.builder(
             itemCount: snapshot.data!.length,
