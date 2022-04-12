@@ -1,8 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import '../controllers/audio_icon_controller.dart';
 
 class SearchResults extends StatefulWidget {
   final String searchQuery;
@@ -15,9 +12,6 @@ class SearchResults extends StatefulWidget {
 class _SearchResultsState extends State<SearchResults> {
   static bool isPlayingPronunciation = false;
   static AudioPlayer audioPlayer = AudioPlayer();
-  // late String searchQuery;
-//adding getx controller
-  final IconController controller = Get.put(IconController());
 
   final audioCache =
       AudioCache(prefix: 'assets/audio/', fixedPlayer: audioPlayer);
@@ -26,17 +20,6 @@ class _SearchResultsState extends State<SearchResults> {
     await audioCache.play(fineName, mode: PlayerMode.LOW_LATENCY);
 
     audioPlayer.state = PlayerState.PLAYING;
-    // isPlayingPronunciation = true;
-    /*  controller.isPlaying.value = true;
-
-    audioPlayer.onPlayerStateChanged.listen((p0) {
-      if (p0 == PlayerState.COMPLETED) {
-        // isPlayingPronunciation = false;
-        controller.isPlaying.value = false;
-      }
-    });
-
-    controller.update(); */
   }
 
   stopPronunciation() async {
@@ -44,8 +27,6 @@ class _SearchResultsState extends State<SearchResults> {
     // audioCache.clearAll();
     isPlayingPronunciation = false;
     audioPlayer.state = PlayerState.STOPPED;
-    // controller.isPlaying.value = false;
-    // controller.update();
   }
 
   bool isFavourite = false;
@@ -54,11 +35,6 @@ class _SearchResultsState extends State<SearchResults> {
     setState(() {
       isFavourite = !isFavourite;
     });
-
-    /*  controller.isFavourite.isTrue
-        ? controller.isFavourite.value = false
-        : controller.isFavourite.value = true;
-    controller.update(); */
   }
 
   @override
@@ -76,7 +52,6 @@ class _SearchResultsState extends State<SearchResults> {
         shadowColor: Colors.amber[500],
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               padding: const EdgeInsets.all(5.0),
@@ -121,32 +96,22 @@ class _SearchResultsState extends State<SearchResults> {
                 Container(
                   padding: const EdgeInsets.only(right: 20),
                   child: IconButton(
-                      onPressed: () {
-                        isPlayingPronunciation
-                            ? stopPronunciation()
-                            : _playPronunciation('aac_teenage_dream.mp3');
-                        setState(() {
-                          isPlayingPronunciation = !isPlayingPronunciation;
-                        });
-                      },
-                      icon: Icon(
-                        isPlayingPronunciation
-                            ? Icons.stop_circle_outlined
-                            : Icons.volume_up,
-                        size: 50.0,
-                        color: Colors.blue,
-                      )
-
-                      /*  Obx(
-                      () => Icon(
-                        controller.isPlaying.isTrue
-                            ? Icons.stop_circle_outlined
-                            : Icons.volume_up,
-                        size: 50.0,
-                        color: Colors.blue,
-                      ),
-                    ), */
-                      ),
+                    onPressed: () {
+                      isPlayingPronunciation
+                          ? stopPronunciation()
+                          : _playPronunciation('aac_teenage_dream.mp3');
+                      setState(() {
+                        isPlayingPronunciation = !isPlayingPronunciation;
+                      });
+                    },
+                    icon: Icon(
+                      isPlayingPronunciation
+                          ? Icons.stop_circle_outlined
+                          : Icons.volume_up,
+                      size: 50.0,
+                      color: Colors.blue,
+                    ),
+                  ),
                 ),
               ],
             ),
