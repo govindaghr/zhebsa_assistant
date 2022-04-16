@@ -24,13 +24,14 @@ class DzongkhaZhebsa {
 
   factory DzongkhaZhebsa.fromMap(Map<String, dynamic> map) {
     return DzongkhaZhebsa(
-      dzongkhadId: map['dzongkhadId']?.toInt() ?? 0,
-      zhebsazId: map['zhebsazId']?.toInt() ?? 0,
-      updateTime: map['updateTime'] ?? '',
-    );
+        dzongkhadId: map['dzongkhadId']?.toInt() ?? 0,
+        zhebsazId: map['zhebsazId']?.toInt() ?? 0,
+        updateTime: DateTime.parse(map['updateTime'] as String)
+        //map['updateTime'] ?? Null,
+        );
   }
 
-  String toJson() => json.encode(toMap());
+  /* String toJson() => json.encode(toMap());
 
   factory DzongkhaZhebsa.fromJson(String source) =>
       DzongkhaZhebsa.fromMap(json.decode(source));
@@ -39,7 +40,7 @@ class DzongkhaZhebsa {
   // each breed when using the print statement.
   @override
   String toString() =>
-      'DzongkhaZhebsa(dzongkhadId: $dzongkhadId, zhebsazId: $zhebsazId, updateTime: $updateTime)';
+      'DzongkhaZhebsa(dzongkhadId: $dzongkhadId, zhebsazId: $zhebsazId, updateTime: $updateTime)'; */
 }
 
 //SearchList Model

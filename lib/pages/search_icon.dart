@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zhebsa_assistant/database/za_darabase.dart';
 import 'package:zhebsa_assistant/pages/components/custom_search.dart';
-import 'package:zhebsa_assistant/pages/components/search_text.dart';
 import 'package:zhebsa_assistant/pages/components/view_zhebsa_of_day.dart';
 
 class SearchIcon extends StatefulWidget {

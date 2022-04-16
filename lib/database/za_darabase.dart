@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '../model/dzongkha.dart';
 import '../model/zhebsa.dart';
 import '../model/dzongkha_zhebsa.dart';
@@ -101,6 +99,61 @@ class DatabaseService {
     );
   }
 
+  Future<List> populateSearch() async {
+    final db = await _databaseService.database;
+    return await db.rawQuery(
+        'SELECT dWord AS sWord FROM Dzongkha UNION SELECT zWord FROM Zhebsa');
+  }
+
+  /* Future<List<Zhebsa>> searchZhesaWord(String word) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps =
+        await db.query('Zhebsa', where: 'zWord = ?', whereArgs: [word]);
+    return List.generate(maps.length, (index) => Zhebsa.fromMap(maps[index]));
+  }
+
+  Future<List<Dzongkha>> searchDzongkha(String word) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps =
+        await db.query('Dzongkha', where: 'dWord = ?', whereArgs: [word]);
+    return List.generate(maps.length, (index) => Dzongkha.fromMap(maps[index]));
+  } */
+
+  Future<List> searchDzongkha(String word) async {
+    final db = await _databaseService.database;
+    return await db.query('Dzongkha', where: 'dWord = ?', whereArgs: [word]);
+  }
+
+  Future<List> searchZhesaWord(String word) async {
+    final db = await _databaseService.database;
+    return await db.query('Zhebsa', where: 'zWord = ?', whereArgs: [word]);
+  }
+
+  Future<int> searchDzoWord(String word) async {
+    final db = await _databaseService.database;
+    var dzoID;
+    var data = await db.query('Dzongkha',
+        columns: ['dId'], where: 'dWord = ?', whereArgs: [word]);
+    for (int i = 0; i < data.length; i++) {
+      dzoID = (data[i]['dId']);
+    }
+    return dzoID;
+  }
+
+  Future<List> getZhebsaSearchId(int did) async {
+    final db = await _databaseService.database;
+    final List zhesaIdList = []; //DzongkhadId, ZhebsazId, updateTime
+    var data = await db.query('DzongkhaZhebsa',
+        columns: ['ZhebsazId'],
+        where: 'DzongkhadId = ?',
+        whereArgs: [did]); //columns: ['ZhebsazId']
+
+    for (int i = 0; i < data.length; i++) {
+      zhesaIdList.add(data[i]['ZhebsazId']);
+    }
+    return zhesaIdList;
+  }
+
   /* Future<List<SearchDataModel>> populateSearch() async {
     final db = await _databaseService.database;
     final searchData = await db.rawQuery(
@@ -116,12 +169,6 @@ class DatabaseService {
         '(SELECT dWord FROM Dzongkha) UNION (SELECT zWord FROM Zhebsa)');
     return searchData.map(SearchDataModel.fromJson).toList();
   } */
-
-  Future<List> populateSearch() async {
-    final db = await _databaseService.database;
-    return await db.rawQuery(
-        'SELECT dWord AS sWord FROM Dzongkha UNION SELECT zWord FROM Zhebsa');
-  }
 
   // A method that retrieves all the words from the dzongkha table.
   Future<List<Dzongkha>> showAllDzongkha() async {

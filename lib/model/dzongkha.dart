@@ -41,7 +41,7 @@ class Dzongkha {
     );
   }
 
-  String toJson() => json.encode(toMap());
+  /* String toJson() => json.encode(toMap());
 
   factory Dzongkha.fromJson(String source) =>
       Dzongkha.fromMap(json.decode(source));
@@ -50,5 +50,5 @@ class Dzongkha {
   // each breed when using the print statement.
   @override
   String toString() =>
-      'Dzongkha(dId: $dId, dWord: $dWord, dPhrase: $dPhrase, dHistory: $dHistory, dFavourite: $dFavourite, dUpdateTime: $dUpdateTime)';
+      'Dzongkha(dId: $dId, dWord: $dWord, dPhrase: $dPhrase, dHistory: $dHistory, dFavourite: $dFavourite, dUpdateTime: $dUpdateTime)'; */
 }

@@ -47,7 +47,7 @@ class Zhebsa {
     };
   }
 
-  String toJson() => json.encode(toMap());
+  /* String toJson() => json.encode(toMap());
   factory Zhebsa.fromJson(String source) => Zhebsa.fromMap(json.decode(source));
 
   // Implement toString to make it easier to see information about
@@ -55,4 +55,5 @@ class Zhebsa {
   @override
   String toString() =>
       'Zhebsa(zId: $zId, zWord: $zWord, zPhrase: $zPhrase, zPronunciation:$zPronunciation, zHistory: $zHistory, zFavourite: $zFavourite, zUpdateTime: $zUpdateTime)';
+       */
 }
