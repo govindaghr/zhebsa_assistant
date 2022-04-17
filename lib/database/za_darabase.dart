@@ -83,93 +83,11 @@ class DatabaseService {
         'INSERT INTO DzongkhaZhebsa (DzongkhadId, ZhebsazId, updateTime) VALUES(1, 1, "$dtStr"), (1, 2, "$dtStr"), (2, 3, "$dtStr"), (3, 4, "$dtStr")');
   }
 
-  // Define a function that inserts Dzongkha into the database
-  Future<void> insertDzongkha(Dzongkha dzongkha) async {
-    // Get a reference to the database.
-    final db = await _databaseService.database;
-
-    // Insert the Dzongkha into the correct table. You might also specify the
-    // `conflictAlgorithm` to use in case the same word is inserted twice.
-    //
-    // In this case, replace any previous data.
-    await db.insert(
-      'Dzongkha',
-      dzongkha.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
   Future<List> populateSearch() async {
     final db = await _databaseService.database;
     return await db.rawQuery(
         'SELECT dWord AS sWord FROM Dzongkha UNION SELECT zWord FROM Zhebsa');
   }
-
-  /* Future<List<Zhebsa>> showAllZhebsa1(zhesaID) async {
-    final db = await _databaseService.database;
-    List<Map<String, dynamic>> maps = [];
-    for (int zid in zhesaID) {
-      maps = await db.query('Zhebsa', where: 'zId = ?', whereArgs: [zid]);
-    }
-    // final List<Map<String, dynamic>> maps = await db.query('Zhebsa');
-    return List.generate(maps.length, (index) => Zhebsa.fromMap(maps[index]));
-  }
-
-  static Future<Zhebsa> getData({zhesaID}) async {
-    final db = await _databaseService.database;
-    List<Map> list = await db.rawQuery('SELECT * FROM Zhebsa WHERE zId IN ("$zhesaID")');
-return Zhebsa(zId: list[0]['zId'], zWord: list[0]['zWord'], zUpdateTime: list[0]['zUpdateTime']);
-  } */
-  /* Future<List<Zhebsa>> getData(zhesaID) async {
-    final db = await _databaseService.database;
-    List<Map<String, dynamic>> maps =
-        await db.rawQuery('SELECT * FROM Zhebsa WHERE zId IN ("$zhesaID")');
-    return List.generate(maps.length, (index) => Zhebsa.fromMap(maps[index]));
-    /* return Zhebsa(
-        zId: list[0]['zId'],
-        zWord: list[0]['zWord'],
-        zUpdateTime: list[0]['zUpdateTime']); */
-  } */
-
-  Future<List<Zhebsa>> getData(zhesaID) async {
-    final db = await _databaseService.database;
-    /*  // return await db.rawQuery('SELECT * FROM Zhebsa WHERE zId IN("$zhesaID")');
-    final List<Map<String, dynamic>> maps =
-        await db.query('Zhebsa', where: 'zId = ?', whereArgs: [zhesaID]);
-    return List.generate(maps.length, (index) => Zhebsa.fromMap(maps[index]));
-// return List.generate(maps.length, (index) => Zhebsa.fromMap(maps[index])); */
-    List maps = [];
-    for (int zid in zhesaID) {
-      List<Map<String, dynamic>> map =
-          await db.query('Zhebsa', where: 'zId = ?', whereArgs: [zid]);
-      maps.add(map);
-    }
-    return List.generate(maps.length, (index) => Zhebsa.fromMap(maps[index]));
-  }
-
-  /* Future<List<Zhebsa>> searchZhesaWord(String word) async {
-    final db = await _databaseService.database;
-    final List<Map<String, dynamic>> maps =
-        await db.query('Zhebsa', where: 'zWord = ?', whereArgs: [word]);
-    return List.generate(maps.length, (index) => Zhebsa.fromMap(maps[index]));
-  }
-
-  Future<List<Dzongkha>> searchDzongkha(String word) async {
-    final db = await _databaseService.database;
-    final List<Map<String, dynamic>> maps =
-        await db.query('Dzongkha', where: 'dWord = ?', whereArgs: [word]);
-    return List.generate(maps.length, (index) => Dzongkha.fromMap(maps[index]));
-  }
-  Future<int> searchDzoWord(String word) async {
-    final db = await _databaseService.database;
-    var dzoID;
-    var data = await db.query('Dzongkha',
-        columns: ['dId'], where: 'dWord = ?', whereArgs: [word]);
-    for (int i = 0; i < data.length; i++) {
-      dzoID = (data[i]['dId']);
-    }
-    return dzoID;
-  } */
 
   Future<List> searchDzongkha(String word) async {
     final db = await _databaseService.database;
@@ -195,56 +113,55 @@ return Zhebsa(zId: list[0]['zId'], zWord: list[0]['zWord'], zUpdateTime: list[0]
     return zhesaIdList;
   }
 
+  Future<List> getDzongkhaSearchId(int zid) async {
+    final db = await _databaseService.database;
+    final List dzongkhaIdList = []; //DzongkhadId, ZhebsazId, updateTime
+    var data = await db.query('DzongkhaZhebsa',
+        columns: ['DzongkhadId'],
+        where: 'ZhebsazId = ?',
+        whereArgs: [zid]); //columns: ['ZhebsazId']
+
+    for (int i = 0; i < data.length; i++) {
+      dzongkhaIdList.add(data[i]['DzongkhadId']);
+    }
+    return dzongkhaIdList;
+  }
+
   Future<List<Zhebsa>> getZhebsaSearch(List zhesaID) async {
     final db = await _databaseService.database;
-    /* List<Map<String, dynamic>> data = [];
-    // List data = [];
-    var datas;
-    for (int zid in zhesaID) {
-      datas = await db.query('Zhebsa', where: 'zId = ?', whereArgs: [zid]);
-      data.add(datas);
-    } */
     final List<Map<String, dynamic>> maps = await db.query('Zhebsa',
         where: 'zId IN (${('?' * (zhesaID.length)).split('').join(', ')})',
         whereArgs: zhesaID);
     return List.generate(maps.length, (index) => Zhebsa.fromMap(maps[index]));
-
-    /* for (int i = 0; i < zhesaID.length; i++) {
-      var datas =
-          await db.query('Zhebsa', where: 'zId = ?', whereArgs: [zhesaID[i]]);
-      data.add(datas);
-    } */
-    // var data = await db.query('Zhebsa', where: 'zId = ?', whereArgs: [zhesaID]);
-    // var data = await db.rawQuery('SELECT * FROM Zhebsa WHERE zId IN ($zhesaID)');
-    // return data;
-    // return List.generate(data.length, (index) => Zhebsa.fromMap(data[index]));
   }
 
-  /* Future<List<SearchDataModel>> populateSearch() async {
+  Future<List<Dzongkha>> getDzongkhaSearch(List dzongkhaID) async {
     final db = await _databaseService.database;
-    final searchData = await db.rawQuery(
-        '(SELECT dWord FROM Dzongkha) UNION (SELECT zWord FROM Zhebsa)');
-    // return searchData.map((e) => SearchDataModel.fromMap(e)).toList();
-    return List.generate(searchData.length,
-        (index) => SearchDataModel.fromMap(searchData[index]));
-  } */
+    final List<Map<String, dynamic>> maps = await db.query('Dzongkha',
+        where: 'dId IN (${('?' * (dzongkhaID.length)).split('').join(', ')})',
+        whereArgs: dzongkhaID);
+    return List.generate(maps.length, (index) => Dzongkha.fromMap(maps[index]));
+  }
 
-  /*  Future<List<SearchDataModel>> populateSearch() async {
-    final db = await _databaseService.database;
-    final searchData = await db.rawQuery(
-        '(SELECT dWord FROM Dzongkha) UNION (SELECT zWord FROM Zhebsa)');
-    return searchData.map(SearchDataModel.fromJson).toList();
-  } */
-
-  // A method that retrieves all the words from the dzongkha table.
-  Future<List<Dzongkha>> showAllDzongkha() async {
+  // Define a function that inserts Dzongkha into the database
+  Future<void> insertDzongkha(Dzongkha dzongkha) async {
     // Get a reference to the database.
     final db = await _databaseService.database;
 
-    // Query the table for all the Dzongkha.
-    final List<Map<String, dynamic>> maps = await db.query('Dzongkha');
+    // Insert the Dzongkha into the correct table. You might also specify the
+    // `conflictAlgorithm` to use in case the same word is inserted twice.
+    //
+    // In this case, replace any previous data.
+    await db.insert(
+      'Dzongkha',
+      dzongkha.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
 
-    // Convert the List<Map<String, dynamic> into a List<Dzongkha>.
+  Future<List<Dzongkha>> showAllDzongkha() async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query('Dzongkha');
     return List.generate(maps.length, (index) => Dzongkha.fromMap(maps[index]));
   }
 

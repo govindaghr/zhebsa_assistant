@@ -50,6 +50,7 @@ class _SearchResultsState extends State<SearchResults> {
   List zhesaInput = [];
   List toZhebsaId = [];
   List zhesaID = [];
+  List dzongkhaID = [];
   List zhebsa = [];
   var did;
   var zid;
@@ -57,14 +58,13 @@ class _SearchResultsState extends State<SearchResults> {
 
   @override
   void initState() {
-    _dzongkhaText();
     _zhesaText();
+    _dzongkhaText();
     super.initState();
   }
 
   Future<void> _dzongkhaText() async {
     await _databaseService.searchDzongkha(sQuery).then((data) {
-      // print(data);
       setState(() {
         dzongkhaInput = data;
         if (dzongkhaInput.isNotEmpty) {
@@ -77,57 +77,14 @@ class _SearchResultsState extends State<SearchResults> {
     });
 
     if (dzongkhaInput.isNotEmpty) {
-      // did = (await _databaseService.searchDzoWord(sQuery));
-      zhesaID.addAll(await _databaseService.getZhebsaSearchId(did));
-      // print('zhebsa id: $zhesaID');
-      // print('did $did');
-
-//get data for zhesa
-      zhebsa = (await _databaseService.getZhebsaSearch(zhesaID));
-      // List zhebsa1 = (await _databaseService.showAllZhebsa1(zhesaID));
-      print(zhebsa);
-
-      for (var item in zhebsa) {
-        print('item: ${item[0]["zWord"]}');
-      }
-    }
-    /* await _databaseService.searchDzongkha(sQuery).then((data) {
-      setState(() {
-        dzongkhaInput = data;
-        /* if (dzongkhaInput.isNotEmpty) {
-          for (var dzId in dzongkhaInput) {
-            var dzoId = Dzongkha.fromMap(dzId);
-            // did.add(dzoId.dId);
-            did = dzoId.dId;
-            // isZhesaSearch = true;
-          }
-        } */
+      List zhID = [];
+      await _databaseService.getZhebsaSearchId(did).then((value) {
+        zhID.addAll(value);
+        setState(() {
+          zhesaID = zhID;
+        });
       });
-    });
-    if (dzongkhaInput.isNotEmpty) {
-      /* await _databaseService.getZhebsaSearchId(did).then((data) {
-        final List dummyListData = [];
-        print(data);
-        /* for (var element in data) {
-          var zhData = DzongkhaZhebsa.fromMap(element).zhebsazId;
-          dummyListData.add(zhData);
-          print(dummyListData);
-        } */
-        for (int i = 0; i < data.length; i++) {
-          dummyListData.add(data[i]['ZhebsazId']);
-        }
-        zhesaID.addAll(dummyListData);
-        print(zhesaID);
-      }); */
-
-      /* did = (await _databaseService.searchDzoWord(sQuery));
-
-      zhesaID.addAll(await _databaseService.getZhebsaSearchId(did));
-      print('zhebsa id: $zhesaID');
-      // getAllZhesa();
-
-      print('did $did'); */
-    } */
+    }
   }
 
   Future<void> _zhesaText() async {
@@ -137,38 +94,29 @@ class _SearchResultsState extends State<SearchResults> {
         if (zhesaInput.isNotEmpty) {
           for (var zhId in zhesaInput) {
             var zheId = Zhebsa.fromMap(zhId);
-            // zid.add(zheId.zId);
             zid = zheId.zId;
-            // isZhesaSearch = false;
           }
-          // print(zid);
         }
       });
     });
+
+    if (zhesaInput.isNotEmpty) {
+      List dzID = [];
+      await _databaseService.getDzongkhaSearchId(zid).then((value) {
+        dzID.addAll(value);
+        setState(() {
+          dzongkhaID = dzID;
+        });
+      });
+    }
   }
 
-  /* Future<List<Zhebsa>> _getZhebsa() async {
-    // return await _databaseService.showAllZhebsa1(zhesaID);
-    /* var zhebsaList = [];
-    for (var zhid in zhesaID) {
-      _databaseService.getData(zhid).then((value) {
-        zhebsaList.add(value);
-      });
-    } */
-    // return _databaseService.showAllZhebsa();
-    return _databaseService.getData(zhesaID);
-    // return zhebsaList;
-  } */
-/* Future<List<Zhebsa>> _getZhebsa() async {
-    return await _databaseService.showAllZhebsa();
-  } */
-  /* checkId() {
-    dzongkhaInput.isNotEmpty ? print('Dzongkha $did') : print('Zhesa $zid');
-  } */
-
   Future<List<Zhebsa>> _getZhebsa() async {
-    print(zhesaID);
     return await _databaseService.getZhebsaSearch(zhesaID);
+  }
+
+  Future<List<Dzongkha>> _getDzongkha() async {
+    return await _databaseService.getDzongkhaSearch(dzongkhaID);
   }
 
   @override
@@ -179,17 +127,16 @@ class _SearchResultsState extends State<SearchResults> {
 
   @override
   Widget build(BuildContext context) {
-    // checkId();
     if (dzongkhaInput.isNotEmpty) {
-      // return _displayDzongkha(dzongkhaInput);
-      // return _displayZhesa(zhebsa);
-      return _displayZhesa1();
+      return _displayZhesa();
+    } else if (zhesaInput.isNotEmpty) {
+      return _displayDzongkha();
     } else {
-      return _displayZhesa(zhebsa);
+      return _displayDzongkha();
     }
   }
 
-  Widget _displayZhesa1() {
+  Widget _displayZhesa() {
     return FutureBuilder<List<Zhebsa>>(
         future: _getZhebsa(),
         builder: (context, snapshot) {
@@ -200,196 +147,198 @@ class _SearchResultsState extends State<SearchResults> {
           }
           if (snapshot.hasData) {
             return ListView.builder(
-              itemCount: zhebsa.length,
+              itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
-                // Zhebsa txtData = Zhebsa.fromMap(zhebsa[index]);
                 final txtData = snapshot.data![index];
-                return ListTile(
-                  title: Text(txtData.zWord),
+                return Card(
+                  elevation: 10,
+                  color: Colors.white70,
+                  shadowColor: Colors.amber[500],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(5.0),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.orange[400],
+                          border: Border.all(
+                            color: Colors.amber.shade100,
+                            width: 2,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            sQuery,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Center(
+                            child: IconButton(
+                              onPressed: () => _setFaviurite(),
+                              icon: Icon(
+                                isFavourite
+                                    ? Icons.favorite_sharp
+                                    : Icons.favorite_border_sharp,
+                                size: 30.0,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: ListTile(
+                              title: const Text('ཞེ་ས།'),
+                              subtitle: Text(txtData.zWord), //ཞེ་སའི་ཚིག
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: IconButton(
+                              onPressed: () {
+                                isPlayingPronunciation
+                                    ? stopPronunciation()
+                                    : _playPronunciation(
+                                        'aac_teenage_dream.mp3');
+                                setState(() {
+                                  isPlayingPronunciation =
+                                      !isPlayingPronunciation;
+                                });
+                              },
+                              icon: Icon(
+                                isPlayingPronunciation
+                                    ? Icons.stop_circle_outlined
+                                    : Icons.volume_up,
+                                size: 50.0,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(left: 30.0),
+                        child: ListTile(
+                          title: Text('དཔེར་བརྗོད།'),
+                          subtitle: SelectableText('${txtData.zPhrase}'),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             );
           } else {
-            return const Text('no data');
+            return Text('No Data');
           }
         });
   }
 
-  Widget _displayDzongkha(List dzongkhaInput) {
-    return ListView.builder(
-      itemCount: dzongkhaInput.length,
-      itemBuilder: (context, index) {
-        Dzongkha txtData = Dzongkha.fromMap(dzongkhaInput[index]);
-        // print(txtData.dWord);
-        return Card(
-          elevation: 10,
-          color: Colors.white70,
-          shadowColor: Colors.amber[500],
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.orange[400],
-                  border: Border.all(
-                    color: Colors.amber.shade100,
-                    width: 2,
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    sQuery,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Center(
-                    child: IconButton(
-                      onPressed: () => _setFaviurite(),
-                      icon: Icon(
-                        isFavourite
-                            ? Icons.favorite_sharp
-                            : Icons.favorite_border_sharp,
-                        size: 30.0,
-                        color: Colors.redAccent,
+  Widget _displayDzongkha() {
+    return FutureBuilder<List<Dzongkha>>(
+        future: _getDzongkha(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                final txtData = snapshot.data![index];
+                return Card(
+                  elevation: 10,
+                  color: Colors.white70,
+                  shadowColor: Colors.amber[500],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(5.0),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.orange[400],
+                          border: Border.all(
+                            color: Colors.amber.shade100,
+                            width: 2,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            sQuery,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('ཞེ་ས།'),
-                      subtitle: Text(txtData.dWord), //ཞེ་སའི་ཚིག
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: IconButton(
-                      onPressed: () {
-                        isPlayingPronunciation
-                            ? stopPronunciation()
-                            : _playPronunciation('aac_teenage_dream.mp3');
-                        setState(() {
-                          isPlayingPronunciation = !isPlayingPronunciation;
-                        });
-                      },
-                      icon: Icon(
-                        isPlayingPronunciation
-                            ? Icons.stop_circle_outlined
-                            : Icons.volume_up,
-                        size: 50.0,
-                        color: Colors.blue,
+                      Row(
+                        children: <Widget>[
+                          Center(
+                            child: IconButton(
+                              onPressed: () => _setFaviurite(),
+                              icon: Icon(
+                                isFavourite
+                                    ? Icons.favorite_sharp
+                                    : Icons.favorite_border_sharp,
+                                size: 30.0,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: ListTile(
+                              title: const Text('ཕལ་སྐད།།'),
+                              subtitle: Text(txtData.dWord), //ཞེ་སའི་ཚིག
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: IconButton(
+                              onPressed: () {
+                                isPlayingPronunciation
+                                    ? stopPronunciation()
+                                    : _playPronunciation(
+                                        'aac_teenage_dream.mp3');
+                                setState(() {
+                                  isPlayingPronunciation =
+                                      !isPlayingPronunciation;
+                                });
+                              },
+                              icon: Icon(
+                                isPlayingPronunciation
+                                    ? Icons.stop_circle_outlined
+                                    : Icons.volume_up,
+                                size: 50.0,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 30.0),
-                child: ListTile(
-                  title: Text('དཔེར་བརྗོད།'),
-                  subtitle: SelectableText('བླམ་གི་ཐུགས་འགན་ཨིན་མས།'),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _displayZhesa(List zhebsa1) {
-    return ListView.builder(
-      itemCount: zhebsa1.length,
-      itemBuilder: (context, index) {
-        Zhebsa txtData = Zhebsa.fromMap(zhebsa1[index]);
-        // print(txtData.zWord);
-        return Card(
-          elevation: 10,
-          color: Colors.white70,
-          shadowColor: Colors.amber[500],
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.orange[400],
-                  border: Border.all(
-                    color: Colors.amber.shade100,
-                    width: 2,
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    sQuery,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Center(
-                    child: IconButton(
-                      onPressed: () => _setFaviurite(),
-                      icon: Icon(
-                        isFavourite
-                            ? Icons.favorite_sharp
-                            : Icons.favorite_border_sharp,
-                        size: 30.0,
-                        color: Colors.redAccent,
+                      Container(
+                        padding: const EdgeInsets.only(left: 30.0),
+                        child: ListTile(
+                          title: Text('དཔེར་བརྗོད།'),
+                          subtitle: SelectableText('${txtData.dPhrase}'),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('ཞེ་ས།'),
-                      subtitle: Text(txtData.zWord), //ཞེ་སའི་ཚིག
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: IconButton(
-                      onPressed: () {
-                        isPlayingPronunciation
-                            ? stopPronunciation()
-                            : _playPronunciation('aac_teenage_dream.mp3');
-                        setState(() {
-                          isPlayingPronunciation = !isPlayingPronunciation;
-                        });
-                      },
-                      icon: Icon(
-                        isPlayingPronunciation
-                            ? Icons.stop_circle_outlined
-                            : Icons.volume_up,
-                        size: 50.0,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 30.0),
-                child: ListTile(
-                  title: Text('དཔེར་བརྗོད།'),
-                  subtitle: SelectableText('${txtData.zPhrase}'),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+                );
+              },
+            );
+          } else {
+            return Text('No Data');
+          }
+        });
   }
 }
