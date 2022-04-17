@@ -50,6 +50,7 @@ class _SearchResultsState extends State<SearchResults> {
   List zhesaInput = [];
   List toZhebsaId = [];
   List zhesaID = [];
+  List zhebsa = [];
   var did;
   var zid;
   // bool isZhesaSearch = true;
@@ -63,6 +64,7 @@ class _SearchResultsState extends State<SearchResults> {
 
   Future<void> _dzongkhaText() async {
     await _databaseService.searchDzongkha(sQuery).then((data) {
+      // print(data);
       setState(() {
         dzongkhaInput = data;
         if (dzongkhaInput.isNotEmpty) {
@@ -73,13 +75,22 @@ class _SearchResultsState extends State<SearchResults> {
         }
       });
     });
-    // did = (await _databaseService.searchDzoWord(sQuery));
-    zhesaID.addAll(await _databaseService.getZhebsaSearchId(did));
-    print('zhebsa id: $zhesaID');
-    // getAllZhesa();
 
-    print('did $did');
+    if (dzongkhaInput.isNotEmpty) {
+      // did = (await _databaseService.searchDzoWord(sQuery));
+      zhesaID.addAll(await _databaseService.getZhebsaSearchId(did));
+      // print('zhebsa id: $zhesaID');
+      // print('did $did');
 
+//get data for zhesa
+      zhebsa = (await _databaseService.getZhebsaSearch(zhesaID));
+      // List zhebsa1 = (await _databaseService.showAllZhebsa1(zhesaID));
+      print(zhebsa);
+
+      for (var item in zhebsa) {
+        print('item: ${item[0]["zWord"]}');
+      }
+    }
     /* await _databaseService.searchDzongkha(sQuery).then((data) {
       setState(() {
         dzongkhaInput = data;
@@ -130,14 +141,34 @@ class _SearchResultsState extends State<SearchResults> {
             zid = zheId.zId;
             // isZhesaSearch = false;
           }
-          print(zid);
+          // print(zid);
         }
       });
     });
   }
 
-  checkId() {
+  /* Future<List<Zhebsa>> _getZhebsa() async {
+    // return await _databaseService.showAllZhebsa1(zhesaID);
+    /* var zhebsaList = [];
+    for (var zhid in zhesaID) {
+      _databaseService.getData(zhid).then((value) {
+        zhebsaList.add(value);
+      });
+    } */
+    // return _databaseService.showAllZhebsa();
+    return _databaseService.getData(zhesaID);
+    // return zhebsaList;
+  } */
+/* Future<List<Zhebsa>> _getZhebsa() async {
+    return await _databaseService.showAllZhebsa();
+  } */
+  /* checkId() {
     dzongkhaInput.isNotEmpty ? print('Dzongkha $did') : print('Zhesa $zid');
+  } */
+
+  Future<List<Zhebsa>> _getZhebsa() async {
+    print(zhesaID);
+    return await _databaseService.getZhebsaSearch(zhesaID);
   }
 
   @override
@@ -150,10 +181,38 @@ class _SearchResultsState extends State<SearchResults> {
   Widget build(BuildContext context) {
     // checkId();
     if (dzongkhaInput.isNotEmpty) {
-      return _displayDzongkha(dzongkhaInput);
+      // return _displayDzongkha(dzongkhaInput);
+      // return _displayZhesa(zhebsa);
+      return _displayZhesa1();
     } else {
-      return _displayZhesa(zhesaInput);
+      return _displayZhesa(zhebsa);
     }
+  }
+
+  Widget _displayZhesa1() {
+    return FutureBuilder<List<Zhebsa>>(
+        future: _getZhebsa(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: zhebsa.length,
+              itemBuilder: (context, index) {
+                // Zhebsa txtData = Zhebsa.fromMap(zhebsa[index]);
+                final txtData = snapshot.data![index];
+                return ListTile(
+                  title: Text(txtData.zWord),
+                );
+              },
+            );
+          } else {
+            return const Text('no data');
+          }
+        });
   }
 
   Widget _displayDzongkha(List dzongkhaInput) {
@@ -245,12 +304,12 @@ class _SearchResultsState extends State<SearchResults> {
     );
   }
 
-  Widget _displayZhesa(List zhesaInput) {
+  Widget _displayZhesa(List zhebsa1) {
     return ListView.builder(
-      itemCount: zhesaInput.length,
+      itemCount: zhebsa1.length,
       itemBuilder: (context, index) {
-        Zhebsa txtData = Zhebsa.fromMap(zhesaInput[index]);
-        // print(txtData.dWord);
+        Zhebsa txtData = Zhebsa.fromMap(zhebsa1[index]);
+        // print(txtData.zWord);
         return Card(
           elevation: 10,
           color: Colors.white70,
@@ -324,7 +383,7 @@ class _SearchResultsState extends State<SearchResults> {
                 padding: const EdgeInsets.only(left: 30.0),
                 child: ListTile(
                   title: Text('དཔེར་བརྗོད།'),
-                  subtitle: SelectableText('བླམ་གི་ཐུགས་འགན་ཨིན་མས།'),
+                  subtitle: SelectableText('${txtData.zPhrase}'),
                 ),
               ),
             ],

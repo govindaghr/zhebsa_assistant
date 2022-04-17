@@ -134,6 +134,7 @@ class CustomSearch extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    // print(allData);
     var dummySearchList = allData;
     if (query.isNotEmpty) {
       var dummyListData = [];
