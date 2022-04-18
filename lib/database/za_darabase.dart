@@ -127,20 +127,18 @@ class DatabaseService {
     return dzongkhaIdList;
   }
 
-  Future<List<Zhebsa>> getZhebsaSearch(List zhesaID) async {
+  Future<List> getZhebsaSearch(List zhesaID) async {
     final db = await _databaseService.database;
-    final List<Map<String, dynamic>> maps = await db.query('Zhebsa',
+    return await db.query('Zhebsa',
         where: 'zId IN (${('?' * (zhesaID.length)).split('').join(', ')})',
         whereArgs: zhesaID);
-    return List.generate(maps.length, (index) => Zhebsa.fromMap(maps[index]));
   }
 
-  Future<List<Dzongkha>> getDzongkhaSearch(List dzongkhaID) async {
+  Future<List> getDzongkhaSearch(List dzongkhaID) async {
     final db = await _databaseService.database;
-    final List<Map<String, dynamic>> maps = await db.query('Dzongkha',
+    return await db.query('Dzongkha',
         where: 'dId IN (${('?' * (dzongkhaID.length)).split('').join(', ')})',
         whereArgs: dzongkhaID);
-    return List.generate(maps.length, (index) => Dzongkha.fromMap(maps[index]));
   }
 
   // Define a function that inserts Dzongkha into the database

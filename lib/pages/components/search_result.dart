@@ -15,8 +15,6 @@ class SearchResults extends StatefulWidget {
 
 class _SearchResultsState extends State<SearchResults> {
   final DatabaseService _databaseService = DatabaseService();
-  // final searchQuery = SearchResults(searchQuery: searchQuery);
-  static bool isPlayingPronunciation = false;
   static AudioPlayer audioPlayer = AudioPlayer();
 
   final audioCache =
@@ -30,42 +28,33 @@ class _SearchResultsState extends State<SearchResults> {
     audioPlayer.state = PlayerState.PLAYING;
   }
 
-  stopPronunciation() async {
-    await audioPlayer.stop();
-    // audioCache.clearAll();
-    isPlayingPronunciation = false;
-    audioPlayer.state = PlayerState.STOPPED;
-  }
-
   // bool isFavourite = false;
-  late List<bool> isFavourite = [true, false];
+  // bool isPlayingPronunciation = false;
+  late List<bool> isFavourite = [];
+  late List<bool> isPlayingPronunciation = [];
 
-  _setFaviurite(String? zFavourite, int index) async {
-    print(zFavourite);
-    print(index);
+  _setFaviurite(int id, int index, String tableName) async {
     setState(() {
       isFavourite[index] = !isFavourite[index];
     });
-    /* if (zFavourite == null) {
-      setState(() {
-        isFavourite[index] = !isFavourite[index];
-      });
-    } else {
-      setState(() {
-        isFavourite[index] = !isFavourite[index];
-      });
-    } */
   }
 
-  List dzongkhaInput = [];
-  List zhesaInput = [];
-  List toZhebsaId = [];
-  List zhesaID = [];
-  List dzongkhaID = [];
-  List zhebsa = [];
+  stopPronunciation() async {
+    await audioPlayer.stop();
+    for (int i = 0; i < allZhesaData.length; i++) {
+      isPlayingPronunciation.add(false);
+    }
+    audioPlayer.state = PlayerState.STOPPED;
+  }
+
   late int did;
   late int zid;
-  // bool isZhesaSearch = true;
+  List dzongkhaInput = [];
+  List dzongkhaID = [];
+  List allDzongkhaData = [];
+  List zhesaInput = [];
+  List zhesaID = [];
+  List allZhesaData = [];
 
   @override
   void initState() {
@@ -96,6 +85,21 @@ class _SearchResultsState extends State<SearchResults> {
         });
       });
     }
+
+    await _databaseService.getZhebsaSearch(zhesaID).then((value) {
+      setState(() {
+        allZhesaData = value;
+        for (int i = 0; i < allZhesaData.length; i++) {
+          Zhebsa txtData = Zhebsa.fromMap(allZhesaData[i]);
+          if (txtData.zFavourite == '') {
+            isFavourite.add(false);
+          } else {
+            isFavourite.add(true);
+          }
+          isPlayingPronunciation.add(false);
+        }
+      });
+    });
   }
 
   Future<void> _zhesaText() async {
@@ -119,15 +123,22 @@ class _SearchResultsState extends State<SearchResults> {
           dzongkhaID = dzID;
         });
       });
+
+      await _databaseService.getDzongkhaSearch(dzongkhaID).then((value) {
+        setState(() {
+          allDzongkhaData = value;
+          for (int i = 0; i < allDzongkhaData.length; i++) {
+            Dzongkha txtData = Dzongkha.fromMap(allDzongkhaData[i]);
+            if (txtData.dFavourite == '') {
+              isFavourite.add(false);
+            } else {
+              isFavourite.add(true);
+            }
+            // isPlayingPronunciation.add(false);
+          }
+        });
+      });
     }
-  }
-
-  Future<List<Zhebsa>> _getZhebsa() async {
-    return await _databaseService.getZhebsaSearch(zhesaID);
-  }
-
-  Future<List<Dzongkha>> _getDzongkha() async {
-    return await _databaseService.getDzongkhaSearch(dzongkhaID);
   }
 
   @override
@@ -148,196 +159,172 @@ class _SearchResultsState extends State<SearchResults> {
   }
 
   Widget _displayZhesa() {
-    return FutureBuilder<List<Zhebsa>>(
-        future: _getZhebsa(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                final txtData = snapshot.data![index];
-                /*  txtData.zFavourite == null
-                    ? isFavourite[index] = false
-                    : isFavourite[index] = true; */
-                return Card(
-                  elevation: 10,
-                  color: Colors.white70,
-                  shadowColor: Colors.amber[500],
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(5.0),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.orange[400],
-                          border: Border.all(
-                            color: Colors.amber.shade100,
-                            width: 2,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            sQuery,
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Center(
-                            child: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  isFavourite[index] = !isFavourite[index];
-                                });
-                              },
-                              /* () =>
-                                  _setFaviurite(txtData.zFavourite, index), */
-                              icon: Icon(
-                                isFavourite[index]
-                                    ? Icons.favorite_sharp
-                                    : Icons.favorite_border_sharp,
-                                size: 30.0,
-                                color: Colors.redAccent,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: ListTile(
-                              title: const Text('ཞེ་ས།'),
-                              subtitle: Text(txtData.zWord), //ཞེ་སའི་ཚིག
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: IconButton(
-                              onPressed: () {
-                                isPlayingPronunciation
-                                    ? stopPronunciation()
-                                    : _playPronunciation(
-                                        '${txtData.zPronunciation}');
-                                setState(() {
-                                  isPlayingPronunciation =
-                                      !isPlayingPronunciation;
-                                });
-                              },
-                              icon: Icon(
-                                isPlayingPronunciation
-                                    ? Icons.stop_circle_outlined
-                                    : Icons.volume_up,
-                                size: 50.0,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 30.0),
-                        child: ListTile(
-                          title: const Text('དཔེར་བརྗོད།'),
-                          subtitle: SelectableText('${txtData.zPhrase}'),
-                        ),
-                      ),
-                    ],
+    if (allZhesaData.isNotEmpty) {
+      return ListView.builder(
+        itemCount: allZhesaData.length,
+        itemBuilder: (context, index) {
+          Zhebsa txtData = Zhebsa.fromMap(allZhesaData[index]);
+          return Card(
+            elevation: 10,
+            color: Colors.white70,
+            shadowColor: Colors.amber[500],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(5.0),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.orange[400],
+                    border: Border.all(
+                      color: Colors.amber.shade100,
+                      width: 2,
+                    ),
                   ),
-                );
-              },
-            );
-          } else {
-            return const Text('No Data');
-          }
-        });
+                  child: Center(
+                    child: Text(
+                      sQuery,
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    Center(
+                      child: IconButton(
+                        onPressed: () =>
+                            _setFaviurite(txtData.zId, index, 'Zhebsa'),
+
+                        /*  setState(() {
+                          isFavourite[index] = !isFavourite[index];
+                        }), */
+                        icon: Icon(
+                          isFavourite[index]
+                              ? Icons.favorite_sharp
+                              : Icons.favorite_border_sharp,
+                          size: 30.0,
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListTile(
+                        title: const Text('ཞེ་ས།'),
+                        subtitle: Text(txtData.zWord), //ཞེ་སའི་ཚིག
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: IconButton(
+                        onPressed: () {
+                          isPlayingPronunciation[index]
+                              ? stopPronunciation()
+                              : _playPronunciation('${txtData.zPronunciation}');
+                          setState(() {
+                            isPlayingPronunciation[index] =
+                                !isPlayingPronunciation[index];
+                          });
+                        },
+                        icon: Icon(
+                          isPlayingPronunciation[index]
+                              ? Icons.stop_circle_outlined
+                              : Icons.volume_up,
+                          size: 50.0,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 30.0),
+                  child: ListTile(
+                    title: const Text('དཔེར་བརྗོད།'),
+                    subtitle: SelectableText('${txtData.zPhrase}'),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    } else {
+      return const Text('No Data');
+    }
   }
 
   Widget _displayDzongkha() {
-    return FutureBuilder<List<Dzongkha>>(
-        future: _getDzongkha(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                final txtData = snapshot.data![index];
-                return Card(
-                  elevation: 10,
-                  color: Colors.white70,
-                  shadowColor: Colors.amber[500],
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(5.0),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.orange[400],
-                          border: Border.all(
-                            color: Colors.amber.shade100,
-                            width: 2,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            sQuery,
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Center(
-                            child: IconButton(
-                              onPressed: () =>
-                                  _setFaviurite(txtData.dFavourite, index),
-                              icon: Icon(
-                                isFavourite.isEmpty
-                                    ? Icons.favorite_sharp
-                                    : Icons.favorite_border_sharp,
-                                size: 30.0,
-                                color: Colors.redAccent,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: ListTile(
-                              title: const Text('ཕལ་སྐད།།'),
-                              subtitle: Text(txtData.dWord), //ཞེ་སའི་ཚིག
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 30.0),
-                        child: ListTile(
-                          title: const Text('དཔེར་བརྗོད།'),
-                          subtitle: SelectableText('${txtData.dPhrase}'),
-                        ),
-                      ),
-                    ],
+    return ListView.builder(
+      itemCount: allDzongkhaData.length,
+      itemBuilder: (context, index) {
+        Dzongkha txtData = Dzongkha.fromMap(allDzongkhaData[index]);
+        return Card(
+          elevation: 10,
+          color: Colors.white70,
+          shadowColor: Colors.amber[500],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.orange[400],
+                  border: Border.all(
+                    color: Colors.amber.shade100,
+                    width: 2,
                   ),
-                );
-              },
-            );
-          } else {
-            return const Text('No Data');
-          }
-        });
+                ),
+                child: Center(
+                  child: Text(
+                    sQuery,
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+              Row(
+                children: <Widget>[
+                  Center(
+                    child: IconButton(
+                      onPressed: () =>
+                          _setFaviurite(txtData.dId, index, 'Dzongkha'),
+                      /* setState(() {
+                        isFavourite[index] = !isFavourite[index];
+                      }), */
+                      icon: Icon(
+                        isFavourite[index]
+                            ? Icons.favorite_sharp
+                            : Icons.favorite_border_sharp,
+                        size: 30.0,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListTile(
+                      title: const Text('ཕལ་སྐད།།'),
+                      subtitle: Text(txtData.dWord), //ཞེ་སའི་ཚིག
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: ListTile(
+                  title: const Text('དཔེར་བརྗོད།'),
+                  subtitle: SelectableText('${txtData.dPhrase}'),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
