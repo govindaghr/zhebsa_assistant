@@ -1,7 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:zhebsa_assistant/model/dzongkha.dart';
-import 'package:zhebsa_assistant/model/dzongkha_zhebsa.dart';
 import 'package:zhebsa_assistant/model/zhebsa.dart';
 
 import '../../database/za_darabase.dart';
@@ -38,12 +37,24 @@ class _SearchResultsState extends State<SearchResults> {
     audioPlayer.state = PlayerState.STOPPED;
   }
 
-  bool isFavourite = false;
+  // bool isFavourite = false;
+  late List<bool> isFavourite = [true, false];
 
-  _setFaviurite() {
+  _setFaviurite(String? zFavourite, int index) async {
+    print(zFavourite);
+    print(index);
     setState(() {
-      isFavourite = !isFavourite;
+      isFavourite[index] = !isFavourite[index];
     });
+    /* if (zFavourite == null) {
+      setState(() {
+        isFavourite[index] = !isFavourite[index];
+      });
+    } else {
+      setState(() {
+        isFavourite[index] = !isFavourite[index];
+      });
+    } */
   }
 
   List dzongkhaInput = [];
@@ -52,8 +63,8 @@ class _SearchResultsState extends State<SearchResults> {
   List zhesaID = [];
   List dzongkhaID = [];
   List zhebsa = [];
-  var did;
-  var zid;
+  late int did;
+  late int zid;
   // bool isZhesaSearch = true;
 
   @override
@@ -150,6 +161,9 @@ class _SearchResultsState extends State<SearchResults> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 final txtData = snapshot.data![index];
+                /*  txtData.zFavourite == null
+                    ? isFavourite[index] = false
+                    : isFavourite[index] = true; */
                 return Card(
                   elevation: 10,
                   color: Colors.white70,
@@ -181,9 +195,15 @@ class _SearchResultsState extends State<SearchResults> {
                         children: <Widget>[
                           Center(
                             child: IconButton(
-                              onPressed: () => _setFaviurite(),
+                              onPressed: () {
+                                setState(() {
+                                  isFavourite[index] = !isFavourite[index];
+                                });
+                              },
+                              /* () =>
+                                  _setFaviurite(txtData.zFavourite, index), */
                               icon: Icon(
-                                isFavourite
+                                isFavourite[index]
                                     ? Icons.favorite_sharp
                                     : Icons.favorite_border_sharp,
                                 size: 30.0,
@@ -204,7 +224,7 @@ class _SearchResultsState extends State<SearchResults> {
                                 isPlayingPronunciation
                                     ? stopPronunciation()
                                     : _playPronunciation(
-                                        'aac_teenage_dream.mp3');
+                                        '${txtData.zPronunciation}');
                                 setState(() {
                                   isPlayingPronunciation =
                                       !isPlayingPronunciation;
@@ -224,7 +244,7 @@ class _SearchResultsState extends State<SearchResults> {
                       Container(
                         padding: const EdgeInsets.only(left: 30.0),
                         child: ListTile(
-                          title: Text('དཔེར་བརྗོད།'),
+                          title: const Text('དཔེར་བརྗོད།'),
                           subtitle: SelectableText('${txtData.zPhrase}'),
                         ),
                       ),
@@ -234,7 +254,7 @@ class _SearchResultsState extends State<SearchResults> {
               },
             );
           } else {
-            return Text('No Data');
+            return const Text('No Data');
           }
         });
   }
@@ -284,9 +304,10 @@ class _SearchResultsState extends State<SearchResults> {
                         children: <Widget>[
                           Center(
                             child: IconButton(
-                              onPressed: () => _setFaviurite(),
+                              onPressed: () =>
+                                  _setFaviurite(txtData.dFavourite, index),
                               icon: Icon(
-                                isFavourite
+                                isFavourite.isEmpty
                                     ? Icons.favorite_sharp
                                     : Icons.favorite_border_sharp,
                                 size: 30.0,
@@ -300,34 +321,12 @@ class _SearchResultsState extends State<SearchResults> {
                               subtitle: Text(txtData.dWord), //ཞེ་སའི་ཚིག
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: IconButton(
-                              onPressed: () {
-                                isPlayingPronunciation
-                                    ? stopPronunciation()
-                                    : _playPronunciation(
-                                        'aac_teenage_dream.mp3');
-                                setState(() {
-                                  isPlayingPronunciation =
-                                      !isPlayingPronunciation;
-                                });
-                              },
-                              icon: Icon(
-                                isPlayingPronunciation
-                                    ? Icons.stop_circle_outlined
-                                    : Icons.volume_up,
-                                size: 50.0,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                       Container(
                         padding: const EdgeInsets.only(left: 30.0),
                         child: ListTile(
-                          title: Text('དཔེར་བརྗོད།'),
+                          title: const Text('དཔེར་བརྗོད།'),
                           subtitle: SelectableText('${txtData.dPhrase}'),
                         ),
                       ),
@@ -337,7 +336,7 @@ class _SearchResultsState extends State<SearchResults> {
               },
             );
           } else {
-            return Text('No Data');
+            return const Text('No Data');
           }
         });
   }

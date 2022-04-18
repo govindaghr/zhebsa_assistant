@@ -25,7 +25,7 @@ class DatabaseService {
     // Set the path to the database. Note: Using the `join` function from the
     // `path` package is best practice to ensure the path is correctly
     // constructed for each platform.
-    final path = join(databasePath, 'zhebsa_assistant0.db');
+    final path = join(databasePath, 'zhebsa_assistant.db');
 
     // Set the version. This executes the onCreate function and provides a
     // path to perform database upgrades and downgrades.
@@ -78,7 +78,7 @@ class DatabaseService {
     await db.rawInsert(
         'INSERT INTO Dzongkha(dId, dWord, dPhrase, dUpdateTime) VALUES(1, "བཀབ་ནེ།", "བཀབ་ནེ་བཀབ་གོ།", "$dtStr"),(2, "ཁ།", "ཁ། inn", "$dtStr"), (3, "བརྩེ་བ།", "བརྩེ་བ། kindness", "$dtStr")');
     await db.rawInsert(
-        'INSERT INTO Zhebsa(zId, zWord, zPhrase, zPronunciation, zUpdateTime) VALUES(1, "སྐུ་གཟན།", "སྐུ་གཟན yes", "2.mp3", "$dtStr"), (2, "ན༌བཟའ།", "ན༌བཟའ་ཨིན།", "2.mp3", "$dtStr"), (3, "ཞལ།", "ཞལ། is correct", "3.mp3", "$dtStr"), (4, "བརྩེ་།", "བརྩེ་བ། honoriffic", "4.mp3", "$dtStr")');
+        'INSERT INTO Zhebsa(zId, zWord, zPhrase, zPronunciation, zUpdateTime, zHistory, zFavourite) VALUES(1, "སྐུ་གཟན།", "སྐུ་གཟན yes", "2.mp3", "$dtStr","$dtStr","$dtStr"), (2, "ན༌བཟའ།", "ན༌བཟའ་ཨིན།", "2.mp3", "$dtStr", NULL, NULL), (3, "ཞལ།", "ཞལ། is correct", "3.mp3", "$dtStr","$dtStr","$dtStr"), (4, "བརྩེ་།", "བརྩེ་བ། honoriffic", "4.mp3", "$dtStr", NULL, NULL)');
     await db.rawInsert(
         'INSERT INTO DzongkhaZhebsa (DzongkhadId, ZhebsazId, updateTime) VALUES(1, 1, "$dtStr"), (1, 2, "$dtStr"), (2, 3, "$dtStr"), (3, 4, "$dtStr")');
   }
@@ -145,7 +145,6 @@ class DatabaseService {
 
   // Define a function that inserts Dzongkha into the database
   Future<void> insertDzongkha(Dzongkha dzongkha) async {
-    // Get a reference to the database.
     final db = await _databaseService.database;
 
     // Insert the Dzongkha into the correct table. You might also specify the
@@ -172,33 +171,21 @@ class DatabaseService {
     return Dzongkha.fromMap(maps[0]);
   }
 
-  // A method that updates a breed data from the breeds table.
   Future<void> updateDzongkhaFavourite(Dzongkha dzongkha) async {
-    // Get a reference to the database.
     final db = await _databaseService.database;
-
-    // Update the given favourite dzongkha
     await db.update(
       'Dzongkha',
       dzongkha.toMap(),
-      // Ensure that the dzongkha has a matching id.
       where: 'dId = ?',
-      // Pass the dzongkha's id as a whereArg to prevent SQL injection.
       whereArgs: [dzongkha.dId],
     );
   }
 
-  // A method that deletes a breed data from the breeds table.
   Future<void> deleteDzongkha(int id) async {
-    // Get a reference to the database.
     final db = await _databaseService.database;
-
-    // Remove the Dzongkha from the database.
     await db.delete(
       'Dzongkha',
-      // Use a `where` clause to delete a specific row.
       where: 'id = ?',
-      // Pass the Dzongkha's id as a whereArg to prevent SQL injection.
       whereArgs: [id],
     );
   }
@@ -212,12 +199,6 @@ class DatabaseService {
     );
   }
 
-  /*  Future<List<Zhebsa>> showAllZhebsa() async {
-    final db = await _databaseService.database;
-    final List<Map<String, dynamic>> maps = await db.query('Zhebsa',
-        columns: ['zID', 'zWord', 'zPhrase', 'zPronunciation']);
-    return List.generate(maps.length, (index) => Zhebsa.fromMap(maps[index]));
-  } */
   Future<List<Zhebsa>> showAllZhebsa() async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query('Zhebsa');
@@ -229,22 +210,6 @@ class DatabaseService {
     await db.update('Zhebsa', zhebsa.toMap(),
         where: 'zId = ?', whereArgs: [zhebsa.zId]);
   }
-
-  /* Future<void> insertZhebsa(Zhebsa zhebsa) async {
-    final db = await _databaseService.database;
-    await db.insert(
-      'Zhebsa',
-      zhebsa.toJson(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  } */
-
-  /*  Future<List<Zhebsa>> showAllZhebsa() async {
-    final db = await _databaseService.database;
-    final result = await db.query('Zhebsa',
-        columns: ['zID', 'zWord', 'zPhrase', 'zPronunciation']);
-    return result.map((json) => Zhebsa.fromJson(json)).toList();
-  } */
 
   Future<void> deletezhebsa(int id) async {
     final db = await _databaseService.database;

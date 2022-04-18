@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Dzongkha {
   final int dId;
   final String dWord;

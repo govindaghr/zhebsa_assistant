@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
 import 'package:zhebsa_assistant/pages/load_favourite.dart';
-import 'favourite.dart';
 import 'search_icon.dart';
 import 'about_us.dart';
 import 'package:flutter_switch/flutter_switch.dart';
