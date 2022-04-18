@@ -41,16 +41,9 @@ class _SearchIconState extends State<SearchIcon> {
                 width: double.infinity,
                 alignment: Alignment.center,
                 child: TextButton(
-                  onPressed: () =>
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const SearchText(),
-                      //   ),
-                      // ),
-                      showSearch(
-                          context: context,
-                          delegate: CustomSearch(allData, searchHistory)),
+                  onPressed: () => showSearch(
+                      context: context,
+                      delegate: CustomSearch(allData, searchHistory)),
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(

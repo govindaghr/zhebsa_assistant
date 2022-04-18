@@ -15,61 +15,17 @@ class CustomSearch extends SearchDelegate {
           textInputAction: TextInputAction.search,
         );
 
-  // final DatabaseService _databaseService = DatabaseService();
-  // SearchController searchController = Get.put(SearchController());
-
-  /* Future<List> filterSeach(String query) async {
-    var dummySearchList = allData;
-    if (query.isNotEmpty) {
-      var dummyListData = [];
-      for (var recentData in dummySearchList) {
-        var txtData = SearchDataModel.fromMap(recentData);
-        if (txtData.sWord.toLowerCase().contains(query.toLowerCase())) {
-          dummyListData.add(recentData);
-        }
-      }
-      recentData = [];
-      recentData.addAll(dummyListData);
-      return recentData;
-    } else {
-      recentData = [];
-      recentData = allData;
-      return recentData;
-    }
-  } */
-
-  /* List allData = [
-    'ཀ་ར་གཏང་།',
-    'ཁ༌བཀོད།',
-    'བཀའ་སློབ།',
-    'ཁྲག',
-    'སྐུ་ཁྲག',
-    'བཀབ་ནེ།',
-  ]; */
-  /*  List recentData = [
-    'བཀབ་ནེ།',
-    'བཀའ་སློབ།',
-    'ཁྲག',
-    'སྐུ་ཁྲག',
-  ]; */
-
   @override
   ThemeData appBarTheme(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    // final InputDecorationTheme? searchFieldDecorationTheme;
     return theme.copyWith(
       dividerTheme: const DividerThemeData(
         color: Colors.white,
       ),
-      // primaryIconTheme: const IconThemeData(color: Colors.white),
 
-      scaffoldBackgroundColor: Colors.white, // for the body color
-      // brightness: Brightness.dark,
+      scaffoldBackgroundColor: Colors.white,
       inputDecorationTheme: searchFieldDecorationTheme ??
           const InputDecorationTheme(
-            // focusedBorder: UnderlineInputBorder(
-            //   borderSide: BorderSide(color: Colors.white),
-            // ),
             border: InputBorder.none,
             hintStyle: TextStyle(
               color: Colors.white,
@@ -80,8 +36,6 @@ class CustomSearch extends SearchDelegate {
         cursorColor: Colors.white,
       ), // cursor color
 
-      // primaryIconTheme: theme.primaryIconTheme.copyWith(color: Colors.grey),
-      // primaryTextTheme: theme.textTheme,
       textTheme: Theme.of(context).textTheme.copyWith(
             headline6: const TextStyle(
               color: Colors.white,
@@ -103,8 +57,6 @@ class CustomSearch extends SearchDelegate {
             query = '';
             showSuggestions(context);
           }
-          // stopPronunciation();
-          // SearchResults(searchQuery: "").stopPronunciation();
         },
         icon: const Icon(Icons.clear),
       )
@@ -116,10 +68,7 @@ class CustomSearch extends SearchDelegate {
     return IconButton(
       onPressed: () {
         close(context, null);
-        // stopPronunciation();
-        // SearchResults(searchQuery: "").stopPronunciation();
       },
-      // icon: const Icon(Icons.arrow_back),
       icon: AnimatedIcon(
         icon: AnimatedIcons.menu_arrow,
         progress: transitionAnimation,
@@ -134,7 +83,6 @@ class CustomSearch extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // print(allData);
     var dummySearchList = allData;
     if (query.isNotEmpty) {
       var dummyListData = [];
@@ -158,9 +106,6 @@ class CustomSearch extends SearchDelegate {
         itemBuilder: (context, index) {
           SearchDataModel txtData =
               SearchDataModel.fromMap(suggestionList[index]);
-          // final String suggestion = txtData as String;
-          // final queryText = suggestion.substring(0, query.length);
-          // final remainingText = suggestion.substring(query.length);
 
           return ListTile(
             onTap: () {
@@ -175,17 +120,9 @@ class CustomSearch extends SearchDelegate {
                 text: txtData.sWord,
                 style: const TextStyle(
                   color: Colors.black,
-                  // fontWeight: FontWeight.bold,
                 ),
-                /* children: [
-                  TextSpan(
-                    text: remainingText,
-                    style: const TextStyle(color: Colors.black45),
-                  ),
-                ], */
               ),
             ),
-            // title: Text(suggestionList[index]),
           );
         },
       );
