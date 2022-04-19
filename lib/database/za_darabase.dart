@@ -153,6 +153,14 @@ class DatabaseService {
     }
   }
 
+  Future<List<FavouriteDataModel>> showFavourite() async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
+        'SELECT * FROM (SELECT dWord AS fWord, dPhrase AS fPhrase, dFavourite AS favouroite FROM Dzongkha WHERE dFavourite !="" UNION SELECT zWord, zPhrase, zFavourite FROM Zhebsa WHERE zFavourite !="") ORDER BY 3 DESC LIMIT 100');
+    return List.generate(
+        maps.length, (index) => FavouriteDataModel.fromMap(maps[index]));
+  }
+
   // Define a function that inserts Dzongkha into the database
   Future<void> insertDzongkha(Dzongkha dzongkha) async {
     final db = await _databaseService.database;

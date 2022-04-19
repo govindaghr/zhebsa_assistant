@@ -45,11 +45,12 @@ class DzongkhaZhebsa {
 class SearchDataModel {
   final String sWord;
   SearchDataModel({required this.sWord});
-  Map<String, dynamic> toMap() {
+
+  /* Map<String, dynamic> toMap() {
     return {
       'sWord': sWord,
     };
-  }
+  } */
 
   factory SearchDataModel.fromMap(Map<String, dynamic> map) {
     return SearchDataModel(
@@ -74,3 +75,24 @@ class SearchDataModel {
 
 } */
 
+//SearchList Model
+class FavouriteDataModel {
+  final String fWord;
+  final String fPhrase;
+  final String favouroite;
+  FavouriteDataModel(
+      {required this.fWord, required this.fPhrase, required this.favouroite});
+
+  factory FavouriteDataModel.fromMap(Map<String, dynamic> map) {
+    return FavouriteDataModel(
+      fWord: map['fWord'],
+      fPhrase: map['fPhrase'],
+      favouroite: map['favouroite'],
+    );
+  }
+
+  /* String toJson() => json.encode(toMap());
+
+  factory SearchDataModel.fromJson(String source) =>
+      SearchDataModel.fromMap(json.decode(source)); */
+}

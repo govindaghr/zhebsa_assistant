@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zhebsa_assistant/database/za_darabase.dart';
-import 'package:zhebsa_assistant/model/zhebsa.dart';
+import 'package:zhebsa_assistant/model/dzongkha_zhebsa.dart';
 
 import '../database/za_darabase.dart';
 import 'components/view_zhebsa_of_day.dart';
@@ -15,26 +15,20 @@ class Favourite extends StatefulWidget {
 class _FavouriteState extends State<Favourite> {
   final DatabaseService _databaseService = DatabaseService();
 
-  Future<List<Zhebsa>> _getZhebsa() async {
-    return await _databaseService.showAllZhebsa();
+  Future<List<FavouriteDataModel>> _getFavourite() async {
+    return await _databaseService.showFavourite();
   }
-
-  // late Future<List<Zhebsa>> future;
 
   @override
   Widget build(BuildContext context) {
-    /*  return Center(
-      child: _buildFavourite(),
-    ); */
-    return FutureBuilder<List<Zhebsa>>(
-      future: _getZhebsa(),
+    return FutureBuilder<List<FavouriteDataModel>>(
+      future: _getFavourite(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        // snapshot.hasError ? print(snapshot.error) : print('object');
         if (snapshot.hasData) {
           return ListView.builder(
             itemCount: snapshot.data!.length,
@@ -50,7 +44,7 @@ class _FavouriteState extends State<Favourite> {
     );
   }
 
-  Widget _buildFavourite(Zhebsa zhesa, BuildContext context) {
+  Widget _buildFavourite(FavouriteDataModel zhesa, BuildContext context) {
     return Card(
       elevation: 2,
       child: SizedBox(
@@ -60,7 +54,7 @@ class _FavouriteState extends State<Favourite> {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ZhebsaOfDayDetail(searchQuery: zhesa.zWord),
+              builder: (context) => ZhebsaOfDayDetail(searchQuery: zhesa.fWord),
             ),
           ),
           leading: const Icon(
@@ -69,11 +63,11 @@ class _FavouriteState extends State<Favourite> {
           ),
           // trailing: const Icon(Icons.more_vert),
           title: Text(
-            zhesa.zWord,
+            zhesa.fWord,
             /* textScaleFactor: screenWidth * 0.002, */
           ),
           subtitle: Text(
-            zhesa.zPhrase!,
+            zhesa.fWord,
             /* textScaleFactor: screenWidth * 0.002, */
             style: const TextStyle(
               fontSize: 12,
