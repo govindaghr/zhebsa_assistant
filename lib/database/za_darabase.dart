@@ -151,19 +151,7 @@ class DatabaseService {
       await db.rawUpdate(
           'UPDATE Dzongkha SET dFavourite = ? WHERE dId = ?', [favourite, id]);
     }
-    // var dt = DateTime.now();
-    // String zFavourite = dt.toIso8601String();
-
-    // await db.update('Zhebsa', zhebsa.toMapFavourite(),
-    //     where: 'zId = ?', whereArgs: [zhebsa.zId]);
-    /* await db.rawUpdate(
-          'UPDATE Zhebsa SET zFavourite = ? WHERE zId = ?', [favourite, id]); */
   }
-
-  /* Future<void> updateZhebsaFavourite( zhebsa) async {
-    final db = await _databaseService.database;
-    await await db.rawUpdate('UPDATE Zhebsa SET zFavourite = ? WHERE zId = ?', [35, 0]);
-  } */
 
   // Define a function that inserts Dzongkha into the database
   Future<void> insertDzongkha(Dzongkha dzongkha) async {

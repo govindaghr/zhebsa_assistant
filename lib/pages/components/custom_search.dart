@@ -113,7 +113,7 @@ class CustomSearch extends SearchDelegate {
               showResults(context);
             },
             leading: const Icon(
-              Icons.dangerous,
+              Icons.history,
             ),
             title: RichText(
               text: TextSpan(
