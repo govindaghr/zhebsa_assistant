@@ -45,6 +45,13 @@ class Zhebsa {
     };
   }
 
+  Map<String, dynamic> toMapFavourite() {
+    return {
+      'zId': zId,
+      'zFavourite': zFavourite,
+    };
+  }
+
   /* String toJson() => json.encode(toMap());
   factory Zhebsa.fromJson(String source) => Zhebsa.fromMap(json.decode(source));
 

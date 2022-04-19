@@ -141,6 +141,30 @@ class DatabaseService {
         whereArgs: dzongkhaID);
   }
 
+  Future<void> updateFavourite(
+      int id, String favourite, String tableName) async {
+    final db = await _databaseService.database;
+    if (tableName == 'Zhebsa') {
+      await db.rawUpdate(
+          'UPDATE Zhebsa SET zFavourite = ? WHERE zId = ?', [favourite, id]);
+    } else if (tableName == 'Dzongkha') {
+      await db.rawUpdate(
+          'UPDATE Dzongkha SET dFavourite = ? WHERE dId = ?', [favourite, id]);
+    }
+    // var dt = DateTime.now();
+    // String zFavourite = dt.toIso8601String();
+
+    // await db.update('Zhebsa', zhebsa.toMapFavourite(),
+    //     where: 'zId = ?', whereArgs: [zhebsa.zId]);
+    /* await db.rawUpdate(
+          'UPDATE Zhebsa SET zFavourite = ? WHERE zId = ?', [favourite, id]); */
+  }
+
+  /* Future<void> updateZhebsaFavourite( zhebsa) async {
+    final db = await _databaseService.database;
+    await await db.rawUpdate('UPDATE Zhebsa SET zFavourite = ? WHERE zId = ?', [35, 0]);
+  } */
+
   // Define a function that inserts Dzongkha into the database
   Future<void> insertDzongkha(Dzongkha dzongkha) async {
     final db = await _databaseService.database;
@@ -203,12 +227,12 @@ class DatabaseService {
     return List.generate(maps.length, (index) => Zhebsa.fromMap(maps[index]));
   }
 
-  Future<void> updateFavouriteZhebsa(Zhebsa zhebsa) async {
+  /* Future<void> updateFavouriteZhebsa(Zhebsa zhebsa) async {
     final db = await _databaseService.database;
     await db.update('Zhebsa', zhebsa.toMap(),
         where: 'zId = ?', whereArgs: [zhebsa.zId]);
   }
-
+ */
   Future<void> deletezhebsa(int id) async {
     final db = await _databaseService.database;
     await db.delete('Zhebsa', where: 'zId = ?', whereArgs: [id]);

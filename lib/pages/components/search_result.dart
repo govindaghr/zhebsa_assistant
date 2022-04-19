@@ -34,6 +34,14 @@ class _SearchResultsState extends State<SearchResults> {
   late List<bool> isPlayingPronunciation = [];
 
   _setFaviurite(int id, int index, String tableName) async {
+    var dt = DateTime.now();
+    String favouriteDt = dt.toIso8601String();
+    isFavourite[index] ? favouriteDt = '' : favouriteDt = favouriteDt;
+    if (tableName == 'Zhebsa') {
+      _databaseService.updateFavourite(id, favouriteDt, tableName);
+    } else if (tableName == 'Dzongkha') {
+      _databaseService.updateFavourite(id, favouriteDt, tableName);
+    }
     setState(() {
       isFavourite[index] = !isFavourite[index];
     });
