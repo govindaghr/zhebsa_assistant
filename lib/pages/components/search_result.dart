@@ -162,8 +162,14 @@ class _SearchResultsState extends State<SearchResults> {
     } else if (zhesaInput.isNotEmpty) {
       return _displayDzongkha();
     } else {
-      return _displayDzongkha();
+      return _displayNUll();
     }
+  }
+
+  _displayNUll() {
+    return const Center(
+      child: Text('No Data'),
+    );
   }
 
   Widget _displayZhesa() {

@@ -89,6 +89,12 @@ class DatabaseService {
         'SELECT dWord AS sWord FROM Dzongkha UNION SELECT zWord FROM Zhebsa');
   }
 
+  Future<List> populateHistory() async {
+    final db = await _databaseService.database;
+    return await db.rawQuery(
+        'SELECT * FROM (SELECT dWord AS hWord, dHistory as hHistory FROM Dzongkha WHERE dHistory !="" UNION SELECT zWord, zHistory FROM Zhebsa WHERE zHistory !="") ORDER BY 2 DESC LIMIT 10');
+  }
+
   Future<List> searchDzongkha(String word) async {
     final db = await _databaseService.database;
     return await db.query('Dzongkha', where: 'dWord = ?', whereArgs: [word]);

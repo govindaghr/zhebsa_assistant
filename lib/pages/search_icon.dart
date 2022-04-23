@@ -17,21 +17,28 @@ class _SearchIconState extends State<SearchIcon> {
   var allData = [];
   var searchHistory = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _databaseService.populateSearch().then((data) {
+  _loadData() async {
+    await _databaseService.populateSearch().then((data) {
       setState(() {
-        allData = data;
-        // searchHistory = allData;
+        for (int i = 0; i < data.length; i++) {
+          allData.add(data[i]['sWord']);
+        }
       });
     });
 
-    _databaseService.showFavourite().then((value) {
+    await _databaseService.populateHistory().then((data) {
       setState(() {
-        searchHistory = value;
+        for (int i = 0; i < data.length; i++) {
+          searchHistory.add(data[i]['hWord']);
+        }
       });
     });
+  }
+
+  @override
+  void initState() {
+    _loadData();
+    super.initState();
   }
 
   @override

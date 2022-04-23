@@ -75,6 +75,19 @@ class SearchDataModel {
 
 } */
 
+//History Model
+class HistoryDataModel {
+  final String? hWord;
+  final String? hHistory;
+  HistoryDataModel({this.hWord, this.hHistory});
+  factory HistoryDataModel.fromMap(Map<String, dynamic> map) {
+    return HistoryDataModel(
+      hWord: map['hWord'] ?? '',
+      hHistory: map['hHistory'] ?? '',
+    );
+  }
+}
+
 //SearchList Model
 class FavouriteDataModel {
   final String fWord;
