@@ -56,7 +56,9 @@ class _FavouriteState extends State<Favourite> {
             MaterialPageRoute(
               builder: (context) => ZhebsaOfDayDetail(searchQuery: zhesa.fWord),
             ),
-          ),
+          ).then((value) {
+            setState(() {});
+          }),
           leading: const Icon(
             Icons.favorite,
             color: Colors.redAccent,

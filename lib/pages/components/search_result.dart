@@ -64,13 +64,6 @@ class _SearchResultsState extends State<SearchResults> {
   List zhesaID = [];
   List allZhesaData = [];
 
-  @override
-  void initState() {
-    _zhesaText();
-    _dzongkhaText();
-    super.initState();
-  }
-
   Future<void> _dzongkhaText() async {
     await _databaseService.searchDzongkha(sQuery).then((data) {
       setState(() {
@@ -147,6 +140,13 @@ class _SearchResultsState extends State<SearchResults> {
         });
       });
     }
+  }
+
+  @override
+  void initState() {
+    _zhesaText();
+    _dzongkhaText();
+    super.initState();
   }
 
   @override

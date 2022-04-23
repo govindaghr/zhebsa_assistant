@@ -23,7 +23,13 @@ class _SearchIconState extends State<SearchIcon> {
     _databaseService.populateSearch().then((data) {
       setState(() {
         allData = data;
-        searchHistory = allData;
+        // searchHistory = allData;
+      });
+    });
+
+    _databaseService.showFavourite().then((value) {
+      setState(() {
+        searchHistory = value;
       });
     });
   }
