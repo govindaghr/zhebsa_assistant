@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zhebsa_assistant/pages/components/search_result.dart';
+import 'package:zhebsa_assistant/pages/components/text_detail.dart';
 
 class ZhebsaOfDayDetail extends StatelessWidget {
   final String searchQuery;
@@ -12,7 +12,7 @@ class ZhebsaOfDayDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text(searchQuery), //'wordOfTheDay'.tr
       ),
-      body: SearchResults(
+      body: TextDetail(
         searchQuery: searchQuery,
       ),
     );
