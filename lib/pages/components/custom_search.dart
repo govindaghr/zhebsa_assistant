@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../model/dzongkha_zhebsa.dart';
 import 'search_result.dart';
 
 class CustomSearch extends SearchDelegate {
@@ -83,13 +82,26 @@ class CustomSearch extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestionList = query.isEmpty
+    /* final suggestionList = query.isEmpty
         ? recentData
-        : allData.where((p) {
-            final dataLower = p.toLowerCase();
-            final queryLower = query.toLowerCase();
-            return dataLower.startsWith(queryLower); //contains
-          }).toList();
+        : allData.where((element) {
+            return element.toLowerCase().contains(query.toLowerCase());
+          }).toList(); */
+
+    List suggestionList = [];
+    if (query.isNotEmpty) {
+      var dummyListData = [];
+      for (var suggestionList in allData) {
+        if (suggestionList.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(suggestionList);
+        }
+      }
+      suggestionList = [];
+      suggestionList.addAll(dummyListData);
+    } else {
+      suggestionList = [];
+      suggestionList = recentData;
+    }
     return _buildSuggestionsSuccess(suggestionList);
   }
 
@@ -99,6 +111,24 @@ class CustomSearch extends SearchDelegate {
           final suggestion = suggestionList[index];
           final queryText = suggestion.substring(0, query.length);
           final remainingText = suggestion.substring(query.length);
+
+          /*  return ListTile(
+            onTap: () {
+              query = suggestion;
+              showResults(context);
+            },
+            leading: const Icon(
+              Icons.history,
+            ),
+            title: RichText(
+              text: TextSpan(
+                text: suggestion,
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ); */
 
           return ListTile(
             onTap: () {
