@@ -82,13 +82,13 @@ class CustomSearch extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    /* final suggestionList = query.isEmpty
+    final suggestionList = query.isEmpty
         ? recentData
         : allData.where((element) {
             return element.toLowerCase().contains(query.toLowerCase());
-          }).toList(); */
+          }).toList();
 
-    List suggestionList = [];
+    /* List suggestionList = [];
     if (query.isNotEmpty) {
       var dummyListData = [];
       for (var suggestionList in allData) {
@@ -101,7 +101,7 @@ class CustomSearch extends SearchDelegate {
     } else {
       suggestionList = [];
       suggestionList = recentData;
-    }
+    } */
     return _buildSuggestionsSuccess(suggestionList);
   }
 
@@ -112,7 +112,7 @@ class CustomSearch extends SearchDelegate {
           final queryText = suggestion.substring(0, query.length);
           final remainingText = suggestion.substring(query.length);
 
-          /*  return ListTile(
+          return ListTile(
             onTap: () {
               query = suggestion;
               showResults(context);
@@ -128,9 +128,9 @@ class CustomSearch extends SearchDelegate {
                 ),
               ),
             ),
-          ); */
+          );
 
-          return ListTile(
+          /*  return ListTile(
             onTap: () {
               query = suggestion;
               showResults(context);
@@ -153,7 +153,7 @@ class CustomSearch extends SearchDelegate {
                   ]),
             ),
             // title: Text(suggestionList[index]),
-          );
+          ); */
         },
       );
 }
