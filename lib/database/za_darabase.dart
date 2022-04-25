@@ -197,9 +197,14 @@ class DatabaseService {
     var dt = DateTime.now();
     String date =
         "${dt.year.toString()}-${dt.month.toString().padLeft(2, '0')}-${dt.day.toString().padLeft(2, '0')}";
+    String firstDay = dt.day.toString();
 
     final db = await _databaseService.database;
-    // await db.delete('ZhebsaWordOfDay');
+    if (firstDay == '01') {
+      // reset every month
+      await db.delete('ZhebsaWordOfDay');
+    }
+
     var check = await db.query("ZhebsaWordOfDay",
         where: 'wodDay = ?', whereArgs: [date], columns: ['wodID']);
     for (var item in check) {
