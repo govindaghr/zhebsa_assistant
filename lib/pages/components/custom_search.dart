@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../search_icon.dart';
 import 'search_result.dart';
 
 class CustomSearch extends SearchDelegate {
@@ -45,6 +46,15 @@ class CustomSearch extends SearchDelegate {
     );
   }
 
+  _getSuggestion() {
+    final suggestionList = query.isEmpty
+        ? recentData
+        : allData.where((element) {
+            return element.toLowerCase().contains(query.toLowerCase());
+          }).toList();
+    return _buildSuggestionsSuccess(suggestionList);
+  }
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -82,40 +92,21 @@ class CustomSearch extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestionList = query.isEmpty
-        ? recentData
-        : allData.where((element) {
-            return element.toLowerCase().contains(query.toLowerCase());
-          }).toList();
-
-    /* List suggestionList = [];
-    if (query.isNotEmpty) {
-      var dummyListData = [];
-      for (var suggestionList in allData) {
-        if (suggestionList.toLowerCase().contains(query.toLowerCase())) {
-          dummyListData.add(suggestionList);
-        }
-      }
-      suggestionList = [];
-      suggestionList.addAll(dummyListData);
-    } else {
-      suggestionList = [];
-      suggestionList = recentData;
-    } */
-    return _buildSuggestionsSuccess(suggestionList);
+    return _getSuggestion();
+    // return _buildSuggestionsSuccess(suggestionList);
+    //If Problem persist, use search Text and modify;
   }
 
   _buildSuggestionsSuccess(suggestionList) => ListView.builder(
         itemCount: suggestionList.length,
         itemBuilder: (context, index) {
           final suggestion = suggestionList[index];
-          final queryText = suggestion.substring(0, query.length);
-          final remainingText = suggestion.substring(query.length);
 
           return ListTile(
             onTap: () {
               query = suggestion;
               showResults(context);
+              // recentData.add(suggestion);
             },
             leading: const Icon(
               Icons.history,
@@ -129,31 +120,6 @@ class CustomSearch extends SearchDelegate {
               ),
             ),
           );
-
-          /*  return ListTile(
-            onTap: () {
-              query = suggestion;
-              showResults(context);
-            },
-            leading: const Icon(
-              Icons.history,
-            ),
-            title: RichText(
-              text: TextSpan(
-                  text: queryText,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: remainingText,
-                      style: const TextStyle(color: Colors.black45),
-                    ),
-                  ]),
-            ),
-            // title: Text(suggestionList[index]),
-          ); */
         },
       );
 }

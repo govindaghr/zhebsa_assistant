@@ -62,3 +62,23 @@ class Zhebsa {
       'Zhebsa(zId: $zId, zWord: $zWord, zPhrase: $zPhrase, zPronunciation:$zPronunciation, zHistory: $zHistory, zFavourite: $zFavourite, zUpdateTime: $zUpdateTime)';
        */
 }
+
+//ZhebsaWordOfDay Model
+class ZhebsaWordOfDay {
+  late final int wodID;
+  late final String wodDay;
+  ZhebsaWordOfDay({required this.wodID, required this.wodDay});
+
+  factory ZhebsaWordOfDay.fromMap(Map<String, dynamic> map) {
+    return ZhebsaWordOfDay(wodID: map['wodID'], wodDay: map['wodDay']);
+  }
+
+  Map<String, dynamic> toMap() {
+    return {'wodID': wodID, 'wodDay': wodDay};
+  }
+
+  /* String toJson() => json.encode(toMap());
+
+  factory ZhebsaWordOfDay.fromJson(String source) =>
+      ZhebsaWordOfDay.fromMap(json.decode(source)); */
+}

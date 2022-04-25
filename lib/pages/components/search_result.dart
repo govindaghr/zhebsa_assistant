@@ -32,10 +32,10 @@ class _SearchResultsState extends State<SearchResults> {
   // bool isPlayingPronunciation = false;
   late List<bool> isFavourite = [];
   late List<bool> isPlayingPronunciation = [];
+  var dt = DateTime.now().toIso8601String();
 
   _setFaviurite(int id, int index, String tableName) async {
-    var dt = DateTime.now();
-    String favouriteDt = dt.toIso8601String();
+    String favouriteDt = dt;
     isFavourite[index] ? favouriteDt = '' : favouriteDt = favouriteDt;
     if (tableName == 'Zhebsa') {
       _databaseService.updateFavourite(id, favouriteDt, tableName);
@@ -73,6 +73,7 @@ class _SearchResultsState extends State<SearchResults> {
             var dzoId = Dzongkha.fromMap(dzId);
             did = dzoId.dId;
           }
+          _databaseService.updateHistory(did, dt, 'Dzongkha');
         }
       });
     });
@@ -112,6 +113,7 @@ class _SearchResultsState extends State<SearchResults> {
             var zheId = Zhebsa.fromMap(zhId);
             zid = zheId.zId;
           }
+          _databaseService.updateHistory(zid, dt, 'Zhebsa');
         }
       });
     });

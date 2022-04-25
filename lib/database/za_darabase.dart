@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../model/dzongkha.dart';
 import '../model/zhebsa.dart';
 import '../model/dzongkha_zhebsa.dart';
@@ -67,6 +69,12 @@ class DatabaseService {
       'CREATE TABLE DzongkhaZhebsa(DzongkhadId INTEGER NOT NULL, ZhebsazId INTEGER NOT NULL, updateTime  TEXT, PRIMARY KEY (DzongkhadId, ZhebsazId), FOREIGN KEY(DzongkhadId) REFERENCES Dzongkha(dId) ON DELETE SET NULL, FOREIGN KEY(ZhebsazId) REFERENCES Zhebsa(zId) ON DELETE SET NULL)',
     );
 
+    await db.execute(
+      '''CREATE TABLE ZhebsaWordOfDay(
+        wodID INTEGER NOT NULL,
+        wodDay TEXT)''',
+    );
+
     //Insert raw data to database
     var dt = DateTime.now();
     var dtStr = dt.toIso8601String();
@@ -92,7 +100,7 @@ class DatabaseService {
   Future<List> populateHistory() async {
     final db = await _databaseService.database;
     return await db.rawQuery(
-        'SELECT * FROM (SELECT dWord AS hWord, dHistory as hHistory FROM Dzongkha WHERE dHistory !="" UNION SELECT zWord, zHistory FROM Zhebsa WHERE zHistory !="") ORDER BY 2 DESC LIMIT 10');
+        'SELECT * FROM (SELECT dWord AS hWord, dHistory as hHistory FROM Dzongkha WHERE dHistory !="" UNION SELECT zWord, zHistory FROM Zhebsa WHERE zHistory !="") ORDER BY 2 DESC LIMIT 4');
   }
 
   Future<List> searchDzongkha(String word) async {
@@ -165,6 +173,55 @@ class DatabaseService {
         'SELECT * FROM (SELECT dWord AS fWord, dPhrase AS fPhrase, dFavourite AS favouroite FROM Dzongkha WHERE dFavourite !="" UNION SELECT zWord, zPhrase, zFavourite FROM Zhebsa WHERE zFavourite !="") ORDER BY 3 DESC LIMIT 100');
     return List.generate(
         maps.length, (index) => FavouriteDataModel.fromMap(maps[index]));
+  }
+
+  Future<void> updateHistory(int id, String history, String tableName) async {
+    final db = await _databaseService.database;
+    if (tableName == 'Zhebsa') {
+      await db.rawUpdate(
+          'UPDATE Zhebsa SET zHistory = ? WHERE zId = ?', [history, id]);
+    } else if (tableName == 'Dzongkha') {
+      await db.rawUpdate(
+          'UPDATE Dzongkha SET dHistory = ? WHERE dId = ?', [history, id]);
+    }
+  }
+
+  Future<void> insertWordOfDay(ZhebsaWordOfDay zhebsaWordOfDay) async {
+    final db = await _databaseService.database;
+    await db.insert('ZhebsaWordOfDay', zhebsaWordOfDay.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<List> showWordOfDay() async {
+    var checkid = [];
+    var dt = DateTime.now();
+    String date =
+        "${dt.year.toString()}-${dt.month.toString().padLeft(2, '0')}-${dt.day.toString().padLeft(2, '0')}";
+
+    final db = await _databaseService.database;
+    // await db.delete('ZhebsaWordOfDay');
+    var check = await db.query("ZhebsaWordOfDay",
+        where: 'wodDay = ?', whereArgs: [date], columns: ['wodID']);
+    for (var item in check) {
+      checkid.add(item['wodID']);
+    }
+
+    if (check.isEmpty) {
+      var zid;
+      var zhesaList = await db.rawQuery(
+          'SELECT zID FROM Zhebsa WHERE ZID NOT IN(SELECT wodID FROM ZhebsaWordOfDay)');
+      final _random = Random();
+      var wordID = zhesaList[_random.nextInt(zhesaList.length)];
+      zid = wordID['zId'];
+      ZhebsaWordOfDay zhebsaWordOfDay =
+          ZhebsaWordOfDay(wodID: zid, wodDay: date);
+      insertWordOfDay(zhebsaWordOfDay);
+      checkid.add(zid);
+    }
+
+    // print(checkid);
+
+    return getZhebsaSearch(checkid);
   }
 
   // Define a function that inserts Dzongkha into the database

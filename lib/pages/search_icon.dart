@@ -4,6 +4,8 @@ import 'package:zhebsa_assistant/database/za_darabase.dart';
 import 'package:zhebsa_assistant/pages/components/custom_search.dart';
 import 'package:zhebsa_assistant/pages/components/view_zhebsa_of_day.dart';
 
+import '../model/zhebsa.dart';
+
 class SearchIcon extends StatefulWidget {
   const SearchIcon({Key? key}) : super(key: key);
 
@@ -16,6 +18,8 @@ class _SearchIconState extends State<SearchIcon> {
 
   var allData = [];
   var searchHistory = [];
+  var wod = '';
+  var phrase = '';
 
   _loadData() async {
     await _databaseService.populateSearch().then((data) {
@@ -33,6 +37,27 @@ class _SearchIconState extends State<SearchIcon> {
         }
       });
     });
+
+    await _databaseService.showWordOfDay().then((value) {
+      setState(() {
+        for (int i = 0; i < value.length; i++) {
+          Zhebsa txtData = Zhebsa.fromMap(value[i]);
+          wod = txtData.zWord;
+          phrase = txtData.zPhrase!;
+        }
+      });
+    });
+
+    /* _databaseService.populateSearch().then((data) {
+      setState(() {
+        allData = data;
+      });
+    });
+    _databaseService.populateHistory().then((data) {
+      setState(() {
+        searchHistory = data;
+      });
+    }); */
   }
 
   @override
@@ -56,7 +81,11 @@ class _SearchIconState extends State<SearchIcon> {
                 child: TextButton(
                   onPressed: () => showSearch(
                       context: context,
-                      delegate: CustomSearch(allData, searchHistory)),
+                      delegate: CustomSearch(allData, searchHistory))
+                  /* .then((value) {
+                    setState(() {});
+                  }) */
+                  ,
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
@@ -112,13 +141,13 @@ class _SearchIconState extends State<SearchIcon> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              const ZhebsaOfDayDetail(searchQuery: 'བཀའ་སློབ།'),
+                              ZhebsaOfDayDetail(searchQuery: wod),
                         ),
                       ),
                       // leading: Icon(Icons.album),
-                      title: const Text('བཀའ་སློབ།'),
-                      subtitle: const SelectableText(
-                        'བླམ་གི་བཀའ་སློབ་གནངམ་ཨིན།',
+                      title: Text(wod),
+                      subtitle: SelectableText(
+                        phrase,
                       ),
                     ),
                   ],
