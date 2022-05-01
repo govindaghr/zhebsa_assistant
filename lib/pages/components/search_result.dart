@@ -23,9 +23,10 @@ class _SearchResultsState extends State<SearchResults> {
   String get sQuery => widget.searchQuery;
 
   _playPronunciation(fineName) async {
-    await audioCache.play(fineName,
-        mode: PlayerMode.LOW_LATENCY, stayAwake: false);
-
+    await audioCache.play(
+      fineName,
+      mode: PlayerMode.LOW_LATENCY,
+    ); //stayAwake: false
     audioPlayer.state = PlayerState.PLAYING;
   }
 
@@ -243,6 +244,12 @@ class _SearchResultsState extends State<SearchResults> {
                           setState(() {
                             isPlayingPronunciation[index] =
                                 !isPlayingPronunciation[index];
+                          });
+
+                          audioPlayer.onPlayerCompletion.listen((event) {
+                            setState(() {
+                              isPlayingPronunciation[index] = false;
+                            });
                           });
                         },
                         icon: Icon(
