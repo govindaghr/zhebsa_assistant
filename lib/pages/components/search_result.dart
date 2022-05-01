@@ -23,9 +23,18 @@ class _SearchResultsState extends State<SearchResults> {
   String get sQuery => widget.searchQuery;
 
   _playPronunciation(fineName) async {
-    await audioCache.play(fineName, mode: PlayerMode.LOW_LATENCY);
+    await audioCache.play(fineName,
+        mode: PlayerMode.LOW_LATENCY, stayAwake: false);
 
     audioPlayer.state = PlayerState.PLAYING;
+  }
+
+  stopPronunciation() async {
+    await audioPlayer.stop();
+    for (int i = 0; i < allZhesaData.length; i++) {
+      isPlayingPronunciation.add(false);
+    }
+    audioPlayer.state = PlayerState.STOPPED;
   }
 
   // bool isFavourite = false;
@@ -45,14 +54,6 @@ class _SearchResultsState extends State<SearchResults> {
     setState(() {
       isFavourite[index] = !isFavourite[index];
     });
-  }
-
-  stopPronunciation() async {
-    await audioPlayer.stop();
-    for (int i = 0; i < allZhesaData.length; i++) {
-      isPlayingPronunciation.add(false);
-    }
-    audioPlayer.state = PlayerState.STOPPED;
   }
 
   late int did;

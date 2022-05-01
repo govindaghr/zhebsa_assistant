@@ -192,7 +192,7 @@ class DatabaseService {
   Future<List> populateHistory() async {
     final db = await _databaseService.database;
     return await db.rawQuery(
-        'SELECT * FROM (SELECT dWord AS hWord, dHistory as hHistory FROM Dzongkha WHERE dHistory !="" UNION SELECT zWord, zHistory FROM Zhebsa WHERE zHistory !="") ORDER BY 2 DESC LIMIT 4');
+        'SELECT * FROM (SELECT dWord AS hWord, dHistory as hHistory FROM Dzongkha WHERE dHistory !="" UNION SELECT zWord, zHistory FROM Zhebsa WHERE zHistory !="") ORDER BY 2 DESC LIMIT 10');
   }
 
   Future<List> searchDzongkha(String word) async {
@@ -262,7 +262,7 @@ class DatabaseService {
   Future<List<FavouriteDataModel>> showFavourite() async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.rawQuery(
-        'SELECT * FROM (SELECT dWord AS fWord, dPhrase AS fPhrase, dFavourite AS favouroite FROM Dzongkha WHERE dFavourite !="" UNION SELECT zWord, zPhrase, zFavourite FROM Zhebsa WHERE zFavourite !="") ORDER BY 3 DESC LIMIT 100');
+        'SELECT * FROM (SELECT dWord AS fWord, dPhrase AS fPhrase, dFavourite AS favouroite FROM Dzongkha WHERE dFavourite !="" UNION SELECT zWord, zPhrase, zFavourite FROM Zhebsa WHERE zFavourite !="") ORDER BY 3 DESC');
     return List.generate(
         maps.length, (index) => FavouriteDataModel.fromMap(maps[index]));
   }

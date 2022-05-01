@@ -91,16 +91,15 @@ class HistoryDataModel {
 //SearchList Model
 class FavouriteDataModel {
   final String fWord;
-  final String fPhrase;
-  final String favouroite;
-  FavouriteDataModel(
-      {required this.fWord, required this.fPhrase, required this.favouroite});
+  final String? fPhrase;
+  final String? favouroite;
+  FavouriteDataModel({required this.fWord, this.fPhrase, this.favouroite});
 
   factory FavouriteDataModel.fromMap(Map<String, dynamic> map) {
     return FavouriteDataModel(
       fWord: map['fWord'],
-      fPhrase: map['fPhrase'],
-      favouroite: map['favouroite'],
+      fPhrase: map['fPhrase'] ?? '',
+      favouroite: map['favouroite'] ?? '',
     );
   }
 

@@ -38,7 +38,9 @@ class _FavouriteState extends State<Favourite> {
             },
           );
         } else {
-          return const Text('no data');
+          return const Center(
+            child: Text('No Favourites'),
+          );
         }
       },
     );
@@ -69,7 +71,7 @@ class _FavouriteState extends State<Favourite> {
             /* textScaleFactor: screenWidth * 0.002, */
           ),
           subtitle: Text(
-            zhesa.fWord,
+            '${zhesa.fPhrase}',
             /* textScaleFactor: screenWidth * 0.002, */
             style: const TextStyle(
               fontSize: 12,
