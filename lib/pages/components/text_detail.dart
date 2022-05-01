@@ -196,6 +196,12 @@ class _TextDetailState extends State<TextDetail> {
                             isPlayingPronunciation[index] =
                                 !isPlayingPronunciation[index];
                           });
+
+                          audioPlayer.onPlayerCompletion.listen((event) {
+                            setState(() {
+                              isPlayingPronunciation[index] = false;
+                            });
+                          });
                         },
                         icon: Icon(
                           isPlayingPronunciation[index]
