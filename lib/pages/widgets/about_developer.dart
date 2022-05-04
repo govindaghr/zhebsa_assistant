@@ -49,7 +49,9 @@ class AboutDeveloper extends StatelessWidget {
               ),
               const Expanded(
                 child: Text(
-                  '''Developed as Final year project by: \n\t 1. Karma Tenzin \n\t 2. Sonam Lhamo \n\t 3. Govinda Ghimeray \n\t 4. Mr. Pema Galey''',
+                  '''
+Developed as Final year project by: \n\t 1. Karma Tenzin \n\t 2. Sonam Lhamo \n\t 3. Govinda Ghimeray \n\t 4. Mr. Pema Galey
+''',
                   // overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
                 ),
