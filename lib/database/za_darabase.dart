@@ -76,8 +76,8 @@ class DatabaseService {
     );
 
     //Insert raw data to database
-    var dt = DateTime.now();
-    var dtStr = dt.toIso8601String();
+    /* var dt = DateTime.now();
+    var dtStr = dt.toIso8601String(); */
     // dt = DateTime.tryParse(dtStr)!;//DATE_TIME
 
     /* var dtInt = dt.millisecondsSinceEpoch;////CURRENT_TIMESTAMP
