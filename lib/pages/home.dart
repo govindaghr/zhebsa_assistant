@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage>
       ),
       bottomNavigationBar: Container(
         margin: EdgeInsets.zero,
-        height: 61,
+        height: 70,
         decoration: BoxDecoration(
           // color: Theme.of(context).cardColor,
           color: Colors.amber.shade50,
