@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
-// import 'package:zhebsa_assistant/database/za_darabase.dart';
 import 'package:zhebsa_assistant/pages/load_favourite.dart';
 import 'search_icon.dart';
 import 'about_us.dart';
@@ -34,8 +33,8 @@ class _HomePageState extends State<HomePage>
 
   Future<void> share() async {
     await FlutterShare.share(
-        title: 'Zhebsa Assistant',
-        text: 'Zhebsa Assistant',
+        title: 'Zhesa Assistant',
+        text: 'Zhesa Assistant',
         linkUrl: 'https://flutter.dev/',
         chooserTitle: 'Example Chooser Title');
   }
@@ -57,7 +56,7 @@ class _HomePageState extends State<HomePage>
         actions: [
           FlutterSwitch(
             width: 80.0,
-            height: 30.0,
+            height: 40.0,
             value: isSwitched,
             activeText: "ENG",
             inactiveText: "DZO",
@@ -148,7 +147,8 @@ class _HomePageState extends State<HomePage>
 
             labelStyle: const TextStyle(
               fontSize: 14.0,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Joyig',
             ),
             controller: _tabController,
             tabs: <Widget>[
