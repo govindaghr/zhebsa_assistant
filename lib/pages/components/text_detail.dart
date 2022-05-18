@@ -189,19 +189,28 @@ class _TextDetailState extends State<TextDetail> {
                       padding: const EdgeInsets.only(right: 20),
                       child: IconButton(
                         onPressed: () {
-                          isPlayingPronunciation[index]
-                              ? stopPronunciation()
-                              : _playPronunciation('${txtData.zPronunciation}');
-                          setState(() {
-                            isPlayingPronunciation[index] =
-                                !isPlayingPronunciation[index];
-                          });
-
-                          audioPlayer.onPlayerCompletion.listen((event) {
+                          if (txtData.zPronunciation != '') {
+                            isPlayingPronunciation[index]
+                                ? stopPronunciation()
+                                : _playPronunciation(
+                                    '${txtData.zPronunciation}');
                             setState(() {
-                              isPlayingPronunciation[index] = false;
+                              isPlayingPronunciation[index] =
+                                  !isPlayingPronunciation[index];
                             });
-                          });
+
+                            audioPlayer.onPlayerCompletion.listen((event) {
+                              setState(() {
+                                isPlayingPronunciation[index] = false;
+                              });
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Pronunciation not found'),
+                              ),
+                            );
+                          }
                         },
                         icon: Icon(
                           isPlayingPronunciation[index]
