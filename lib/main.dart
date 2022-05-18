@@ -21,7 +21,7 @@ class ZhebsaApp extends StatelessWidget {
             ? MediaQuery.of(context).size.shortestSide * 0.0018
             : 1,
       ),
-      title: 'Zhebsa',
+      title: 'Zhesa',
       debugShowCheckedModeBanner: false,
       translations: LocaleString(),
       locale: const Locale('dz', 'BT'),
