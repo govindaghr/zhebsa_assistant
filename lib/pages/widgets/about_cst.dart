@@ -25,7 +25,7 @@ class AboutCST extends StatelessWidget {
             ),
             child: const Center(
               child: Text(
-                'རིམ་ལུངས་ཀྱི་མཉམ་འབྲེལ་ཚོང་རོགས།',
+                'རིམ་ལུགས་ཀྱི་མཉམ་འབྲེལ་ཚོང་རོགས།',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,

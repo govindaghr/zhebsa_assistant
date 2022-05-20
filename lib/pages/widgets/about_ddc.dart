@@ -29,7 +29,7 @@ class AboutDDC extends StatelessWidget {
             ),
             child: const Center(
               child: Text(
-                'རིམ་ལུངས་ཀྱི་སྐོར།',
+                'རིམ་ལུགས་ཀྱི་སྐོར།',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,

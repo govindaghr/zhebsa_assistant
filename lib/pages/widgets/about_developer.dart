@@ -25,7 +25,7 @@ class AboutDeveloper extends StatelessWidget {
             ),
             child: const Center(
               child: Text(
-                'རིམ་ལུངས་བཟོ་མི།།',
+                'རིམ་ལུགས་བཟོ་མི།།',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
