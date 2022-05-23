@@ -33,10 +33,10 @@ class _HomePageState extends State<HomePage>
 
   Future<void> share() async {
     await FlutterShare.share(
-        title: 'Zhesa Assistant',
-        text: 'Zhesa Assistant',
+        title: 'Zhesa',
+        text: 'Zhesa Learning App',
         linkUrl: 'https://flutter.dev/',
-        chooserTitle: 'Example Chooser Title');
+        chooserTitle: 'Zhesa Learning App');
   }
 
   @override
@@ -50,8 +50,12 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarTextStyle: const TextStyle(fontWeight: FontWeight.bold),
         title: Center(
-          child: Text('title'.tr), //ཞེ་སའི་ཚིག་མཛོད།
+          child: Text(
+            'title'.tr,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ), //ཞེ་སའི་ཚིག་མཛོད།
         ),
         actions: [
           FlutterSwitch(
@@ -61,7 +65,6 @@ class _HomePageState extends State<HomePage>
             valueFontSize: 14,
             activeText: "ENG",
             inactiveText: "DZO",
-            // inactiveTextFontWeight: FontWeight.w900,
             inactiveColor: Colors.red.shade600,
             activeColor: Colors.red,
             showOnOff: true,
