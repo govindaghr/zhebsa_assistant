@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AboutDeveloper extends StatelessWidget {
   const AboutDeveloper({Key? key}) : super(key: key);
@@ -45,17 +46,12 @@ class AboutDeveloper extends StatelessWidget {
                 ),
                 child: Image.asset('assets/images/developer.png'),
               ),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  '''
-Developed as Final year project by:
-\t 1. Karma Tenzin  
-\t 2. Sonam Lhamo  
-\t 3. Govinda Ghimeray  
-\t 4. Pema Galey
-''',
+                  'developers'.tr,
                   // overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.normal),
                 ),
               ),
             ],

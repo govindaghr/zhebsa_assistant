@@ -56,10 +56,12 @@ class _HomePageState extends State<HomePage>
         actions: [
           FlutterSwitch(
             width: 80.0,
-            height: 40.0,
+            height: 35.0,
             value: isSwitched,
+            valueFontSize: 14,
             activeText: "ENG",
             inactiveText: "DZO",
+            // inactiveTextFontWeight: FontWeight.w900,
             inactiveColor: Colors.red.shade600,
             activeColor: Colors.red,
             showOnOff: true,

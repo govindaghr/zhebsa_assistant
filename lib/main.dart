@@ -32,6 +32,7 @@ class ZhebsaApp extends StatelessWidget {
         primaryColorDark: const Color(0x00c41c00),
         secondaryHeaderColor: Colors.orange[500],
         fontFamily: 'Joyig',
+        // fontFamily: 'font'.tr,
         //S — Light Orange #ffc947
         //s-Dark Oranhgr ##c66900
       ),
