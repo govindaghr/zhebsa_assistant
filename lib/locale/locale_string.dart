@@ -4,13 +4,12 @@ class LocaleString extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
-          //Roboto
           'title': 'Zhesa',
           'favourite': 'Favourite',
           'search': 'Search',
           'about': 'About',
           'wordOfTheDay': 'Word of the Day',
-          'font': 'Joyig',
+          'font': 'Roboto',
           'developers': '''
 Developed as Final year project by:
 \t 1. Govinda Ghimeray  

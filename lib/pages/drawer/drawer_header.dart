@@ -31,7 +31,8 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
           ),
           Text(
             'title'.tr,
-            style: const TextStyle(color: Colors.white, fontSize: 20),
+            style: const TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
           ),
         ],
       ),

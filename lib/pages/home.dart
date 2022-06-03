@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage>
         title: Center(
           child: Text(
             'title'.tr,
-            style: const TextStyle(fontWeight: FontWeight.w600),
+            // style: const TextStyle(fontWeight: FontWeight.w600),
           ), //ཞེ་སའི་ཚིག་མཛོད།
         ),
         actions: [
@@ -62,9 +62,9 @@ class _HomePageState extends State<HomePage>
             width: 80.0,
             height: 35.0,
             value: isSwitched,
-            valueFontSize: 14,
-            activeText: "ENG",
-            inactiveText: "DZO",
+            // valueFontSize: 14,
+            activeText: "DZO",
+            inactiveText: "ENG",
             inactiveColor: Colors.red.shade600,
             activeColor: Colors.red,
             showOnOff: true,
@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage>
 
             labelStyle: const TextStyle(
               fontSize: 14.0,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               fontFamily: 'Joyig',
             ),
             controller: _tabController,
