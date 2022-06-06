@@ -24,10 +24,10 @@ class AboutDeveloper extends StatelessWidget {
                 width: 2,
               ),
             ),
-            child: const Center(
+            child: Center(
               child: Text(
-                'རིམ་ལུགས་བཟོ་མི།།',
-                style: TextStyle(
+                'appDeveloper'.tr,
+                style: const TextStyle(
                     color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.w500),
@@ -51,7 +51,10 @@ class AboutDeveloper extends StatelessWidget {
                   'developers'.tr,
                   // overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.normal),
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    // fontFamily: 'font'.tr,
+                  ),
                 ),
               ),
             ],

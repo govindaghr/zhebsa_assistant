@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AboutCST extends StatelessWidget {
   const AboutCST({Key? key}) : super(key: key);
@@ -23,10 +24,10 @@ class AboutCST extends StatelessWidget {
                 width: 2,
               ),
             ),
-            child: const Center(
+            child: Center(
               child: Text(
-                'རིམ་ལུགས་ཀྱི་མཉམ་འབྲེལ་ཚོང་རོགས།',
-                style: TextStyle(
+                'businessPartner'.tr,
+                style: const TextStyle(
                     color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.w500),
@@ -45,12 +46,15 @@ class AboutCST extends StatelessWidget {
                 ),
                 child: Image.asset('assets/images/cst_logo.png'),
               ),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  '''ཚན་རིག་དང་འཕྲུལ་རིག་མཐོ་རིམ་སློབ་གྲྭ། \nwww.cst.edu.bt \nitd.cst@rub.edu.bt
-                  ''',
+                  'aboutCst'.tr,
                   // overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    // fontFamily: 'font'.tr,
+                  ),
                 ),
               ),
             ],

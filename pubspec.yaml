@@ -46,6 +46,7 @@ dependencies:
   responsive_framework: ^0.1.7
   flutter_native_splash: ^2.1.0
   flutter_local_notifications: ^9.4.0
+  dio: ^4.0.6
   # intl: ^0.17.0
   # toggle_switch: ^1.4.0
 
@@ -92,6 +93,18 @@ flutter:
     - family: Joyig
       fonts:
         - asset: assets/fonts/Joyig-Regular.ttf
+    - family: Uchen
+      fonts:
+        - asset: assets/fonts/DDC-Uchen.ttf
+    - family: Wangdi
+      fonts:
+        - asset: assets/fonts/Wangdi_29.ttf
+    - family: Jomolhari
+      fonts:
+        - asset: assets/fonts/Jomolhari.ttf
+    - family: Rinzin
+      fonts:
+        - asset: assets/fonts/DDC-Rinzin.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

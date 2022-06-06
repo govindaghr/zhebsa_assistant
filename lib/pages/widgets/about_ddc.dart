@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AboutDDC extends StatelessWidget {
   const AboutDDC({Key? key}) : super(key: key);
   // static const int copy = 0x00A9;
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -27,10 +27,10 @@ class AboutDDC extends StatelessWidget {
                 width: 2,
               ),
             ),
-            child: const Center(
+            child: Center(
               child: Text(
-                'རིམ་ལུགས་ཀྱི་སྐོར།',
-                style: TextStyle(
+                'aboutApp'.tr,
+                style: const TextStyle(
                     color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.w500),
@@ -53,13 +53,15 @@ class AboutDDC extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Text(
-                      '''འགྲུལ་འཕྲིན་རིམ་ལུགས་འདི་ནང་ རྫོང་ཁ་གོང་འཕེལ་ལྷན་ཚོགས་ཀྱི་ཞེ་སའི་ཚིག་མཛོད། རྫོང་ཁ་ཞེ་ས་དང་ཕལ་སྐད་ཚུ་ཡོདཔ་ཨིན། \n\u{00A9} རྫོང་ཁ་གོང་འཕེལ་ལྷན་ཚོགས། \nwww.dzongha.gov.bt \nddc@dzongkha.gov.bt
-                      ''',
+                      'aboutAppBody'.tr,
                       // overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.normal),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        // fontFamily: 'font'.tr,
+                      ),
                     ),
                     /* Text(
                       '\u{00A9} རྫོང་ཁ་གོང་འཕེལ་ལྷན་ཚོགས། \n ss',

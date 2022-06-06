@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
@@ -5,7 +6,6 @@ import 'package:zhebsa_assistant/pages/load_favourite.dart';
 import 'search_icon.dart';
 import 'about_us.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-
 import 'drawer/drawer_header.dart';
 
 class HomePage extends StatefulWidget {
@@ -39,11 +39,51 @@ class _HomePageState extends State<HomePage>
         chooserTitle: 'Zhesa Learning App');
   }
 
+  // ZhesaProvider zhesaProvider;
+  Future<List> syncData() async {
+    var url = "http://zhebsa.herokuapp.com/webapp/zhebsa";
+    var response = await Dio().get(url);
+    print(response.data.length);
+    return (response.data as List).map((zhesa) {
+      // print('$zhesa');
+      // print(zhesa['id']);
+      // DBProvider.db.createEmployee(Employee.fromJson(employee));
+    }).toList();
+  }
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
     // DatabaseService().showWordOfDay();
+  }
+
+  void displayDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Synchronize New Data?'),
+          content: const Text(
+              'Please note that it will consume your additional memory and internet data.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('CANCEL'),
+            ),
+            TextButton(
+              onPressed: () {
+                syncData();
+                Navigator.pop(context);
+              },
+              child: const Text('ACCEPT'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -75,9 +115,15 @@ class _HomePageState extends State<HomePage>
               });
             },
           ),
-          IconButton(
+          /* IconButton(
             onPressed: share,
             icon: const Icon(Icons.share),
+          ), */
+          IconButton(
+            onPressed: (() {
+              displayDialog();
+            }), //syncData,
+            icon: const Icon(Icons.cloud_sync_outlined),
           ),
         ],
       ),
@@ -122,6 +168,17 @@ class _HomePageState extends State<HomePage>
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+              title: Text('share'.tr),
+              leading: Icon(
+                Icons.share,
+                color: Colors.red[500],
+              ),
+              onTap: () {
+                share();
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
@@ -153,7 +210,7 @@ class _HomePageState extends State<HomePage>
             labelStyle: const TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.w500,
-              fontFamily: 'Joyig',
+              // fontFamily: 'Uchen',
             ),
             controller: _tabController,
             tabs: <Widget>[
