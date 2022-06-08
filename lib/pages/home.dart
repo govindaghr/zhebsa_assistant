@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
 import 'package:zhebsa_assistant/pages/load_favourite.dart';
+import '../api/zhesa_provider.dart';
 import 'search_icon.dart';
 import 'about_us.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -18,6 +19,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+
+  final ZhesaAPIProvider _zhesaAPIProvider = ZhesaAPIProvider();
 
   bool isSwitched = false;
 
@@ -40,15 +43,16 @@ class _HomePageState extends State<HomePage>
   }
 
   // ZhesaProvider zhesaProvider;
-  Future<List> syncData() async {
-    var url = "http://zhebsa.herokuapp.com/webapp/zhebsa";
+  Future<void> syncData() async {
+    await _zhesaAPIProvider.getAllZhesa();
+    /* var url = "http://zhebsa.herokuapp.com/webapp/zhebsa";
     var response = await Dio().get(url);
     print(response.data.length);
     return (response.data as List).map((zhesa) {
       // print('$zhesa');
       // print(zhesa['id']);
       // DBProvider.db.createEmployee(Employee.fromJson(employee));
-    }).toList();
+    }).toList(); */
   }
 
   @override
@@ -75,7 +79,7 @@ class _HomePageState extends State<HomePage>
             ),
             TextButton(
               onPressed: () {
-                syncData();
+                // syncData();
                 Navigator.pop(context);
               },
               child: const Text('ACCEPT'),
@@ -115,16 +119,16 @@ class _HomePageState extends State<HomePage>
               });
             },
           ),
-          /* IconButton(
+          IconButton(
             onPressed: share,
             icon: const Icon(Icons.share),
-          ), */
-          IconButton(
+          ),
+          /* IconButton(
             onPressed: (() {
               displayDialog();
             }), //syncData,
             icon: const Icon(Icons.cloud_sync_outlined),
-          ),
+          ), */
         ],
       ),
       drawer: Drawer(
@@ -168,7 +172,7 @@ class _HomePageState extends State<HomePage>
                 Navigator.pop(context);
               },
             ),
-            ListTile(
+            /* ListTile(
               title: Text('share'.tr),
               leading: Icon(
                 Icons.share,
@@ -176,6 +180,18 @@ class _HomePageState extends State<HomePage>
               ),
               onTap: () {
                 share();
+                Navigator.pop(context);
+              },
+            ), */
+
+            ListTile(
+              title: const Text('Sync'),
+              leading: Icon(
+                Icons.cloud_sync_outlined,
+                color: Colors.red[500],
+              ),
+              onTap: () {
+                displayDialog();
                 Navigator.pop(context);
               },
             ),

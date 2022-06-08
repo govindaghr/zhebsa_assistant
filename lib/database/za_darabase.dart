@@ -799,7 +799,7 @@ class DatabaseService {
     if (check.isEmpty) {
       var zid;
       var zhesaList = await db.rawQuery(
-          'SELECT zID FROM Zhebsa WHERE ZID NOT IN(SELECT wodID FROM ZhebsaWordOfDay)');
+          'SELECT zID FROM Zhebsa WHERE zID NOT IN(SELECT wodID FROM ZhebsaWordOfDay)');
       final _random = Random();
       var wordID = zhesaList[_random.nextInt(zhesaList.length)];
       zid = wordID['zId'];
