@@ -172,7 +172,7 @@ class _HomePageState extends State<HomePage>
                 Navigator.pop(context);
               },
             ),
-            /* ListTile(
+            ListTile(
               title: Text('share'.tr),
               leading: Icon(
                 Icons.share,
@@ -182,8 +182,7 @@ class _HomePageState extends State<HomePage>
                 share();
                 Navigator.pop(context);
               },
-            ), */
-
+            ),
             ListTile(
               title: const Text('Sync'),
               leading: Icon(
@@ -192,7 +191,7 @@ class _HomePageState extends State<HomePage>
               ),
               onTap: () {
                 displayDialog();
-                Navigator.pop(context);
+                // Navigator.pop(context);
               },
             ),
           ],
