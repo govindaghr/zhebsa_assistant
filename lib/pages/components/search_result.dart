@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:zhebsa_assistant/model/dzongkha.dart';
 import 'package:zhebsa_assistant/model/zhebsa.dart';
 
@@ -15,18 +18,23 @@ class SearchResults extends StatefulWidget {
 
 class _SearchResultsState extends State<SearchResults> {
   final DatabaseService _databaseService = DatabaseService();
+  // AudioCache audioCache = AudioCache();
   static AudioPlayer audioPlayer = AudioPlayer();
 
-  final audioCache =
-      AudioCache(prefix: 'assets/audio/', fixedPlayer: audioPlayer);
+  Future<String> getFilePath(fileName) async {
+    String path = '';
+    Directory dir = await getApplicationDocumentsDirectory();
+    path = '${dir.path}/assets/audio/$fileName';
+    return path;
+  }
+
+  // final audioCache = AudioCache(prefix: '/assets/audio/',fixedPlayer: audioPlayer);
 
   String get sQuery => widget.searchQuery;
 
   _playPronunciation(fineName) async {
-    await audioCache.play(
-      fineName,
-      mode: PlayerMode.LOW_LATENCY,
-    ); //stayAwake: false
+    var savePath = await getFilePath(fineName);
+    await audioPlayer.play(savePath, isLocal: true);
     audioPlayer.state = PlayerState.PLAYING;
   }
 
@@ -172,7 +180,10 @@ class _SearchResultsState extends State<SearchResults> {
 
   _displayNUll() {
     return const Center(
-      child: Text('No Data'),
+      child: Text(
+        'No Data. \nPlease Tap on the word you wish to search',
+        // style: TextStyle(fontSize: 20.0),
+      ),
     );
   }
 
@@ -250,9 +261,11 @@ class _SearchResultsState extends State<SearchResults> {
                             });
 
                             audioPlayer.onPlayerCompletion.listen((event) {
-                              setState(() {
-                                isPlayingPronunciation[index] = false;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  isPlayingPronunciation[index] = false;
+                                });
+                              }
                             });
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -286,7 +299,7 @@ class _SearchResultsState extends State<SearchResults> {
         },
       );
     } else {
-      return const Text('No Data');
+      return const Center(child: Text('No Data'));
     }
   }
 

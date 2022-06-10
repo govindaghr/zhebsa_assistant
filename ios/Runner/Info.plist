@@ -45,5 +45,13 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<!-- new permission -->
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>LSSupportsOpeningDocumentsInPlace</key>
+		<true/>
+		<key>UIFileSharingEnabled</key>
+		<true/>
+		<!-- new PERMISSION ENDS -->
 	</dict>
 </plist>

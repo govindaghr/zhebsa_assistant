@@ -35,7 +35,7 @@ Developed as Final year project by:
           'about': 'སྐོར་ལས།',
           'share': 'Share',
           'wordOfTheDay': 'ཉིནམ་འདི་གི་ཞེ་ས།',
-          'font': 'Joyig',
+          'font': 'Uchen',
           'aboutApp': 'རིམ་ལུགས་ཀྱི་སྐོར།',
           'appDeveloper': 'རིམ་ལུགས་བཟོ་མི།',
           'businessPartner': 'རིམ་ལུགས་ཀྱི་མཉམ་འབྲེལ་ཚོང་རོགས།',

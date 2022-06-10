@@ -4,7 +4,7 @@ class Dzongkha {
   final String? dPhrase;
   final String? dHistory;
   final String? dFavourite; //timestamp,
-  final DateTime dUpdateTime;
+  final String dUpdateTime;
 
   Dzongkha({
     required this.dId,
@@ -24,7 +24,7 @@ class Dzongkha {
       'dPhrase': dPhrase,
       'dHistory': dHistory,
       'dFavourite': dFavourite,
-      'dUpdateTime': dUpdateTime.toIso8601String(),
+      'dUpdateTime': dUpdateTime,
     };
   }
 
@@ -35,18 +35,7 @@ class Dzongkha {
       dPhrase: map['dPhrase'] ?? '',
       dHistory: map['dHistory'] ?? '',
       dFavourite: map['dFavourite'] ?? '',
-      dUpdateTime: DateTime.parse(map['dUpdateTime'] as String),
+      dUpdateTime: map['dUpdateTime'] ?? '',
     );
   }
-
-  /* String toJson() => json.encode(toMap());
-
-  factory Dzongkha.fromJson(String source) =>
-      Dzongkha.fromMap(json.decode(source));
-
-  // Implement toString to make it easier to see information about
-  // each breed when using the print statement.
-  @override
-  String toString() =>
-      'Dzongkha(dId: $dId, dWord: $dWord, dPhrase: $dPhrase, dHistory: $dHistory, dFavourite: $dFavourite, dUpdateTime: $dUpdateTime)'; */
 }

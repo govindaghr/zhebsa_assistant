@@ -1,17 +1,59 @@
 import 'dart:io';
-
-import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-
-import 'package:zhebsa_assistant/database/za_darabase.dart';
 import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
+// import 'package:permission_handler/permission_handler.dart';
+import 'package:zhebsa_assistant/database/za_darabase.dart';
+import 'package:zhebsa_assistant/model/dzongkha.dart';
+import 'package:zhebsa_assistant/model/dzongkha_zhebsa.dart';
+import 'package:zhebsa_assistant/model/zhebsa.dart';
 
 class ZhesaAPIProvider {
   // Response response;
   var dio = Dio();
   static final DatabaseService _databaseService = DatabaseService();
-  Future<List> getAllZhesa() async {
+
+  get context => null;
+
+  Future<String> getFilePath(uniqueFileName) async {
+    String path = '';
+    Directory dir = await getApplicationDocumentsDirectory();
+    path = '${dir.path}/assets/audio/$uniqueFileName';
+    return path;
+  }
+
+  Future downloadFile(audio, fileName) async {
+    try {
+      Dio dio = Dio();
+      var savePath = await getFilePath(fileName);
+      await dio.download(audio, savePath);
+      /* showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(fileName),
+          );
+        },
+      ); */
+      // print(fileName);
+      // print(savePath);
+
+    } catch (e) {
+      // print(e.toString());
+      /* ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error! Check your Internet Connection'),
+        ),
+      ); */
+    }
+  }
+
+  // requests storage permission
+  /*  Future<bool> _requestWritePermission() async {
+    await Permission.storage.request();
+    return await Permission.storage.request().isGranted;
+  } */
+
+  Future<void> getAllZhesa() async {
     final db = await _databaseService.database;
     var url = "http://zhebsa.herokuapp.com/webapp/zhebsa";
     Response response = await dio.get(url);
@@ -24,6 +66,8 @@ class ZhesaAPIProvider {
         var zPhrase = zhesa[i]['z_phrase'];
         var audio = zhesa[i]['audio'];
 
+        String pronunciation = audio.substring(audio.lastIndexOf("/") + 1);
+
         var zhesaList = await db
             .query('Zhebsa', where: 'zID = ?', whereArgs: [zhesa[i]['id']]);
         // print(zhesaList[i]['zUpdateTime']);
@@ -31,61 +75,86 @@ class ZhesaAPIProvider {
           var zhesaSame = await db.query('Zhebsa',
               where: 'zID = ? AND zUpdateTime = ?',
               whereArgs: ['$zhesaID', '$pubdate']);
-          if (zhesaSame.isNotEmpty) {
-            String file = 'assets/audio.mp3';
-            //////////////////////////////////////////////
-            await dio.download(audio, readFileAsync(file));
-
-            print('No Change $zhesaSame');
-          } else {
-            /* await db.rawUpdate('UPDATE Zhebsa SET zWord = ?, zPhrase = ?, zUpdateTime = ?, zPeonunciation = ? WHERE zId = ?',
-                [zWord, zPhrase, pubdate, audio, zhesaID]); */
+          if (zhesaSame.isEmpty) {
+            downloadFile(audio, pronunciation);
             await db.rawUpdate(
-                'UPDATE Zhebsa SET zWord = ?, zPhrase = ?, zUpdateTime = ? WHERE zId = ?',
-                [zWord, zPhrase, pubdate, zhesaID]);
-            print('update $zhesaList');
+                'UPDATE Zhebsa SET zWord = ?, zPhrase = ?, zUpdateTime = ?, zPronunciation = ? WHERE zId = ?',
+                [zWord, zPhrase, pubdate, pronunciation, zhesaID]);
+            // print('update $zhesaList');
           }
-          // await db.rawQuery('SELECT zID FROM Zhebsa WHERE zID = $zhesaID AND zUpdateTime = "$pubdate"');
-          // print(zhesaSame);
         } else {
-          print('Insert data $zhesaID');
+          // print('Insert data $zhesaID');
+          downloadFile(audio, pronunciation);
+          Zhebsa zhebsa = Zhebsa(
+              zId: zhesaID,
+              zWord: zWord,
+              zPhrase: zPhrase,
+              zPronunciation: pronunciation,
+              zUpdateTime: pubdate);
+          _databaseService.insertZhebsa(zhebsa);
         }
-        // print(zhesa[i]['id']);
       }
-
-      /* var zhesaList = await db.rawQuery(
-          'SELECT zID FROM Zhebsa WHERE ZID NOT IN(SELECT wodID FROM ZhebsaWordOfDay)');
-      print(zhesaList[0]); */
-      return (response.data as List).map((zhesa) {
-        // print('Inserting $zhesa');
-        // DBProvider.db.createEmployee(Employee.fromJson(employee));
-      }).toList();
-    } else {
-      return [];
     }
-    // return 0;
   }
 
-  Future<dynamic> readFileAsync(String filePath) async {
-    final directory = await getApplicationDocumentsDirectory();
+  Future<void> getAllDzongkha() async {
+    final db = await _databaseService.database;
+    var purl = "http://zhebsa.herokuapp.com/webapp/phelkay";
+    Response responsep = await dio.get(purl);
+    if (responsep.statusCode == 200) {
+      var phelkay = responsep.data;
+      for (int i = 0; i < phelkay.length; i++) {
+        var publishDate = phelkay[i]['publish_date'];
+        var phalkayID = phelkay[i]['id'];
+        var phelkayWord = phelkay[i]['phelkay_word'];
+        var pPhrase = phelkay[i]['p_phrase'];
 
-    print(directory.path);
-
-    // String xmlString = await rootBundle.loadString(filePath);
-    // print(xmlString);
-    // await Directory(dirname(filePath));
-    // return parseXml(xmlString);
-    final Directory root = findRoot(await getApplicationDocumentsDirectory());
-    // final path = join(root, filePath);
-    // print('$root$filePath');
-    print(filePath);
-    // print(path);
-    return (filePath);
+        var phelkayList = await db
+            .query('Dzongkha', where: 'dId = ?', whereArgs: [phalkayID]);
+        if (phelkayList.isNotEmpty) {
+          var phelkaySame = await db.query('Dzongkha',
+              where: 'dId = ? AND dUpdateTime = ?',
+              whereArgs: [phalkayID, publishDate]);
+          if (phelkaySame.isEmpty) {
+            await db.rawUpdate(
+                'UPDATE Dzongkha SET dWord = ?, dPhrase = ?, dUpdateTime = ? WHERE dId = ?',
+                [phelkayWord, pPhrase, publishDate, phalkayID]);
+            // print('update $phelkayList');
+          }
+        } else {
+          Dzongkha dzongkha = Dzongkha(
+              dId: phalkayID,
+              dWord: phelkayWord,
+              dPhrase: pPhrase,
+              dUpdateTime: publishDate);
+          _databaseService.insertDzongkha(dzongkha);
+        }
+      }
+    }
   }
 
-  Directory findRoot(FileSystemEntity entity) {
-    final Directory parent = entity.parent;
-    if (parent.path == entity.path) return parent;
-    return findRoot(parent);
+  Future<void> getAllZhesaDzongkha() async {
+    var zpurl = "http://zhebsa.herokuapp.com/webapp/zhesaphelkay";
+    Response responsezp = await dio.get(zpurl);
+    if (responsezp.statusCode == 200) {
+      //Clear the table and insert the new records
+      _databaseService.deleteALLDzongkhaZhebsa();
+      var zhesaphelkay = responsezp.data;
+      // Insert all the records back into the relational table
+      for (int i = 0; i < zhesaphelkay.length; i++) {
+        var zheID = zhesaphelkay[i]['id'];
+        var phelkay = zhesaphelkay[i]['phelkay'];
+        // print(phelkay);
+        for (var j = 0; j < phelkay.length; j++) {
+          // print(phelkay[j]);
+          var phelkayId = phelkay[j];
+          DzongkhaZhebsa dzongkhaZhebsa =
+              DzongkhaZhebsa(dzongkhadId: phelkayId, zhebsazId: zheID);
+          _databaseService.insertDzongkhaZhebsa(dzongkhaZhebsa);
+        }
+      }
+    }
   }
+  //Create a method to delete all records from dzongkha and zhebsa where ID not in DzongkhaZhebsa Table
+  //similarly, remove a file for those records in Zhebsa that do not have id in DzongkhaZhebsa Table
 }

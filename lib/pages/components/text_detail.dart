@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../database/za_darabase.dart';
 import '../../model/dzongkha.dart';
@@ -17,13 +20,22 @@ class _TextDetailState extends State<TextDetail> {
   final DatabaseService _databaseService = DatabaseService();
   static AudioPlayer audioPlayer = AudioPlayer();
 
-  final audioCache =
-      AudioCache(prefix: 'assets/audio/', fixedPlayer: audioPlayer);
+  //  AudioCache audioCache = AudioCache();
+  // final audioCache = AudioCache(prefix: 'assets/audio/', fixedPlayer: audioPlayer);
 
   String get sQuery => widget.searchQuery;
 
+  Future<String> getFilePath(fileName) async {
+    String path = '';
+    Directory dir = await getApplicationDocumentsDirectory();
+    path = '${dir.path}/assets/audio/$fileName';
+    return path;
+  }
+
   _playPronunciation(fineName) async {
-    await audioCache.play(fineName, mode: PlayerMode.LOW_LATENCY);
+    // await audioCache.play(fineName, mode: PlayerMode.LOW_LATENCY);
+    var savePath = await getFilePath(fineName);
+    await audioPlayer.play(savePath, isLocal: true);
 
     audioPlayer.state = PlayerState.PLAYING;
   }
@@ -50,6 +62,7 @@ class _TextDetailState extends State<TextDetail> {
     for (int i = 0; i < allZhesaData.length; i++) {
       isPlayingPronunciation.add(false);
     }
+    await audioPlayer.release();
     audioPlayer.state = PlayerState.STOPPED;
   }
 
@@ -64,9 +77,10 @@ class _TextDetailState extends State<TextDetail> {
 
   @override
   void initState() {
+    super.initState();
+    // stopPronunciation();
     _zhesaText();
     _dzongkhaText();
-    super.initState();
   }
 
   Future<void> _dzongkhaText() async {
@@ -94,6 +108,7 @@ class _TextDetailState extends State<TextDetail> {
             } else {
               isFavourite.add(true);
             }
+            isPlayingPronunciation.add(false);
           }
         });
       });
@@ -134,8 +149,8 @@ class _TextDetailState extends State<TextDetail> {
 
   @override
   void dispose() {
-    stopPronunciation();
     super.dispose();
+    stopPronunciation();
   }
 
   @override
@@ -200,9 +215,12 @@ class _TextDetailState extends State<TextDetail> {
                             });
 
                             audioPlayer.onPlayerCompletion.listen((event) {
-                              setState(() {
-                                isPlayingPronunciation[index] = false;
-                              });
+                              // if (!mounted) return;
+                              if (mounted) {
+                                setState(() {
+                                  isPlayingPronunciation[index] = false;
+                                });
+                              }
                             });
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

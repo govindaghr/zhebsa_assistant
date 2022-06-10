@@ -7,7 +7,7 @@ class Zhebsa {
   final String? zPronunciation;
   final String? zHistory;
   final String? zFavourite; //timestamp,
-  final DateTime zUpdateTime;
+  final String? zUpdateTime;
 
   Zhebsa({
     required this.zId,
@@ -27,7 +27,7 @@ class Zhebsa {
       zPronunciation: map['zPronunciation'] ?? '',
       zHistory: map['zHistory'] ?? '',
       zFavourite: map['zFavourite'] ?? '',
-      zUpdateTime: DateTime.parse(map['zUpdateTime'] as String),
+      zUpdateTime: map['zUpdateTime'] ?? '',
     );
   }
 
@@ -41,7 +41,7 @@ class Zhebsa {
       'zPronunciation': zPronunciation,
       'zHistory': zHistory,
       'zFavourite': zFavourite,
-      'zUpdateTime': zUpdateTime.toIso8601String(),
+      'zUpdateTime': zUpdateTime,
     };
   }
 
@@ -51,16 +51,6 @@ class Zhebsa {
       'zFavourite': zFavourite,
     };
   }
-
-  /* String toJson() => json.encode(toMap());
-  factory Zhebsa.fromJson(String source) => Zhebsa.fromMap(json.decode(source));
-
-  // Implement toString to make it easier to see information about
-  // each breed when using the print statement.
-  @override
-  String toString() =>
-      'Zhebsa(zId: $zId, zWord: $zWord, zPhrase: $zPhrase, zPronunciation:$zPronunciation, zHistory: $zHistory, zFavourite: $zFavourite, zUpdateTime: $zUpdateTime)';
-       */
 }
 
 //ZhebsaWordOfDay Model
@@ -76,9 +66,4 @@ class ZhebsaWordOfDay {
   Map<String, dynamic> toMap() {
     return {'wodID': wodID, 'wodDay': wodDay};
   }
-
-  /* String toJson() => json.encode(toMap());
-
-  factory ZhebsaWordOfDay.fromJson(String source) =>
-      ZhebsaWordOfDay.fromMap(json.decode(source)); */
 }

@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
@@ -45,14 +44,8 @@ class _HomePageState extends State<HomePage>
   // ZhesaProvider zhesaProvider;
   Future<void> syncData() async {
     await _zhesaAPIProvider.getAllZhesa();
-    /* var url = "http://zhebsa.herokuapp.com/webapp/zhebsa";
-    var response = await Dio().get(url);
-    print(response.data.length);
-    return (response.data as List).map((zhesa) {
-      // print('$zhesa');
-      // print(zhesa['id']);
-      // DBProvider.db.createEmployee(Employee.fromJson(employee));
-    }).toList(); */
+    await _zhesaAPIProvider.getAllDzongkha();
+    await _zhesaAPIProvider.getAllZhesaDzongkha();
   }
 
   @override
@@ -60,6 +53,7 @@ class _HomePageState extends State<HomePage>
     super.initState();
     _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
     // DatabaseService().showWordOfDay();
+    // syncData();
   }
 
   void displayDialog() {
@@ -79,7 +73,7 @@ class _HomePageState extends State<HomePage>
             ),
             TextButton(
               onPressed: () {
-                // syncData();
+                syncData();
                 Navigator.pop(context);
               },
               child: const Text('ACCEPT'),
