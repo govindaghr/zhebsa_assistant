@@ -151,6 +151,8 @@ class ZhesaAPIProvider {
           DzongkhaZhebsa dzongkhaZhebsa =
               DzongkhaZhebsa(dzongkhadId: phelkayId, zhebsazId: zheID);
           _databaseService.insertDzongkhaZhebsa(dzongkhaZhebsa);
+          // print('pid $phelkayId');
+          // print('zid $zheID');
         }
       }
     }

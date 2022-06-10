@@ -37,7 +37,8 @@ class _HomePageState extends State<HomePage>
     await FlutterShare.share(
         title: 'Zhesa',
         text: 'Zhesa Learning App',
-        linkUrl: 'https://flutter.dev/',
+        linkUrl:
+            'https://play.google.com/store/apps/details?id=com.zhesa.zhebsa_assistant',
         chooserTitle: 'Zhesa Learning App');
   }
 
