@@ -3,8 +3,7 @@ import 'package:get/get.dart';
 import 'package:zhebsa_assistant/database/za_darabase.dart';
 import 'package:zhebsa_assistant/pages/components/custom_search.dart';
 import 'package:zhebsa_assistant/pages/components/view_zhebsa_of_day.dart';
-
-import '../model/zhebsa.dart';
+import 'package:zhebsa_assistant/model/zhebsa.dart';
 
 class SearchIcon extends StatefulWidget {
   const SearchIcon({Key? key}) : super(key: key);
@@ -151,6 +150,17 @@ class _SearchIconState extends State<SearchIcon> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              const Card(
+                child: Padding(
+                  padding: EdgeInsets.all(14.0),
+                  child: Text(
+                    'Please Install Dzongkha Keyboard to search. Tap on the word while searching',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
                 ),
               ),
             ],
