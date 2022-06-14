@@ -152,11 +152,13 @@ class _SearchIconState extends State<SearchIcon> {
                   ],
                 ),
               ),
-              const Card(
-                child: Padding(
+              Card(
+                shadowColor: Colors.deepOrangeAccent,
+                color: Colors.amber[50],
+                child: const Padding(
                   padding: EdgeInsets.all(14.0),
                   child: Text(
-                    'Please Install Dzongkha Keyboard to search. Tap on the word while searching',
+                    'Please Install Dzongkha Keyboard to search. Tap on the word while searching. \n\nPlease sync the app before you start using it.',
                     style: TextStyle(
                       fontSize: 16.0,
                     ),
