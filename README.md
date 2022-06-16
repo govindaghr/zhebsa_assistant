@@ -21,12 +21,13 @@ flutter run
 - [dio: ^4.0.6]()  
 - [flutter_share: ^2.0.0]()
 
+
 ### Other useful packages
-- [] flutter_native_splash: ^2.1.0
-- [] change_app_package_name: ^1.1.0
+- [ ] flutter_native_splash: ^2.1.0
+- [ ] change_app_package_name: ^1.1.0
 - flutter_local_notifications: ^9.4.0
 - permission_handler: ^9.2.0
-- lite_rolling_switch: ^0.1.1
+- [x] lite_rolling_switch: ^0.1.1
 - [x] **share_plus: ^3.1.0**
 - [x] ~~sizer: ^2.0.15~~
 - [x] *intl: ^0.17.0*
