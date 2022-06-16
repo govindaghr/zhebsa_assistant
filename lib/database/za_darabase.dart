@@ -26,7 +26,7 @@ class DatabaseService {
     // Set the path to the database. Note: Using the `join` function from the
     // `path` package is best practice to ensure the path is correctly
     // constructed for each platform.
-    final path = join(databasePath, 'zhebsa_assistant.db');
+    final path = join(databasePath, 'zhebsa_assistant_sync.db');
 
     // Set the version. This executes the onCreate function and provides a
     // path to perform database upgrades and downgrades.

@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:zhebsa_assistant/database/za_darabase.dart';
 import 'package:zhebsa_assistant/model/dzongkha.dart';
@@ -13,7 +12,7 @@ class ZhesaAPIProvider {
   var dio = Dio();
   static final DatabaseService _databaseService = DatabaseService();
 
-  get context => null;
+  // get context => null;
 
   Future<String> getFilePath(uniqueFileName) async {
     String path = '';
@@ -27,24 +26,20 @@ class ZhesaAPIProvider {
       Dio dio = Dio();
       var savePath = await getFilePath(fileName);
       await dio.download(audio, savePath);
-      showDialog(
+      /* showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(fileName),
           );
         },
-      );
+      ); */
       // print(fileName);
       // print(savePath);
 
     } catch (e) {
       // print(e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error! Check your Internet Connection'),
-        ),
-      );
+
     }
   }
 
@@ -96,11 +91,11 @@ class ZhesaAPIProvider {
         }
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
+      /* ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Error! Check your Internet Connection'),
         ),
-      );
+      ); */
     }
   }
 
