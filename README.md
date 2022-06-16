@@ -34,6 +34,6 @@ flutter run
 - [x] toggle_switch: ^1.4.0
 
 ## flutter build app
-* 1. flutter build apk --release
-* 1. flutter build apk --build-name=1.0 --build-number=1
-* 1. flutter build appbundle --release
+- 1. flutter build apk --release
+- 1. flutter build apk --build-name=1.0 --build-number=1
+- 1. flutter build appbundle --release
