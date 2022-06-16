@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:zhebsa_assistant/database/za_darabase.dart';
 import 'package:zhebsa_assistant/model/dzongkha.dart';
 import 'package:zhebsa_assistant/model/dzongkha_zhebsa.dart';
 import 'package:zhebsa_assistant/model/zhebsa.dart';
+import 'package:zhebsa_assistant/pages/components/loading_indicator.dart';
 // import 'package:permission_handler/permission_handler.dart';
 
 class ZhesaAPIProvider {
@@ -26,17 +28,6 @@ class ZhesaAPIProvider {
       Dio dio = Dio();
       var savePath = await getFilePath(fileName);
       await dio.download(audio, savePath);
-      /* showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(fileName),
-          );
-        },
-      ); */
-      // print(fileName);
-      // print(savePath);
-
     } catch (e) {
       // print(e.toString());
 
@@ -49,10 +40,14 @@ class ZhesaAPIProvider {
     return await Permission.storage.request().isGranted;
   } */
 
-  Future<void> getAllZhesa() async {
+  Future<void> getAllZhesa(BuildContext context) async {
     final db = await _databaseService.database;
     var url = "http://zhebsa.herokuapp.com/webapp/zhebsa";
+    dio.options.connectTimeout = 5000; //5s
+    // dio.options.receiveTimeout = 30000;
+    // dio.options.sendTimeout = 5000;
     Response response = await dio.get(url);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       var zhesa = response.data;
       for (int i = 0; i < zhesa.length; i++) {
@@ -91,17 +86,19 @@ class ZhesaAPIProvider {
         }
       }
     } else {
-      /* ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error! Check your Internet Connection'),
+      LoadingIndicatorDialog().dismiss();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error! ${response.statusCode}'),
         ),
-      ); */
+      );
     }
   }
 
-  Future<void> getAllDzongkha() async {
+  Future<void> getAllDzongkha(BuildContext context) async {
     final db = await _databaseService.database;
     var purl = "http://zhebsa.herokuapp.com/webapp/phelkay";
+    dio.options.connectTimeout = 5000; //5s
     Response responsep = await dio.get(purl);
     if (responsep.statusCode == 200) {
       var phelkay = responsep.data;
@@ -132,12 +129,20 @@ class ZhesaAPIProvider {
           _databaseService.insertDzongkha(dzongkha);
         }
       }
+    } else {
+      LoadingIndicatorDialog().dismiss();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error! ${responsep.statusCode}'),
+        ),
+      );
     }
   }
 
-  Future<void> getAllZhesaDzongkha() async {
+  Future<void> getAllZhesaDzongkha(BuildContext context) async {
     var zpurl = "http://zhebsa.herokuapp.com/webapp/zhesaphelkay";
     Response responsezp = await dio.get(zpurl);
+    dio.options.connectTimeout = 5000; //5s
     if (responsezp.statusCode == 200) {
       //Clear the table and insert the new records
       _databaseService.deleteALLDzongkhaZhebsa();
@@ -157,6 +162,13 @@ class ZhesaAPIProvider {
           // print('zid $zheID');
         }
       }
+    } else {
+      LoadingIndicatorDialog().dismiss();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error! ${responsezp.statusCode}'),
+        ),
+      );
     }
   }
   //Create a method to delete all records from dzongkha and zhebsa where ID not in DzongkhaZhebsa Table

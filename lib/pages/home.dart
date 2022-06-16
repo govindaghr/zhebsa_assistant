@@ -1,11 +1,13 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
+import 'package:flutter_switch/flutter_switch.dart';
+import 'package:zhebsa_assistant/pages/components/loading_indicator.dart';
 import 'package:zhebsa_assistant/pages/load_favourite.dart';
 import 'package:zhebsa_assistant/api/zhesa_provider.dart';
 import 'package:zhebsa_assistant/pages/search_icon.dart';
 import 'package:zhebsa_assistant/pages/about_us.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:zhebsa_assistant/pages/drawer/drawer_header.dart';
 
 class HomePage extends StatefulWidget {
@@ -44,9 +46,21 @@ class _HomePageState extends State<HomePage>
 
   // ZhesaProvider zhesaProvider;
   Future<void> syncData() async {
-    await _zhesaAPIProvider.getAllZhesa();
-    await _zhesaAPIProvider.getAllDzongkha();
-    await _zhesaAPIProvider.getAllZhesaDzongkha();
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if ((connectivityResult == ConnectivityResult.mobile) ||
+        (connectivityResult == ConnectivityResult.wifi)) {
+      LoadingIndicatorDialog().show(context);
+      await _zhesaAPIProvider.getAllZhesa(context);
+      await _zhesaAPIProvider.getAllDzongkha(context);
+      await _zhesaAPIProvider.getAllZhesaDzongkha(context);
+      LoadingIndicatorDialog().dismiss();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error! Internet connection required'),
+        ),
+      );
+    }
   }
 
   @override
@@ -69,13 +83,15 @@ class _HomePageState extends State<HomePage>
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
+                Navigator.pop(context);
               },
               child: const Text('CANCEL'),
             ),
             TextButton(
               onPressed: () {
-                syncData();
                 Navigator.pop(context);
+                Navigator.pop(context);
+                syncData();
               },
               child: const Text('ACCEPT'),
             ),

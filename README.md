@@ -12,14 +12,15 @@ flutter run
 
 ## Packages used in this project
 * cupertino_icons: ^1.0.2
-- [sqflite: ^2.0.2]()
-- [path_provider: ^2.0.8]()  
-- [flutter_switch: ^0.3.2]()
-- [get: ^4.6.1]()  
-- [audioplayers: ^0.20.1]()  
-- [responsive_framework: ^0.1.7]()  
-- [dio: ^4.0.6]()  
-- [flutter_share: ^2.0.0]()
+- [sqflite: ^2.0.2](https://pub.dev/packages/sqflite)
+- [path_provider: ^2.0.8](https://pub.dev/packages/path_provider)  
+- [flutter_switch: ^0.3.2](https://pub.dev/packages/flutter_switch)
+- [get: ^4.6.1](https://pub.dev/packages/get)  
+- [audioplayers: ^0.20.1](https://pub.dev/packages/audioplayers)  
+- [responsive_framework: ^0.1.7](https://pub.dev/packages/responsive_framework)  
+- [dio: ^4.0.6](https://pub.dev/packages/dio)  
+- [flutter_share: ^2.0.0](https://pub.dev/packages/flutter_share)
+- [connectivity_plus: ^2.3.4](https://pub.dev/packages/connectivity_plus)
 ***
 
 ### Other useful packages
