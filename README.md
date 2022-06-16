@@ -3,12 +3,12 @@
 A new Flutter project.
 
 ## Rename package
-`
+```
 flutter pub add change_app_package_name
 flutter pub get
 flutter pub run change_app_package_name:main com.zhesa.zhebsa_assistant
 flutter run
-`
+```
 
 This project is a starting point for a Flutter application.
 
