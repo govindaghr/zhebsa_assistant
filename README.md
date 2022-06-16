@@ -20,7 +20,7 @@ flutter run
 - [responsive_framework: ^0.1.7]()  
 - [dio: ^4.0.6]()  
 - [flutter_share: ^2.0.0]()
-
+***
 
 ### Other useful packages
 - [ ] flutter_native_splash: ^2.1.0
@@ -34,6 +34,9 @@ flutter run
 - [x] toggle_switch: ^1.4.0
 
 ## flutter build app
-- 1. flutter build apk --release
-- 1. flutter build apk --build-name=1.0 --build-number=1
-- 1. flutter build appbundle --release
+1. flutter build apk --release
+2. flutter build apk --build-name=1.0 --build-number=1
+3. flutter build appbundle --release
+---
+
+- [Link to markdown tutorial](https://medium.com/@saumya.ranjan/how-to-write-a-readme-md-file-markdown-file-20cb7cbcd6f)
