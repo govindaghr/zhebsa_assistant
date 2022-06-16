@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-// import 'package:permission_handler/permission_handler.dart';
 import 'package:zhebsa_assistant/database/za_darabase.dart';
 import 'package:zhebsa_assistant/model/dzongkha.dart';
 import 'package:zhebsa_assistant/model/dzongkha_zhebsa.dart';
 import 'package:zhebsa_assistant/model/zhebsa.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
 class ZhesaAPIProvider {
   // Response response;
@@ -26,24 +27,24 @@ class ZhesaAPIProvider {
       Dio dio = Dio();
       var savePath = await getFilePath(fileName);
       await dio.download(audio, savePath);
-      /* showDialog(
+      showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(fileName),
           );
         },
-      ); */
+      );
       // print(fileName);
       // print(savePath);
 
     } catch (e) {
       // print(e.toString());
-      /* ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Error! Check your Internet Connection'),
         ),
-      ); */
+      );
     }
   }
 
@@ -94,6 +95,12 @@ class ZhesaAPIProvider {
           _databaseService.insertZhebsa(zhebsa);
         }
       }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error! Check your Internet Connection'),
+        ),
+      );
     }
   }
 

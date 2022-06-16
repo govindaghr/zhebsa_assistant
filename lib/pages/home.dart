@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
 import 'package:zhebsa_assistant/pages/load_favourite.dart';
-import '../api/zhesa_provider.dart';
-import 'search_icon.dart';
-import 'about_us.dart';
+import 'package:zhebsa_assistant/api/zhesa_provider.dart';
+import 'package:zhebsa_assistant/pages/search_icon.dart';
+import 'package:zhebsa_assistant/pages/about_us.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'drawer/drawer_header.dart';
+import 'package:zhebsa_assistant/pages/drawer/drawer_header.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zhebsa_assistant/database/za_darabase.dart';
 import 'package:zhebsa_assistant/model/dzongkha_zhebsa.dart';
-
-import '../database/za_darabase.dart';
-import 'components/view_zhebsa_of_day.dart';
+import 'package:zhebsa_assistant/pages/components/view_zhebsa_of_day.dart';
 
 class Favourite extends StatefulWidget {
   const Favourite({Key? key}) : super(key: key);

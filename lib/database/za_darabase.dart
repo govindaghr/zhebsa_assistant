@@ -1,8 +1,7 @@
 import 'dart:math';
-
-import '../model/dzongkha.dart';
-import '../model/zhebsa.dart';
-import '../model/dzongkha_zhebsa.dart';
+import 'package:zhebsa_assistant/model/dzongkha.dart';
+import 'package:zhebsa_assistant/model/zhebsa.dart';
+import 'package:zhebsa_assistant/model/dzongkha_zhebsa.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

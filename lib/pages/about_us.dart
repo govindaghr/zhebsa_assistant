@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zhebsa_assistant/pages/widgets/about_cst.dart';
 import 'package:zhebsa_assistant/pages/widgets/about_developer.dart';
-import 'widgets/about_ddc.dart';
+import 'package:zhebsa_assistant/pages/widgets/about_ddc.dart';
 
 class AboutUs extends StatelessWidget {
   const AboutUs({Key? key}) : super(key: key);
