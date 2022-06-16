@@ -47,7 +47,7 @@ class ZhesaAPIProvider {
     // dio.options.receiveTimeout = 30000;
     // dio.options.sendTimeout = 5000;
     Response response = await dio.get(url);
-    print(response.statusCode);
+    // print(response.statusCode);
     if (response.statusCode == 200) {
       var zhesa = response.data;
       for (int i = 0; i < zhesa.length; i++) {
